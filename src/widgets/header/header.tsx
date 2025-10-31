@@ -113,24 +113,26 @@ const Header = () => {
               },
             }}
           >
-            <Button
-              variant="outlined"
-              sx={{
-                minWidth: 42,
-                minHeight: 42,
-                width: 42,
-                height: 42,
-                borderRadius: '50%',
-                border: '1px solid transparent',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 0,
-                color: 'white',
-              }}
-            >
-              <Heart color="#838383" size={22} strokeWidth={1.8} />
-            </Button>
+            <Link href={'/favorites'}>
+              <Button
+                variant="outlined"
+                sx={{
+                  minWidth: 42,
+                  minHeight: 42,
+                  width: 42,
+                  height: 42,
+                  borderRadius: '50%',
+                  border: '1px solid transparent',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0,
+                  color: 'white',
+                }}
+              >
+                <Heart color="#838383" size={22} strokeWidth={1.8} />
+              </Button>
+            </Link>
           </Badge>
 
           <Badge
@@ -148,24 +150,26 @@ const Header = () => {
               },
             }}
           >
-            <Button
-              variant="outlined"
-              sx={{
-                minWidth: 42,
-                minHeight: 42,
-                width: 42,
-                height: 42,
-                borderRadius: '50%',
-                border: '1px solid transparent',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 0,
-                color: 'white',
-              }}
-            >
-              <ShoppingCart color="#838383" size={22} strokeWidth={1.8} />
-            </Button>
+            <Link href={'/cart'}>
+              <Button
+                variant="outlined"
+                sx={{
+                  minWidth: 42,
+                  minHeight: 42,
+                  width: 42,
+                  height: 42,
+                  borderRadius: '50%',
+                  border: '1px solid transparent',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0,
+                  color: 'white',
+                }}
+              >
+                <ShoppingCart color="#838383" size={22} strokeWidth={1.8} />
+              </Button>
+            </Link>
           </Badge>
         </div>
       </div>

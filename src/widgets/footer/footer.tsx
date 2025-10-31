@@ -9,18 +9,20 @@ const Footer = () => {
       <h4>Qpick</h4>
       <ul className={s.footerContacts}>
         <li>
-          <Link href={'/'}>Избранное</Link>
+          <Link href={'/favorites'}>Избранное</Link>
         </li>
         <li>
-          <Link href={'/'}>Корзина</Link>
+          <Link href={'/cart'}>Корзина</Link>
         </li>
         <li>
-          <Link href={'/'}>Контакты</Link>
+          <Link href={'/contacts'}>Контакты</Link>
         </li>
       </ul>
 
       <ul className={s.footerLang}>
-        <li>Условия сервиса</li>
+        <li>
+          <Link href={'/terms-of-service'}>Условия сервиса</Link>
+        </li>
         <li>
           <div>Каз</div>
           <div>Укр</div>

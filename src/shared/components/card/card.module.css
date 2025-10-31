@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  height: 390px;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #ffffff;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.name {
+  color: #1c1c27;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.price {
+  color: #ffa542;
+}
