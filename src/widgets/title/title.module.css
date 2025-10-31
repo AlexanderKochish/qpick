@@ -1,0 +1,13 @@
+.title {
+  border-radius: 1rem;
+  background-color: #101010;
+  color: #ffffff;
+  width: 100%;
+  min-height: 197px;
+  height: 100%;
+  padding: 0 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

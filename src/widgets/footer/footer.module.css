@@ -1,0 +1,37 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  flex-shrink: 0;
+
+  width: 100%;
+  min-height: 149px;
+  height: 100%;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+}
+
+.footerContacts {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footerLang {
+  display: flex;
+  flex-direction: column;
+
+  & li:last-child {
+    margin-top: 3rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+.footerSocial {
+  display: flex;
+
+  gap: 1rem;
+}
