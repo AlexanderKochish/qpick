@@ -1,7 +1,7 @@
-import React from 'react'
+import Contacts from '@/features/contacts/components/contacts/contacts'
 
 const ContactsPage = () => {
-  return <div>Contacts</div>
+  return <Contacts />
 }
 
 export default ContactsPage

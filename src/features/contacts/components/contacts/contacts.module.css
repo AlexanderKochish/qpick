@@ -1,0 +1,35 @@
+.contacts {
+  display: flex;
+  justify-content: space-around;
+  padding: 17px 0 27px 0;
+  gap: 1rem;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contactMap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.phone {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contactsSocial {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & li {
+    display: grid;
+    place-items: center;
+  }
+}
