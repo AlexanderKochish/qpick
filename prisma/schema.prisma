@@ -35,6 +35,8 @@ model User {
   ratings    Rating[]
   reviews    Review[]
   favorites  Favorite?
+
+  @@map("users")
 }
 
 model Avatar {
@@ -44,6 +46,8 @@ model Avatar {
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("avatars")
 }
 
 model Category {
@@ -52,6 +56,8 @@ model Category {
   products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@map("categories")
 }
 
 model ProductModel {
@@ -60,6 +66,8 @@ model ProductModel {
   products  Product[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+
+  @@map("product_models")
 }
 
 model Product {
@@ -81,6 +89,8 @@ model Product {
 
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
+
+  @@map("products")
 }
 
 model Image {
@@ -90,6 +100,8 @@ model Image {
   product   Product  @relation(fields: [productId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("images")
 }
 
 model Rating {
@@ -101,6 +113,8 @@ model Rating {
   product   Product  @relation(fields: [productId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("ratings")
 }
 
 model Review {
@@ -112,15 +126,20 @@ model Review {
   product   Product  @relation(fields: [productId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("reviews")
 }
 
 model Cart {
   id        String      @id @default(uuid())
-  userId    String      @unique
-  user      User        @relation(fields: [userId], references: [id])
+  userId    String?     @unique 
+  visitorId String?     @unique
+  user      User?        @relation(fields: [userId], references: [id])
   items     CartItem[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+
+  @@map("carts")
 }
 
 model CartItem {
@@ -132,6 +151,9 @@ model CartItem {
   quantity   Int       @default(1)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
 }
 
 model Order {
@@ -143,6 +165,8 @@ model Order {
   status     String      @default("PENDING")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+
+  @@map("orders")
 }
 
 model OrderItem {
@@ -155,6 +179,8 @@ model OrderItem {
   priceAtBuy Int
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+
+  @@map("order_items")
 }
 
 model FavoriteItem {
@@ -166,13 +192,17 @@ model FavoriteItem {
   addedAt    DateTime  @default(now())
 
   @@unique([productId, favoriteId]) 
+  @@map("favorite_items")
 }
 
 model Favorite {
   id         String    @id @default(uuid())
   items      FavoriteItem[]
-  userId     String    @unique
-  user       User      @relation(fields: [userId], references: [id])
+  userId     String?   @unique
+  visitorId  String?
+  user       User?      @relation(fields: [userId], references: [id])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+
+  @@map("favorites")
 }

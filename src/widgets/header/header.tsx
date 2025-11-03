@@ -11,11 +11,13 @@ import {
   ChevronUp,
   ChevronDown,
 } from 'lucide-react'
+import { getAllAmount } from '@/features/favorites/actions/actions'
 
 const Header = () => {
   const [isTreeOpen, setIsTreeOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const [favorites, setFavorites] = useState(0)
 
   const handleTreeToggle = () => setIsTreeOpen((prev) => !prev)
 
@@ -35,6 +37,15 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    const getFavorites = async () => {
+      const res = await getAllAmount().then((data) => data)
+      setFavorites(res)
+    }
+
+    getFavorites()
+  }, [])
+  console.log(favorites)
   return (
     <header className={s.header}>
       <div className={s.wrapper}>
@@ -98,7 +109,7 @@ const Header = () => {
 
         <div className={s.actions}>
           <Badge
-            badgeContent={3}
+            badgeContent={favorites ?? 1}
             color="warning"
             sx={{
               '& .MuiBadge-badge': {

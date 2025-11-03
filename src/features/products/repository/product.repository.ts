@@ -1,6 +1,53 @@
+import { Prisma, PrismaClient } from '@/generated/prisma/client'
 import prisma from '@/shared/lib/prisma'
-import { PrismaClient } from '@prisma/client'
 
 export class ProductRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
+
+  async getAll() {
+    return await this.db.product.findMany({
+      include: {
+        images: true,
+      },
+    })
+  }
+
+  async getById(id: string) {
+    return await this.db.product.findUnique({
+      where: { id },
+      include: {
+        images: true,
+        reviews: true,
+        ratings: true,
+        category: true,
+        productModel: true,
+      },
+    })
+  }
+  async getAllByCategory(categoryId: string) {}
+
+  async create(data: Prisma.ProductCreateInput, imageUrls: string[]) {
+    return await this.db.product.create({
+      data: {
+        ...data,
+        images: {
+          create: imageUrls.map((url) => ({ url })),
+        },
+      },
+      include: { images: true },
+    })
+  }
+
+  async addImage(productId: string, url: string) {
+    return await this.db.image.create({
+      data: {
+        productId,
+        url,
+      },
+    })
+  }
+
+  async update(data: Prisma.ProductUpdateInput) {}
+
+  async removeById(id: string) {}
 }
