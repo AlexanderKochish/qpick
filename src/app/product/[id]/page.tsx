@@ -5,11 +5,12 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   Typography,
 } from '@mui/material'
 import { ChevronUpIcon, Heart } from 'lucide-react'
 import Image from 'next/image'
+import ActionsButtons from '@/features/products/components/actions-buttons/actions-buttons'
+import { getCurrentSession } from '@/features/auth/actions/actions'
 
 const ProductDetails = async ({
   params,
@@ -18,6 +19,7 @@ const ProductDetails = async ({
 }) => {
   const { id } = await params
   const product = await getProductById(id)
+  const session = await getCurrentSession()
   return (
     <div className={s.wrapper}>
       <h4>{product?.category.name.toUpperCase()}</h4>
@@ -25,14 +27,18 @@ const ProductDetails = async ({
         <div>
           <Heart color="#1C1C27" />
         </div>
-        {product?.images[0].url && (
-          <Image
-            src={product?.images[0].url}
-            alt="product card"
-            width={350}
-            height={370}
-          />
-        )}
+        <div className={s.imagesWrapper}>
+          {product?.images &&
+            product.images.map((image) => (
+              <Image
+                key={image.id}
+                src={image.url}
+                alt="product card"
+                width={350}
+                height={370}
+              />
+            ))}
+        </div>
         <div>
           <strong>{product?.name}</strong>
           <span>{product?.price}</span>
@@ -49,10 +55,7 @@ const ProductDetails = async ({
           </AccordionSummary>
           <AccordionDetails>{product?.description}</AccordionDetails>
         </Accordion>
-        <div className={s.actions}>
-          <Button variant="contained">Buy</Button>
-          <Button variant="contained">Add into cart</Button>
-        </div>
+        <ActionsButtons productId={product?.id} userId={session?.user.id} />
       </div>
     </div>
   )

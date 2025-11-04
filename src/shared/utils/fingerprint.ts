@@ -1,5 +1,4 @@
 import FingerprintJS, { Agent } from '@fingerprintjs/fingerprintjs'
-import { cookies } from 'next/headers'
 
 let fpPromise: Promise<Agent> | null = null
 
@@ -17,10 +16,6 @@ export function generateVisitorId(): string {
 }
 
 export async function getStableVisitorId(): Promise<string> {
-  if (typeof window === 'undefined') {
-    return await getServerVisitorId()
-  }
-
   try {
     const cookieValue = document.cookie
       .split('; ')
@@ -50,27 +45,4 @@ export async function getStableVisitorId(): Promise<string> {
 
     return fallbackId
   }
-}
-
-export async function getServerVisitorId(): Promise<string> {
-  const cookieStore = await cookies()
-
-  let visitorId = cookieStore.get('visitor_id')?.value
-
-  if (!visitorId) {
-    visitorId = generateVisitorId()
-    cookieStore.set('visitor_id', visitorId, {
-      maxAge: 60 * 60 * 24 * 365,
-      path: '/',
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: false,
-    })
-  }
-
-  return visitorId
-}
-
-export async function getOrCreateVisitorId(): Promise<string> {
-  return await getServerVisitorId()
 }

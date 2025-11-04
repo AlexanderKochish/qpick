@@ -1,10 +1,10 @@
 .desc {
   display: flex;
-  justify-content: space-between;
   gap: 1rem;
+  align-items: flex-start;
 }
 .accordion {
-  flex-grow: 1;
+  flex: 1;
   border-radius: 1rem;
 }
 .wrapper {
@@ -15,8 +15,8 @@
   padding: 1rem 2rem;
 }
 
-.actions {
+.imagesWrapper {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 1rem;
 }

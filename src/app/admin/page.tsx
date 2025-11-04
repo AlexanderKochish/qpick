@@ -1,37 +1,28 @@
-'use client'
-import React, { useState } from 'react'
-import s from './page.module.css'
-import { Uploader } from '@/shared/components/uploader/uploader'
-import { createProduct } from '@/features/products/actions/actions'
-import Link from 'next/link'
+import AdminClient from '@/features/admin/components/admin-client/admin-client'
+import prisma from '@/shared/lib/prisma'
+import { redirect } from 'next/navigation'
+import { auth } from '../../../auth'
 
-const AdminPage = () => {
-  const [imageUrls, setImageUrls] = useState<string[]>([])
+export default async function AdminPage() {
+  const session = await auth()
 
-  const handleUpload = (url: string) => {
-    setImageUrls((prev) => [...prev, url])
+  if (!session) {
+    redirect('/auth/sign-in')
   }
-  return (
-    <div className={s.wrapper}>
-      <Link href={'/admin/category'}>add category page</Link>
-      <form action={createProduct} className={s.form}>
-        <input type="text" name="name" placeholder="name" />
-        <input type="text" name="description" placeholder="description" />
-        <input type="text" name="price" placeholder="price" />
-        <input type="text" name="discount" placeholder="discount" />
-        <Uploader onUploadSuccess={handleUpload} title="Upload" />
 
-        <input
-          type="hidden"
-          name="imageUrls"
-          value={JSON.stringify(imageUrls)}
-        />
-        <input type="text" name="categoryId" placeholder="categoryId" />
-        <input type="text" name="productModelId" placeholder="modelId" />
-        <button>Submit</button>
-      </form>
-    </div>
+  if (session.user?.role !== 'ADMIN') {
+    redirect('/')
+  }
+
+  const usersCount = await prisma.user.count()
+  const productsCount = await prisma.product.count()
+  const ordersCount = await prisma.order.count()
+
+  return (
+    <AdminClient
+      usersCount={usersCount}
+      productsCount={productsCount}
+      ordersCount={ordersCount}
+    />
   )
 }
-
-export default AdminPage

@@ -10,11 +10,13 @@ const AdminCategory = () => {
     <div>
       <Link href={'/admin'}>Admin</Link>
       <form action={createCategory}>
-        <input type="text" name="name" />
+        <label htmlFor="category">create category</label>
+        <input type="text" name="name" id="category" />
         <button>Submit</button>
       </form>
       <form action={createModel}>
-        <input type="text" name="name" />
+        <label htmlFor="model">create model</label>
+        <input type="text" name="name" id="model" />
         <button>Submit</button>
       </form>
     </div>

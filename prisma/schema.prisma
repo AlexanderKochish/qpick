@@ -20,27 +20,70 @@ enum Role {
   MANAGER
 }
 
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  
+  type               String
+  provider           String
+  providerAccountId  String 
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+ 
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@map("sessions")
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
 model User {
-  id         String      @id @default(uuid())
-  email      String      @unique
-  name       String?
-  password   String
-  role       Role        @default(USER)
-  isActive   Boolean     @default(true)
-  avatar     Avatar?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  cart       Cart?
-  orders     Order[]
-  ratings    Rating[]
-  reviews    Review[]
-  favorites  Favorite?
+  id            String      @id @default(uuid())
+  email         String      @unique
+  emailVerified DateTime?   @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  name          String?
+  password      String?
+  role          Role        @default(USER)
+  isActive      Boolean     @default(true)
+  avatar        Avatar?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  cart          Cart?
+  orders        Order[]
+  ratings       Rating[]
+  reviews       Review[]
+  favorites     Favorite?
 
   @@map("users")
 }
 
 model Avatar {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   url       String
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id])
@@ -51,7 +94,7 @@ model Avatar {
 }
 
 model Category {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   name      String
   products  Product[]
   createdAt DateTime  @default(now())
@@ -61,7 +104,7 @@ model Category {
 }
 
 model ProductModel {
-  id        String     @id @default(uuid())
+  id        String     @id @default(cuid())
   name      String
   products  Product[]
   createdAt DateTime   @default(now())
@@ -71,7 +114,7 @@ model ProductModel {
 }
 
 model Product {
-  id             String        @id @default(uuid())
+  id             String        @id @default(cuid())
   name           String
   description    String
   price          Int
@@ -94,7 +137,7 @@ model Product {
 }
 
 model Image {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   url       String
   productId String
   product   Product  @relation(fields: [productId], references: [id])
@@ -107,7 +150,7 @@ model Image {
 model Rating {
   id        String   @id @default(uuid())
   rating    Int
-  authorId  String
+  authorId  String  
   author    User     @relation(fields: [authorId], references: [id])
   productId String
   product   Product  @relation(fields: [productId], references: [id])
@@ -134,7 +177,7 @@ model Cart {
   id        String      @id @default(uuid())
   userId    String?     @unique 
   visitorId String?     @unique
-  user      User?        @relation(fields: [userId], references: [id])
+  user      User?       @relation(fields: [userId], references: [id])
   items     CartItem[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -158,7 +201,7 @@ model CartItem {
 
 model Order {
   id         String      @id @default(uuid())
-  userId     String
+  userId     String   
   user       User        @relation(fields: [userId], references: [id])
   items      OrderItem[]
   totalPrice Int
@@ -185,7 +228,7 @@ model OrderItem {
 
 model FavoriteItem {
   id         String    @id @default(uuid())
-  productId  String
+  productId  String  
   product    Product   @relation(fields: [productId], references: [id])
   favoriteId String
   favorite   Favorite  @relation(fields: [favoriteId], references: [id])
@@ -198,9 +241,8 @@ model FavoriteItem {
 model Favorite {
   id         String    @id @default(uuid())
   items      FavoriteItem[]
-  userId     String?   @unique
-  visitorId  String?
-  user       User?      @relation(fields: [userId], references: [id])
+  userId     String    @unique
+  user       User      @relation(fields: [userId], references: [id])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 

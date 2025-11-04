@@ -1,8 +1,9 @@
 import s from './card.module.css'
 import Image from 'next/image'
-import { Heart } from 'lucide-react'
+import { Heart, HeartCrack } from 'lucide-react'
 
 interface Props {
+  isFavorite?: boolean
   item: {
     images: {
       id: string
@@ -10,14 +11,19 @@ interface Props {
     }[]
     name: string
     price: number
+    id: string
   }
 }
 
-const Card = ({ item }: Props) => {
+const Card = ({ item, isFavorite }: Props) => {
   return (
     <div className={s.card}>
       <div>
-        <Heart color="#1C1C27" />
+        {isFavorite ? (
+          <HeartCrack absoluteStrokeWidth />
+        ) : (
+          <Heart color="#1C1C27" />
+        )}
       </div>
       <div className={s.img}>
         <Image
