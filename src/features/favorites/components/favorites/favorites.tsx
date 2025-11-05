@@ -1,4 +1,4 @@
-import Card from '@/shared/components/card/card'
+import Card from '@/features/products/components/card/card'
 import { getAllFavorites, isProductInFavorites } from '../../actions/actions'
 import { getCurrentSession } from '@/features/auth/actions/actions'
 

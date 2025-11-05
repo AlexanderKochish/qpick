@@ -1,0 +1,17 @@
+.wrapper {
+  padding: 2rem 0;
+}
+.cart {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+.cartItems {
+  max-width: 635px;
+  width: 100%;
+}
+.totalPrice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

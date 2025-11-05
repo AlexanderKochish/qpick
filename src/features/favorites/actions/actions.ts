@@ -1,5 +1,6 @@
 'use server'
 
+import { getCurrentSession } from '@/features/auth/actions/actions'
 import { FavoriteRepository } from '../repository/favorite.repository'
 import { revalidatePath } from 'next/cache'
 
@@ -10,14 +11,20 @@ export async function getAllFavorites(userId: string) {
 }
 
 export async function getAllAmount() {
-  return await repo.getAllAmount()
+  const session = await getCurrentSession()
+  if (!session) return null
+  return await repo.getAllAmount(session.user.id)
 }
 
-export async function addToFavorite(productId: string, userId?: string) {
-  await repo.addToFavorite(productId, userId)
-  revalidatePath('/')
+export async function toggleFavorite(productId: string) {
+  const session = await getCurrentSession()
+  if (!session) return null
+  await repo.toggleFavorite(productId, session.user.id)
+  revalidatePath('/', 'layout')
 }
 
-export async function isProductInFavorites(userId: string) {
-  return await repo.isFavorites(userId)
+export async function isProductInFavorites() {
+  const session = await getCurrentSession()
+  if (!session) return null
+  return await repo.isFavorites(session?.user.id as string)
 }

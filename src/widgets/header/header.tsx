@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, use } from 'react'
 import s from './header.module.css'
 import Link from 'next/link'
 import { Badge, Button } from '@mui/material'
@@ -12,12 +12,18 @@ import {
   ChevronDown,
 } from 'lucide-react'
 import { getAllAmount } from '@/features/favorites/actions/actions'
+import { useQuery } from '@tanstack/react-query'
+import { getAllProductModel } from '@/features/products/actions/actions'
+import { getCartAmount } from '@/features/cart/actions/actions'
 
-const Header = () => {
+interface Props {
+  initialCartData: number
+}
+
+const Header = ({ initialCartData }: Props) => {
   const [isTreeOpen, setIsTreeOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
-  const [favorites, setFavorites] = useState(0)
 
   const handleTreeToggle = () => setIsTreeOpen((prev) => !prev)
 
@@ -37,15 +43,22 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  useEffect(() => {
-    const getFavorites = async () => {
-      const res = await getAllAmount().then((data) => data)
-      setFavorites(res)
-    }
+  const { data } = useQuery({
+    queryKey: ['favorite'],
+    queryFn: getAllAmount,
+  })
 
-    getFavorites()
-  }, [])
-  console.log(favorites)
+  const { data: models } = useQuery({
+    queryKey: ['product-models'],
+    queryFn: getAllProductModel,
+  })
+
+  const { data: cartAmount } = useQuery({
+    queryKey: ['cart-amount'],
+    queryFn: getCartAmount,
+    initialData: initialCartData,
+  })
+
   return (
     <header className={s.header}>
       <div className={s.wrapper}>
@@ -73,34 +86,22 @@ const Header = () => {
             {isTreeOpen && (
               <div ref={dropdownRef} className={s.dropdown}>
                 <SimpleTreeView>
-                  <TreeItem itemId="apple" label="Apple iPhone">
-                    <TreeItem itemId="iphone-16" label="iPhone 16 серия">
-                      <TreeItem itemId="16-pro-max" label="iPhone 16 Pro Max" />
-                      <TreeItem itemId="16-pro" label="iPhone 16 Pro" />
-                      <TreeItem itemId="16-plus" label="iPhone 16 Plus" />
-                      <TreeItem itemId="16" label="iPhone 16" />
-                    </TreeItem>
-                    <TreeItem itemId="iphone-15" label="iPhone 15 серия">
-                      <TreeItem itemId="15-pro-max" label="iPhone 15 Pro Max" />
-                      <TreeItem itemId="15-pro" label="iPhone 15 Pro" />
-                      <TreeItem itemId="15-plus" label="iPhone 15 Plus" />
-                      <TreeItem itemId="15" label="iPhone 15" />
-                    </TreeItem>
-                  </TreeItem>
-
-                  <TreeItem itemId="samsung" label="Samsung">
-                    <TreeItem itemId="galaxy-s" label="Galaxy S серия" />
-                    <TreeItem itemId="galaxy-a" label="Galaxy A серия" />
-                    <TreeItem itemId="galaxy-z" label="Galaxy Z серия" />
-                  </TreeItem>
-
-                  <TreeItem itemId="xiaomi" label="Xiaomi" />
-                  <TreeItem itemId="oppo" label="Oppo" />
-                  <TreeItem itemId="vivo" label="Vivo" />
-                  <TreeItem itemId="realme" label="Realme" />
-                  <TreeItem itemId="sony" label="Sony" />
-                  <TreeItem itemId="nokia" label="Nokia" />
-                  <TreeItem itemId="inoi" label="INOI" />
+                  {models?.length &&
+                    models?.map((model) => (
+                      <TreeItem
+                        key={model.id}
+                        itemId="apple"
+                        label={model.name}
+                      >
+                        {model.products.map((item) => (
+                          <TreeItem
+                            key={item.id}
+                            itemId={item.id}
+                            label={item.name}
+                          />
+                        ))}
+                      </TreeItem>
+                    ))}
                 </SimpleTreeView>
               </div>
             )}
@@ -109,7 +110,7 @@ const Header = () => {
 
         <div className={s.actions}>
           <Badge
-            badgeContent={favorites ?? 1}
+            badgeContent={data ?? 0}
             color="warning"
             sx={{
               '& .MuiBadge-badge': {
@@ -147,7 +148,7 @@ const Header = () => {
           </Badge>
 
           <Badge
-            badgeContent={5}
+            badgeContent={cartAmount ?? 0}
             sx={{
               '& .MuiBadge-badge': {
                 backgroundColor: '#FFA542',

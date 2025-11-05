@@ -34,36 +34,56 @@ export class FavoriteRepository {
     })
   }
 
-  async getAllAmount() {
-    return await this.db.favorite.count()
+  async getAllAmount(userId: string) {
+    const favorite = await this.db.favorite.findUnique({
+      where: { userId },
+    })
+
+    return await this.db.favoriteItem.count({
+      where: { favoriteId: favorite?.id },
+    })
   }
 
-  async addToFavorite(productId: string, userId?: string) {
+  async toggleFavorite(productId: string, userId?: string) {
     if (!userId) {
-      throw new Error('Either userId or visitorId must be provided')
+      throw new Error('User ID is required')
     }
 
-    const favorite = await this.db.favorite.upsert({
-      where: { userId },
-      update: {},
-      create: { userId },
-      include: {
-        items: true,
-      },
-    })
+    try {
+      const favorite = await this.db.favorite.upsert({
+        where: { userId },
+        update: {},
+        create: { userId },
+      })
 
-    return await this.db.favoriteItem.upsert({
-      where: {
-        productId_favoriteId: {
-          productId,
-          favoriteId: favorite.id,
-        },
-      },
-      update: {},
-      create: {
-        productId,
-        favoriteId: favorite.id,
-      },
-    })
+      const result = await this.db.$transaction(async (tx) => {
+        const existingItem = await tx.favoriteItem.findFirst({
+          where: {
+            favoriteId: favorite.id,
+            productId: productId,
+          },
+        })
+
+        if (existingItem) {
+          await tx.favoriteItem.delete({
+            where: { id: existingItem.id },
+          })
+          return { action: 'removed' as const, success: true }
+        } else {
+          await tx.favoriteItem.create({
+            data: {
+              productId,
+              favoriteId: favorite.id,
+            },
+          })
+          return { action: 'added' as const, success: true }
+        }
+      })
+
+      return result
+    } catch (error) {
+      console.error('Error toggling favorite:', error)
+      throw new Error('Failed to toggle favorite')
+    }
   }
 }

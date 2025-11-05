@@ -10,7 +10,6 @@ import {
 import { ChevronUpIcon, Heart } from 'lucide-react'
 import Image from 'next/image'
 import ActionsButtons from '@/features/products/components/actions-buttons/actions-buttons'
-import { getCurrentSession } from '@/features/auth/actions/actions'
 
 const ProductDetails = async ({
   params,
@@ -19,7 +18,7 @@ const ProductDetails = async ({
 }) => {
   const { id } = await params
   const product = await getProductById(id)
-  const session = await getCurrentSession()
+
   return (
     <div className={s.wrapper}>
       <h4>{product?.category.name.toUpperCase()}</h4>
@@ -55,7 +54,7 @@ const ProductDetails = async ({
           </AccordionSummary>
           <AccordionDetails>{product?.description}</AccordionDetails>
         </Accordion>
-        <ActionsButtons productId={product?.id} userId={session?.user.id} />
+        <ActionsButtons productId={product?.id} />
       </div>
     </div>
   )

@@ -1,0 +1,46 @@
+.trash {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.trashBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+.cardInfo {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.price {
+  color: #aaaaaa;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.quantityBtn {
+  width: 32px;
+  height: 32px;
+  background-color: #ffce7f;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: #f4c16f;
+  }
+}

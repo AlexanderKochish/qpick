@@ -37,3 +37,11 @@ export async function getAllProducts() {
 export async function getProductById(id: string) {
   return await repo.getById(id)
 }
+
+export async function getAllProductModel() {
+  return await repo.getAllProductModel()
+}
+
+export async function getAllByCategory() {
+  return await repo.getAllByCategory()
+}

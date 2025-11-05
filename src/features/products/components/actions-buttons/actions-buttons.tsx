@@ -1,22 +1,31 @@
 'use client'
 import s from './actions-buttons.module.css'
 import { Button } from '@mui/material'
-import { addToFavorite } from '@/features/favorites/actions/actions'
+import { toggleFavorite } from '@/features/favorites/actions/actions'
+import { useMutation } from '@tanstack/react-query'
+import { addToCart } from '@/features/cart/actions/actions'
 
 interface Props {
   productId?: string
-  userId?: string
 }
 
-const ActionsButtons = ({ productId, userId }: Props) => {
+const ActionsButtons = ({ productId }: Props) => {
+  const { mutate } = useMutation({
+    mutationKey: ['favorite'],
+    mutationFn: (id: string) => toggleFavorite(id),
+  })
+
+  const { mutate: addToCartMutate } = useMutation({
+    mutationKey: ['product-cart'],
+    mutationFn: (id: string) => addToCart(id),
+  })
   return (
     <div className={s.actions}>
-      <Button variant="contained">Buy</Button>
-      {userId && productId && (
-        <Button
-          onClick={() => addToFavorite(productId!, userId)}
-          variant="contained"
-        >
+      <Button variant="contained" onClick={() => addToCartMutate(productId!)}>
+        Buy
+      </Button>
+      {productId && (
+        <Button onClick={() => mutate(productId!)} variant="contained">
           Add into cart
         </Button>
       )}

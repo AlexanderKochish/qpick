@@ -24,7 +24,17 @@ export class ProductRepository {
       },
     })
   }
-  async getAllByCategory(categoryId: string) {}
+  async getAllByCategory() {
+    return await this.db.category.findMany({
+      include: {
+        products: {
+          include: {
+            images: true,
+          },
+        },
+      },
+    })
+  }
 
   async create(data: Prisma.ProductCreateInput, imageUrls: string[]) {
     return await this.db.product.create({
@@ -43,6 +53,21 @@ export class ProductRepository {
       data: {
         productId,
         url,
+      },
+    })
+  }
+
+  async getAllProductModel() {
+    return await this.db.productModel.findMany({
+      select: {
+        id: true,
+        name: true,
+        products: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     })
   }
