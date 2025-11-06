@@ -9,10 +9,16 @@ export class CartRepository {
   async getOrCreateCart() {
     const session = await getCurrentSession()
 
+    const visitorId = session?.user.id
+      ? undefined
+      : await getOrCreateVisitorId()
+
+    const whereCondition = session?.user.id
+      ? { userId: session.user.id }
+      : { visitorId: visitorId! }
+
     let cart = await this.db.cart.findUnique({
-      where: {
-        userId: session?.user.id,
-      },
+      where: whereCondition,
       include: {
         items: {
           include: {
@@ -27,10 +33,12 @@ export class CartRepository {
     })
 
     if (!cart) {
+      const createData = session?.user.id
+        ? { userId: session.user.id }
+        : { visitorId: visitorId! }
+
       cart = await this.db.cart.create({
-        data: {
-          userId: session?.user.id,
-        },
+        data: createData,
         include: {
           items: {
             include: {
@@ -43,100 +51,130 @@ export class CartRepository {
           },
         },
       })
+    }
 
-      return cart
-    } else {
-      const visitorId = await getOrCreateVisitorId()
-      let cart = await prisma.cart.findUnique({
-        where: { visitorId },
-        include: {
-          items: {
-            include: {
-              product: {
-                include: {
-                  images: true,
-                },
-              },
-            },
-          },
+    return cart
+  }
+
+  async addToCart(productId: string, quantity = 1) {
+    try {
+      const cart = await this.getOrCreateCart()
+
+      const existingItem = await this.db.cartItem.findFirst({
+        where: {
+          cartId: cart.id,
+          productId: productId,
         },
       })
 
-      if (!cart) {
-        cart = await prisma.cart.create({
+      if (existingItem) {
+        await this.db.cartItem.update({
+          where: { id: existingItem.id },
           data: {
-            visitorId,
-          },
-          include: {
-            items: {
-              include: {
-                product: {
-                  include: {
-                    images: true,
-                  },
-                },
-              },
+            quantity: {
+              increment: quantity,
             },
+          },
+        })
+      } else {
+        await this.db.cartItem.create({
+          data: {
+            cartId: cart.id,
+            productId,
+            quantity,
           },
         })
       }
 
-      return cart
+      const updatedCart = await this.getOrCreateCart()
+
+      return updatedCart
+    } catch (error) {
+      throw error
     }
   }
 
-  async addToCart(productId: string, quantity = 1) {
+  async updateCartItemQuantity(productId: string, quantity: number) {
     const cart = await this.getOrCreateCart()
 
-    const existingItem = await prisma.cartItem.findFirst({
+    const existingItem = await this.db.cartItem.findFirst({
       where: {
         cartId: cart.id,
         productId: productId,
       },
     })
 
-    if (existingItem) {
-      await prisma.cartItem.update({
-        where: { id: existingItem.id },
-        data: {
-          quantity: quantity,
-        },
-      })
-    } else {
-      await prisma.cartItem.create({
-        data: {
-          cartId: cart.id,
-          productId,
-          quantity,
-        },
-      })
+    if (!existingItem) {
+      throw new Error('Product not found in cart')
     }
-  }
 
-  async updateCartItemQuantity(itemId: string, quantity: number) {
     if (quantity <= 0) {
       await this.db.cartItem.delete({
-        where: { id: itemId },
+        where: { id: existingItem.id },
       })
     } else {
       await this.db.cartItem.update({
-        where: { id: itemId },
+        where: { id: existingItem.id },
         data: { quantity },
       })
     }
   }
 
-  async removeCartItem(itemId: string) {
-    const cart = await this.getOrCreateCart()
-    await prisma.cartItem.delete({
-      where: { id: itemId, cartId: cart.id },
+  async getCartTotalPrice() {
+    const session = await getCurrentSession()
+
+    const whereCondition = session?.user.id
+      ? { userId: session.user.id }
+      : { visitorId: await getOrCreateVisitorId() }
+
+    const cart = await this.db.cart.findUnique({
+      where: whereCondition,
+      select: { id: true },
     })
+
+    if (!cart) return 0
+
+    const items = await this.db.cartItem.findMany({
+      where: { cartId: cart.id },
+      include: {
+        product: {
+          select: { price: true },
+        },
+      },
+    })
+
+    return items.reduce((total, item) => {
+      return total + item.product.price * item.quantity
+    }, 0)
+  }
+
+  async removeCartItem(itemId: string) {
+    await this.db.cartItem.delete({
+      where: { id: itemId },
+    })
+
+    return this.getOrCreateCart()
   }
 
   async getCartAmount() {
     const cart = await this.getOrCreateCart()
-    return await this.db.cartItem.count({
+
+    const result = await this.db.cartItem.aggregate({
+      where: { cartId: cart.id },
+      _sum: {
+        quantity: true,
+      },
+    })
+
+    return result._sum.quantity || 0
+  }
+
+  async clearCart() {
+    const cart = await this.getOrCreateCart()
+    await this.db.cartItem.deleteMany({
       where: { cartId: cart.id },
     })
+
+    return this.getOrCreateCart()
   }
 }

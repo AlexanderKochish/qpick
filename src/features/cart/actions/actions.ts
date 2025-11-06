@@ -12,12 +12,15 @@ export async function getCartAmount() {
   return await repo.getCartAmount()
 }
 
+export async function getCartTotalPrice() {
+  return await repo.getCartTotalPrice()
+}
 export async function addToCart(productId: string, quantity = 1) {
-  return await repo.addToCart(productId, quantity)
+  await repo.addToCart(productId, quantity)
 }
 export async function updateCartItemQuantity(itemId: string, quantity: number) {
-  return await repo.updateCartItemQuantity(itemId, quantity)
+  await repo.updateCartItemQuantity(itemId, quantity)
 }
 export async function removeCartItem(itemId: string) {
-  return await repo.removeCartItem(itemId)
+  await repo.removeCartItem(itemId)
 }

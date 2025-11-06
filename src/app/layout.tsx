@@ -9,7 +9,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
-import { getCartAmount } from '@/features/cart/actions/actions'
+import { getCounters } from '@/features/counters/actions/actions'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,7 +33,7 @@ export default async function RootLayout({
 }>) {
   const queryClient = new QueryClient()
 
-  const initialCartData = await getCartAmount()
+  const initialCounters = await getCounters()
   return (
     <html lang="en">
       <QueryProviders>
@@ -41,7 +41,7 @@ export default async function RootLayout({
           <HydrationBoundary state={dehydrate(queryClient)}>
             <div className="container">
               <div className="layout">
-                <Header initialCartData={initialCartData} />
+                <Header initialCounters={initialCounters} />
                 <main className="main">{children}</main>
                 <Footer />
               </div>

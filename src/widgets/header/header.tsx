@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useRef, useEffect, use } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import s from './header.module.css'
 import Link from 'next/link'
 import { Badge, Button } from '@mui/material'
@@ -11,16 +11,18 @@ import {
   ChevronUp,
   ChevronDown,
 } from 'lucide-react'
-import { getAllAmount } from '@/features/favorites/actions/actions'
 import { useQuery } from '@tanstack/react-query'
 import { getAllProductModel } from '@/features/products/actions/actions'
-import { getCartAmount } from '@/features/cart/actions/actions'
+import { useCounters } from '@/shared/hooks/useCounters'
 
 interface Props {
-  initialCartData: number
+  initialCounters: {
+    favoritesCount: number
+    cartItemsCount: number
+  }
 }
 
-const Header = ({ initialCartData }: Props) => {
+const Header = ({ initialCounters }: Props) => {
   const [isTreeOpen, setIsTreeOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
@@ -43,20 +45,11 @@ const Header = ({ initialCartData }: Props) => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const { data } = useQuery({
-    queryKey: ['favorite'],
-    queryFn: getAllAmount,
-  })
+  const { data: counters } = useCounters(initialCounters)
 
   const { data: models } = useQuery({
     queryKey: ['product-models'],
     queryFn: getAllProductModel,
-  })
-
-  const { data: cartAmount } = useQuery({
-    queryKey: ['cart-amount'],
-    queryFn: getCartAmount,
-    initialData: initialCartData,
   })
 
   return (
@@ -110,7 +103,7 @@ const Header = ({ initialCartData }: Props) => {
 
         <div className={s.actions}>
           <Badge
-            badgeContent={data ?? 0}
+            badgeContent={counters?.favoritesCount ?? 0}
             color="warning"
             sx={{
               '& .MuiBadge-badge': {
@@ -148,7 +141,7 @@ const Header = ({ initialCartData }: Props) => {
           </Badge>
 
           <Badge
-            badgeContent={cartAmount ?? 0}
+            badgeContent={counters?.cartItemsCount ?? 0}
             sx={{
               '& .MuiBadge-badge': {
                 backgroundColor: '#FFA542',

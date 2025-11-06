@@ -1,32 +1,27 @@
 'use client'
 
 import { Heart } from 'lucide-react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toggleFavorite } from '@/features/favorites/actions/actions'
-
+import { useFavorites } from '../../hooks/useFavorites'
+import { IconButton } from '@mui/material'
 interface Props {
   isFavorite?: boolean
   productId: string
 }
 
 const FavoriteToggle = ({ isFavorite, productId }: Props) => {
-  const queryClient = useQueryClient()
-  const { mutate } = useMutation({
-    mutationKey: ['favorite'],
-    mutationFn: (id: string) => toggleFavorite(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['favorite'] })
-    },
-  })
+  const { mutate, isPending } = useFavorites()
 
   return (
-    <div onClick={() => mutate(productId)}>
-      {isFavorite ? (
-        <Heart fill="currentColor" strokeWidth={1.5} />
-      ) : (
-        <Heart color="#1C1C27" />
-      )}
-    </div>
+    <IconButton
+      sx={{
+        width: 40,
+        height: 40,
+      }}
+      disabled={isPending}
+      onClick={() => mutate(productId)}
+    >
+      {isFavorite ? <Heart fill="black" /> : <Heart color="#1C1C27" />}
+    </IconButton>
   )
 }
 

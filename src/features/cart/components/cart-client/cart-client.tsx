@@ -1,7 +1,5 @@
 'use client'
-import { useQuery } from '@tanstack/react-query'
-import React from 'react'
-import { getOrCreateCart } from '../../actions/actions'
+
 import CartItem from '../cart-item/cart-item'
 import EmptyState from '@/shared/components/empty-state/empty-state'
 import emptyCart from '../../../../../public/empty-cart.png'
@@ -10,17 +8,17 @@ import s from './cart-client.module.css'
 import { ICart } from '../../types/types'
 import BaseCard from '@/shared/components/base-card/base-card'
 import { Button } from '@mui/material'
+import { useCart } from '../../hooks/useCart'
 
 interface Props {
-  initialCartData: ICart
+  initialData: {
+    initialCartData: ICart
+    cartTotalPrice: number
+  }
 }
 
-const CartClient = ({ initialCartData }: Props) => {
-  const { data } = useQuery({
-    queryKey: ['cart'],
-    queryFn: getOrCreateCart,
-    initialData: initialCartData,
-  })
+const CartClient = ({ initialData }: Props) => {
+  const { data, totalPrice } = useCart({ initialData })
 
   return (
     <div className="container">
@@ -48,7 +46,7 @@ const CartClient = ({ initialCartData }: Props) => {
             <BaseCard>
               <div className={s.totalPrice}>
                 <strong>Итого</strong>
-                <strong>200 $</strong>
+                <strong>{totalPrice} $</strong>
               </div>
               <Button variant="contained">Перейти к оформлению</Button>
             </BaseCard>
