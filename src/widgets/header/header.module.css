@@ -58,3 +58,23 @@
   font-size: 2rem;
   font-weight: 600;
 }
+
+@media (max-width: 599px) {
+  .mobMenu {
+    min-width: 42;
+    min-height: 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: white;
+  }
+
+  .dropdownContainer {
+    display: none;
+  }
+}

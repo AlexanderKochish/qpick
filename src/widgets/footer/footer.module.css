@@ -62,3 +62,12 @@
     color: #ffa542;
   }
 }
+
+@media (max-width: 599px) {
+  .footer {
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    gap: 1rem;
+  }
+}

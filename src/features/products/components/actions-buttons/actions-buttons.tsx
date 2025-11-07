@@ -10,12 +10,12 @@ interface Props {
 }
 
 const ActionsButtons = ({ productId }: Props) => {
-  const quaryClient = useQueryClient()
+  const queryClient = useQueryClient()
   const { mutate } = useMutation({
     mutationKey: ['favorite'],
     mutationFn: (id: string) => toggleFavorite(id),
     onSuccess: () => {
-      quaryClient.invalidateQueries({ queryKey: ['counters'] })
+      queryClient.invalidateQueries({ queryKey: ['counters'] })
     },
   })
 
@@ -23,8 +23,9 @@ const ActionsButtons = ({ productId }: Props) => {
     mutationKey: ['product-cart'],
     mutationFn: (id: string) => addToCart(id),
     onSuccess: () => {
-      quaryClient.invalidateQueries({ queryKey: ['counters'] })
-      quaryClient.invalidateQueries({ queryKey: ['cart'] })
+      queryClient.invalidateQueries({ queryKey: ['counters'] })
+      queryClient.invalidateQueries({ queryKey: ['total-price'] })
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
     },
   })
   return (

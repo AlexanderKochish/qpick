@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import s from './header.module.css'
 import Link from 'next/link'
-import { Badge, Button } from '@mui/material'
+import { Badge, Button, IconButton } from '@mui/material'
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view'
 import {
   ShoppingCart,
@@ -10,6 +10,7 @@ import {
   Tablet,
   ChevronUp,
   ChevronDown,
+  Menu,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getAllProductModel } from '@/features/products/actions/actions'
@@ -26,6 +27,7 @@ const Header = ({ initialCounters }: Props) => {
   const [isTreeOpen, setIsTreeOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleTreeToggle = () => setIsTreeOpen((prev) => !prev)
 
@@ -176,6 +178,14 @@ const Header = ({ initialCounters }: Props) => {
               </Button>
             </Link>
           </Badge>
+          <IconButton
+            sx={{
+              display: { xs: 'flex', sm: 'none' },
+            }}
+            className={s.mobMenu}
+          >
+            <Menu size={22} />
+          </IconButton>
         </div>
       </div>
     </header>

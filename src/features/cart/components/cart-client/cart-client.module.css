@@ -1,5 +1,5 @@
-.wrapper {
-  padding: 2rem 0;
+.cartSection {
+  padding: 1.5rem;
 }
 .cart {
   display: flex;
@@ -7,6 +7,10 @@
   padding: 0.5rem 0;
 }
 .cartItems {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
   max-width: 635px;
   width: 100%;
 }
@@ -14,4 +18,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+@media (max-width: 988px) {
+  .cart {
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .price {
+    max-width: 635px;
+    width: 100%;
+  }
 }
