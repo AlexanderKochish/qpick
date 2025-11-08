@@ -29,7 +29,7 @@ const Card = ({ item }: IProductCard) => {
       </Link>
       <div className={s.info}>
         <div className={s.name}>{item?.name}</div>
-        <div className={s.price}>{item?.price} $</div>
+        <div className={s.price}>{item?.price.toString()} $</div>
       </div>
     </div>
   )

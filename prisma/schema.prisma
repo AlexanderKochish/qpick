@@ -20,6 +20,36 @@ enum Role {
   MANAGER
 }
 
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CARD
+  CASH
+  APPLE_PAY
+  GOOGLE_PAY
+}
+
+enum RatingValue {
+  ONE
+  TWO  
+  THREE  
+  FOUR  
+  FIVE 
+}
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String  
@@ -77,7 +107,11 @@ model User {
   orders        Order[]
   ratings       Rating[]
   reviews       Review[]
+  address       Address[]
   favorites     Favorite?
+
+  @@index([email])
+  @@index([createdAt])
 
   @@map("users")
 }
@@ -117,21 +151,25 @@ model Product {
   id             String        @id @default(cuid())
   name           String
   description    String
-  price          Int
-  discount       Int?
+  price          Decimal       @db.Decimal(10, 2)
+  discount       Int?          @default(0)
   images         Image[]
   categoryId     String
   category       Category      @relation(fields: [categoryId], references: [id])
   productModelId String
   productModel   ProductModel  @relation(fields: [productModelId], references: [id])
-  ratings        Rating[]
-  reviews        Review[]
+  ratings        Rating[]      
+  reviews        Review[]      
   cartItems      CartItem[]
   orderItems     OrderItem[]
   favoriteItems  FavoriteItem[]
 
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
+
+  @@index([categoryId])
+  @@index([productModelId])
+  @@index([createdAt])
 
   @@map("products")
 }
@@ -149,13 +187,16 @@ model Image {
 
 model Rating {
   id        String   @id @default(uuid())
-  rating    Int
+  rating    RatingValue 
   authorId  String  
   author    User     @relation(fields: [authorId], references: [id])
   productId String
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@unique([authorId, productId])
 
   @@map("ratings")
 }
@@ -166,7 +207,7 @@ model Review {
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
   productId String
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -200,14 +241,28 @@ model CartItem {
 }
 
 model Order {
-  id         String      @id @default(uuid())
-  userId     String   
-  user       User        @relation(fields: [userId], references: [id])
-  items      OrderItem[]
-  totalPrice Int
-  status     String      @default("PENDING")
+  id                  String     @id @default(uuid()) @unique
+  userId              String   
+  user                User       @relation(fields: [userId], references: [id])
+  items               OrderItem[]
+  totalPrice          Decimal 
+
+  status              OrderStatus     @default(PENDING)
+  
+  shippingAddressId   String?
+  shippingAddress     Address?   @relation(fields: [shippingAddressId], references: [id])
+  paymentId           String?    @unique
+  payment             Payment?   @relation(fields: [paymentId], references: [id])
+  
+  customerEmail       String    
+  customerPhone       String   
+
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
 
   @@map("orders")
 }
@@ -219,11 +274,49 @@ model OrderItem {
   productId  String
   product    Product   @relation(fields: [productId], references: [id])
   quantity   Int       @default(1)
-  priceAtBuy Int
+  priceAtBuy Decimal 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 
   @@map("order_items")
+}
+
+model Address {
+  id          String @id @default(uuid())
+  userId      String?
+  user        User?   @relation(fields: [userId], references: [id])
+  orders      Order[]
+
+  country     String?
+  city        String
+  street      String
+  building    String
+  apartment   String?
+  postalCode  String
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("addresses")
+}
+
+model Payment {
+  id          String          @id @default(uuid())
+  order       Order?         
+
+  method      PaymentMethod   @default(CARD)
+  status      PaymentStatus   @default(PENDING)
+  amount      Int
+
+  processorId String?
+
+  createdAt   DateTime        @default(now()) 
+  updatedAt   DateTime        @updatedAt
+
+  @@index([status])
+  @@index([processorId])
+
+  @@map("payments")
 }
 
 model FavoriteItem {
