@@ -10,6 +10,7 @@ import {
 import { ChevronUpIcon, Heart } from 'lucide-react'
 import Image from 'next/image'
 import ActionsButtons from '@/features/products/components/actions-buttons/actions-buttons'
+import Slider from '@/shared/components/slider/slider'
 
 const ProductDetails = async ({
   params,
@@ -27,16 +28,26 @@ const ProductDetails = async ({
           <Heart color="#1C1C27" />
         </div>
         <div className={s.imagesWrapper}>
-          {product?.images &&
-            product.images.map((image) => (
-              <Image
-                key={image.id}
-                src={image.url}
-                alt="product card"
-                width={350}
-                height={370}
-              />
-            ))}
+          {product?.images && (
+            <Slider
+              slides={product.images.map((image) => (
+                <Image
+                  key={image.id}
+                  src={image.url}
+                  alt="product card"
+                  width={350}
+                  height={370}
+                  sizes="(max-width: 480px) 90vw, (max-width: 768px) 45vw, (max-width: 1024px) 30vw, 350px"
+                  quality={85}
+                  style={{
+                    width: 290,
+                    height: 310,
+                    objectFit: 'cover',
+                  }}
+                />
+              ))}
+            />
+          )}
         </div>
         <div>
           <strong>{product?.name}</strong>

@@ -6,12 +6,12 @@ import { getAllByCategory } from '@/features/products/actions/actions'
 export default async function Home() {
   const products = await getAllByCategory()
   return (
-    <div className="container">
+    <section className={s.home}>
       <Title />
       <div>
         {products &&
           products.map(({ id, name, products }) => (
-            <div key={id}>
+            <div key={id} className={s.product}>
               <h3>{name}</h3>
               <div className={s.grid}>
                 {products.map((item) => (
@@ -21,6 +21,6 @@ export default async function Home() {
             </div>
           ))}
       </div>
-    </div>
+    </section>
   )
 }

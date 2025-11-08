@@ -1,0 +1,102 @@
+.miniSlider {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.slidesContainer {
+  display: flex;
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.slide {
+  min-width: 100%;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 0 16px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.dot.active {
+  background: #007bff;
+  transform: scale(1.2);
+}
+
+.dot:hover:not(.active) {
+  background: #aaa;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.miniSlider:hover .navButton {
+  opacity: 1;
+}
+
+.navButton:first-child {
+  left: 16px;
+}
+
+.navButton:last-child {
+  right: 16px;
+}
+
+.navButton:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+  .navButton {
+    display: none;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slidesContainer {
+    transition: none;
+  }
+
+  .dot {
+    transition: none;
+  }
+}

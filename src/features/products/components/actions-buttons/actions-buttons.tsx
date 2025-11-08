@@ -30,11 +30,19 @@ const ActionsButtons = ({ productId }: Props) => {
   })
   return (
     <div className={s.actions}>
-      <Button variant="contained" onClick={() => addToCartMutate(productId!)}>
+      <Button
+        fullWidth
+        variant="contained"
+        onClick={() => addToCartMutate(productId!)}
+      >
         Buy
       </Button>
       {productId && (
-        <Button onClick={() => mutate(productId!)} variant="contained">
+        <Button
+          fullWidth
+          onClick={() => mutate(productId!)}
+          variant="contained"
+        >
           Add into cart
         </Button>
       )}

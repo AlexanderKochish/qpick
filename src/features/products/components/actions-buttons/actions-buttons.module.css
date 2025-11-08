@@ -4,3 +4,10 @@
   flex-shrink: 0;
   gap: 1rem;
 }
+
+@media (width < 787px) {
+  .actions {
+    width: 100%;
+    flex-shrink: 1;
+  }
+}

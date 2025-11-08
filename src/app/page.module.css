@@ -7,3 +7,9 @@
   gap: 20px;
   padding: 1rem 0;
 }
+
+.product {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
