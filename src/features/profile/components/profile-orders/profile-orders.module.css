@@ -1,0 +1,24 @@
+.orderCard {
+  margin-bottom: 16px;
+  border-radius: 12px !important;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.orderTotal {
+  color: #2e7d32;
+  font-weight: 700;
+  margin-top: 8px !important;
+}

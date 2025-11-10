@@ -20,6 +20,7 @@
     "@emotion/styled": "^11.14.1",
     "@fingerprintjs/fingerprintjs": "^5.0.1",
     "@fontsource/roboto": "^5.2.8",
+    "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.4",
     "@mui/x-tree-view": "^8.16.0",
     "@prisma/client": "^6.18.0",
@@ -36,6 +37,7 @@
     "next-cloudinary": "^6.17.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "recharts": "^3.4.1",
     "stripe": "^19.3.0",
     "zod": "^4.1.12"
   },

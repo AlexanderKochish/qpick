@@ -1,0 +1,19 @@
+.layoutContainer {
+  display: flex;
+}
+
+.appBar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.mainContent {
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 16px 12px;
+  }
+}

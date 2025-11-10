@@ -1,0 +1,81 @@
+.sidebarContainer {
+  height: 100%;
+  background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  padding: 24px 16px 16px;
+  text-align: center;
+}
+
+.logo {
+  background: linear-gradient(45deg, #ffffff, #e3f2fd);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.divider {
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 8px 16px;
+}
+
+.list {
+  flex: 1;
+  padding: 8px;
+}
+
+.listItem {
+  margin-bottom: 4px;
+}
+
+.listItemButton {
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    transform: translateX(4px);
+  }
+
+  &.Mui-selected {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+    border-left: 3px solid #4fc3f7;
+  }
+}
+
+.listItemIcon {
+  color: inherit !important;
+  min-width: 40px !important;
+}
+
+.sidebarContainer {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebarHeader {
+    padding: 20px 12px 12px;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+  }
+}

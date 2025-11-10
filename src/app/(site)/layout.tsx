@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import Header from '@/widgets/header/header'
-import Footer from '@/widgets/footer/footer'
 import QueryProviders from '@/providers/query-provider'
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import Header from '@/widgets/header/header'
+import Footer from '@/widgets/footer/footer'
 import { getCounters } from '@/features/counters/actions/actions'
 
 const geistSans = Geist({
@@ -35,20 +35,20 @@ export default async function RootLayout({
 
   const initialCounters = await getCounters()
   return (
-    <html lang="en">
-      <QueryProviders>
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <HydrationBoundary state={dehydrate(queryClient)}>
+    <QueryProviders>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <html lang="en">
+          <body className={`${geistSans.variable} ${geistMono.variable}`}>
             <div className="container">
               <div className="layout">
                 <Header initialCounters={initialCounters} />
-                <main className="main">{children}</main>
+                <div className="main">{children}</div>
                 <Footer />
               </div>
             </div>
-          </HydrationBoundary>
-        </body>
-      </QueryProviders>
-    </html>
+          </body>
+        </html>
+      </HydrationBoundary>
+    </QueryProviders>
   )
 }

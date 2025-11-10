@@ -1,0 +1,138 @@
+.profileContainer {
+  padding: 24px;
+}
+
+.title {
+  font-weight: 700;
+  margin-bottom: 32px !important;
+  color: #2c3e50;
+}
+
+.sidebar {
+  padding: 24px;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.avatarSection {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  margin: 0 auto 16px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.userName {
+  font-weight: 600;
+  margin-bottom: 8px !important;
+}
+
+.roleChip {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 24px 0;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.content {
+  padding: 24px;
+  border-radius: 16px !important;
+  min-height: 500px;
+}
+
+.tabsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tabs {
+  min-height: 48px;
+
+  & .MuiTab-root {
+    font-weight: 500;
+    text-transform: none;
+    min-height: 48px;
+  }
+}
+
+.editButton {
+  text-transform: none !important;
+  border-radius: 8px !important;
+}
+
+.tabContent {
+  padding: 16px 0;
+}
+
+.addressCard,
+.orderCard,
+.ratingCard,
+.reviewCard {
+  margin-bottom: 16px;
+  border-radius: 12px !important;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.ratingInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.sectionTitle {
+  margin-top: 24px !important;
+  margin-bottom: 16px !important;
+  color: #666;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .profileContainer {
+    padding: 16px;
+  }
+
+  .tabsHeader {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

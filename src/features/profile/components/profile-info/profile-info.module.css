@@ -1,0 +1,7 @@
+.field {
+  margin-bottom: 16px !important;
+
+  & .MuiOutlinedInput-root {
+    border-radius: 8px;
+  }
+}

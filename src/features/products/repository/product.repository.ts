@@ -1,3 +1,4 @@
+import { serializeProduct } from '@/features/cart/lib/utils'
 import { Prisma, PrismaClient } from '@/generated/prisma/client'
 import prisma from '@/shared/lib/prisma'
 
@@ -25,7 +26,7 @@ export class ProductRepository {
     })
   }
   async getAllByCategory() {
-    return await this.db.category.findMany({
+    const result = await this.db.category.findMany({
       include: {
         products: {
           include: {
@@ -34,6 +35,8 @@ export class ProductRepository {
         },
       },
     })
+
+    return result
   }
 
   async create(data: Prisma.ProductCreateInput, imageUrls: string[]) {

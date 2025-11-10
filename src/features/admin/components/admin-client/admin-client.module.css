@@ -1,168 +1,270 @@
-.container {
+.dashboardContainer {
   padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 24px;
-  color: #1f2937;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 4px !important;
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.statCard {
-  background: white;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-}
-
-.statTitle {
-  font-weight: 600;
-  color: #6b7280;
-  margin-bottom: 8px;
-  font-size: 0.875rem;
-}
-
-.statNumber {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #1f2937;
-  margin: 0;
-}
-
-.wrapper {
-  margin-bottom: 32px;
-  padding: 24px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-}
-
-.link {
-  display: block;
-  margin-bottom: 16px;
-  color: #3b82f6;
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
-
-.form {
+.headerActions {
   display: flex;
-  flex-direction: column;
   gap: 12px;
-}
-
-.input {
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 1rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.button {
-  padding: 12px 24px;
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.button:hover {
-  background: #2563eb;
-}
-
-.actions {
-  margin-top: 32px;
-}
-
-.actionsTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #1f2937;
-}
-
-.actionsGrid {
-  display: flex;
-  gap: 16px;
   flex-wrap: wrap;
 }
 
 .actionButton {
-  padding: 12px 24px;
-  border-radius: 6px;
-  text-decoration: none;
+  border-radius: 8px !important;
+  text-transform: none !important;
+}
+
+.metricsGrid {
+  margin-bottom: 24px;
+}
+
+.metricCard {
+  border-radius: 12px !important;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+}
+
+.metricCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #e0e0e0;
+}
+
+.metricContent {
+  padding: 24px !important;
+}
+
+.metricHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.metricIcon {
+  width: 48px !important;
+  height: 48px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.metricValue {
+  font-weight: 700 !important;
+  color: #2c3e50;
+  margin-bottom: 8px !important;
+  font-size: 2rem !important;
+}
+
+.metricTitle {
+  color: #666;
   font-weight: 500;
-  transition: all 0.2s;
-  display: inline-block;
 }
 
-.actionButton.primary {
-  background: #3b82f6;
-  color: white;
+.chartsGrid {
+  margin-bottom: 24px;
 }
 
-.actionButton.primary:hover {
-  background: #2563eb;
+.chartCard {
+  padding: 24px;
+  border-radius: 12px !important;
+  height: 100%;
 }
 
-.actionButton.success {
-  background: #10b981;
-  color: white;
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.actionButton.success:hover {
-  background: #059669;
+.chartControls {
+  display: flex;
+  gap: 8px;
 }
 
-.actionButton.warning {
-  background: #f59e0b;
-  color: white;
+.chartControls button {
+  border-radius: 20px !important;
+  text-transform: none !important;
+  font-size: 0.75rem !important;
+  padding: 4px 12px !important;
 }
 
-.actionButton.warning:hover {
-  background: #d97706;
+.chartContainer {
+  margin-top: 16px;
 }
 
-@media (max-width: 768px) {
-  .container {
+.tableCard {
+  padding: 24px;
+  border-radius: 12px !important;
+  height: 100%;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.orderItem,
+.productItem {
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.orderItem:hover,
+.productItem:hover {
+  background-color: #f5f7fa;
+  border-color: #e0e0e0;
+}
+
+.orderAvatar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.productAvatar {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+
+.orderInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.orderDetails {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.productStats {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.additionalGrid {
+  margin-top: 24px;
+}
+
+.statsCard {
+  padding: 24px;
+  border-radius: 12px !important;
+  height: 100%;
+}
+
+.conversionStats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.conversionItem {
+  text-align: center;
+}
+
+.deliveryStats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.deliveryItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Стили для графиков */
+.recharts-wrapper {
+  font-family: inherit !important;
+}
+
+.recharts-default-tooltip {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+  .chartsGrid,
+  .additionalGrid {
+    & > .MuiGrid-item {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboardContainer {
     padding: 16px;
   }
 
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  .actionsGrid {
+  .header {
     flex-direction: column;
+    align-items: stretch;
   }
 
-  .actionButton {
-    text-align: center;
+  .headerActions {
+    justify-content: center;
+  }
+
+  .chartHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .chartControls {
+    justify-content: center;
+  }
+
+  .metricValue {
+    font-size: 1.5rem !important;
+  }
+
+  .orderDetails,
+  .productStats {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .metricsGrid {
+    & > .MuiGrid-item {
+      width: 100%;
+    }
+  }
+
+  .conversionStats {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .conversionItem {
+    text-align: left;
   }
 }

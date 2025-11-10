@@ -1,0 +1,201 @@
+.profileContainer {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.editButton,
+.saveButton {
+  border-radius: 8px !important;
+  text-transform: none !important;
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.alert {
+  margin-bottom: 24px;
+  border-radius: 8px !important;
+}
+
+.sidebar {
+  border-radius: 12px !important;
+  padding: 24px;
+  position: sticky;
+  top: 24px;
+}
+
+.avatarSection {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  margin: 0 auto 16px;
+  border: 4px solid #e0e0e0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.userName {
+  font-weight: 600;
+  margin-bottom: 8px !important;
+  color: #2c3e50;
+}
+
+.roleChip {
+  margin-bottom: 12px !important;
+  font-weight: 500;
+}
+
+.statusChips {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.statsSection {
+  margin: 20px 0;
+}
+
+.permissionsSection {
+  margin-top: 20px;
+}
+
+.permissionsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.permissionChip {
+  font-size: 0.7rem;
+}
+
+.content {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.tabs {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0 24px;
+}
+
+.tabContent {
+  padding: 24px;
+}
+
+.sectionTitle {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 16px !important;
+}
+
+.settingsCard,
+.securityCard {
+  border-radius: 8px !important;
+}
+
+.securityItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.securityInfo {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.activityItem {
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.activityItem:hover {
+  background-color: #f5f7fa;
+  border-color: #e0e0e0;
+}
+
+.activityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.activityDetails {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .profileContainer {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerActions {
+    justify-content: center;
+  }
+
+  .sidebar {
+    position: static;
+    margin-bottom: 24px;
+  }
+
+  .activityHeader {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .activityDetails {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .securityItem {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .statusChips {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .permissionsList {
+    justify-content: center;
+  }
+}
