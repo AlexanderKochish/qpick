@@ -47,6 +47,10 @@ export const orderSchema = z.object({
   paymentType: z.enum(['CARD', 'CASH', 'APPLE_PAY', 'GOOGLE_PAY'], {
     error: 'Select a payment method',
   }),
+  totalPrice: z
+    .string({ error: 'Please enter a total price' })
+    .min(1, 'Price is required')
+    .regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
 })
 
 export type OrderFormData = z.infer<typeof orderSchema>

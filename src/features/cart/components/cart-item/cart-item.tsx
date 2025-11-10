@@ -71,7 +71,7 @@ const CartItem = ({ item, quantity }: Props) => {
         />
         <div className={s.info}>
           <h4>{item.name}</h4>
-          <span className={s.price}>{item.price.toString()} $</span>
+          <span className={s.price}>{item.price} $</span>
         </div>
       </div>
       <div>

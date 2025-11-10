@@ -2,6 +2,7 @@ import { getCurrentSession } from '@/features/auth/actions/actions'
 import { PrismaClient } from '@/generated/prisma/client'
 import prisma from '@/shared/lib/prisma'
 import { getOrCreateVisitorId } from '@/shared/utils/fingerprint-server'
+import { serializeCart } from '../lib/utils'
 
 export class CartRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
@@ -53,7 +54,19 @@ export class CartRepository {
       })
     }
 
-    return cart
+    const safeCart = {
+      ...cart,
+      items: cart.items.map((item) => ({
+        ...item,
+        product: {
+          ...item.product,
+          price: item.product.price.toNumber(),
+          discount: item.product.discount,
+        },
+      })),
+    }
+
+    return safeCart
   }
 
   async addToCart(productId: string, quantity = 1) {
@@ -144,7 +157,7 @@ export class CartRepository {
     })
 
     return items.reduce((total, item) => {
-      return total + item.product.price * item.quantity
+      return total + item.product.price.toNumber() * item.quantity
     }, 0)
   }
 

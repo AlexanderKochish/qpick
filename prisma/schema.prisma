@@ -302,11 +302,12 @@ model Address {
 
 model Payment {
   id          String          @id @default(uuid())
-  order       Order?         
+  orderId     String?         @unique
+  order       Order?                 
 
   method      PaymentMethod   @default(CARD)
   status      PaymentStatus   @default(PENDING)
-  amount      Int
+  amount      Decimal         @db.Decimal(10, 2)
 
   processorId String?
 

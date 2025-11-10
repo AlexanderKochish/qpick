@@ -1,14 +1,11 @@
-// app/api/sign-cloudinary-params/route.ts
 import { v2 as cloudinary } from 'cloudinary'
 
-// Validate environment variables at module load time
 const cloudinaryConfig = {
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 }
 
-// Check if all required environment variables are present
 const isCloudinaryConfigured =
   cloudinaryConfig.cloud_name &&
   cloudinaryConfig.api_key &&
@@ -19,7 +16,6 @@ if (isCloudinaryConfigured) {
 }
 
 export async function POST(req: Request) {
-  // Check if Cloudinary is properly configured
   if (!isCloudinaryConfigured) {
     console.error('Cloudinary configuration missing:')
     console.error('- Cloud Name:', !!cloudinaryConfig.cloud_name)

@@ -51,7 +51,7 @@ const ProductDetails = async ({
         </div>
         <div>
           <strong>{product?.name}</strong>
-          <span>{product?.price}</span>
+          <span>{product?.price.toNumber()}</span>
         </div>
       </BaseCard>
       <div className={s.desc}>
