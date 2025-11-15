@@ -13,11 +13,15 @@ export async function createCategory(formData: FormData) {
   await repo.createCategory(data)
 }
 
-export async function createModel(formData: FormData) {
+export async function createBrand(formData: FormData) {
   const name = formData.get('name') as string
 
   const data = {
     name,
   }
-  await repo.createModel(data)
+  await repo.createBrand(data)
+}
+
+export async function getAllCategories() {
+  return await repo.getAllCategories()
 }

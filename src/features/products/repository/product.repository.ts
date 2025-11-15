@@ -1,4 +1,3 @@
-import { serializeProduct } from '@/features/cart/lib/utils'
 import { Prisma, PrismaClient } from '@/generated/prisma/client'
 import prisma from '@/shared/lib/prisma'
 
@@ -9,6 +8,17 @@ export class ProductRepository {
     return await this.db.product.findMany({
       include: {
         images: true,
+        reviews: true,
+        ratings: true,
+        category: true,
+        brand: true,
+        _count: {
+          select: {
+            ratings: true,
+            reviews: true,
+            orderItems: true,
+          },
+        },
       },
     })
   }
@@ -18,10 +28,33 @@ export class ProductRepository {
       where: { id },
       include: {
         images: true,
-        reviews: true,
-        ratings: true,
+        reviews: {
+          include: {
+            author: {
+              include: {
+                avatar: true,
+              },
+            },
+          },
+        },
+        ratings: {
+          include: {
+            author: {
+              include: {
+                avatar: true,
+              },
+            },
+          },
+        },
         category: true,
-        productModel: true,
+        brand: true,
+        _count: {
+          select: {
+            ratings: true,
+            reviews: true,
+            orderItems: true,
+          },
+        },
       },
     })
   }
@@ -61,7 +94,7 @@ export class ProductRepository {
   }
 
   async getAllProductModel() {
-    return await this.db.productModel.findMany({
+    return await this.db.brand.findMany({
       select: {
         id: true,
         name: true,
@@ -73,6 +106,10 @@ export class ProductRepository {
         },
       },
     })
+  }
+
+  async getProductModels() {
+    return await this.db.brand.findMany()
   }
 
   async update(data: Prisma.ProductUpdateInput) {}

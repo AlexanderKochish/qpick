@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Key, useState } from 'react'
 import {
   Box,
   Paper,
@@ -27,8 +27,6 @@ import {
   Card,
   CardContent,
   Rating as MuiRating,
-  Switch,
-  FormControlLabel,
 } from '@mui/material'
 import {
   MoreVert as MoreIcon,
@@ -44,174 +42,36 @@ import {
 } from '@mui/icons-material'
 import styles from './page.module.css'
 import AdminLayout from '../layout'
-
-interface Product {
-  id: string
-  name: string
-  description: string
-  price: number
-  discount?: number
-  images: Image[]
-  category: Category
-  productModel: ProductModel
-  ratings: Rating[]
-  reviews: Review[]
-  createdAt: Date
-  updatedAt: Date
-  _count?: {
-    ratings: number
-    reviews: number
-    orderItems: number
-  }
-}
-
-interface Image {
-  id: string
-  url: string
-}
-
-interface Category {
-  id: string
-  name: string
-}
-
-interface ProductModel {
-  id: string
-  name: string
-}
-
-interface Rating {
-  id: string
-  rating: number
-}
-
-interface Review {
-  id: string
-}
+import CreateProductModal from '@/features/admin/components/create-product/create-product'
+import { ProductCreateInput } from '@/generated/prisma/models'
+import { useCategory } from '@/features/category/hooks/useCategory'
+import { useProductModel } from '@/features/products/hooks/useProductModel'
+import { useProducts } from '@/features/products/hooks/useProducts'
+import { Rating } from '@/generated/prisma/client'
+import { ProductWithRelations } from '@/features/products/types/types'
 
 export default function ProductsPage() {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [selectedProduct, setSelectedProduct] =
+    useState<ProductWithRelations | null>(null)
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const { data: categories } = useCategory()
+  const { data: products } = useProducts()
+  const { data: brands } = useProductModel()
 
-  // Mock данные товаров
-  const products: Product[] = [
-    {
-      id: 'prod-001',
-      name: 'iPhone 15 Pro',
-      description:
-        'Новый iPhone 15 Pro с титановым корпусом и мощным процессором A17 Pro',
-      price: 99990,
-      discount: 10,
-      images: [
-        { id: 'img1', url: '/api/placeholder/300/300' },
-        { id: 'img2', url: '/api/placeholder/300/300' },
-      ],
-      category: { id: 'cat1', name: 'Смартфоны' },
-      productModel: { id: 'model1', name: 'iPhone 15 Series' },
-      ratings: [
-        { id: 'rate1', rating: 5 },
-        { id: 'rate2', rating: 4 },
-        { id: 'rate3', rating: 5 },
-      ],
-      reviews: [{ id: 'rev1' }, { id: 'rev2' }],
-      createdAt: new Date('2024-01-15'),
-      updatedAt: new Date('2024-03-01'),
-      _count: {
-        ratings: 3,
-        reviews: 2,
-        orderItems: 15,
-      },
-    },
-    {
-      id: 'prod-002',
-      name: 'MacBook Air M2',
-      description: 'Ультратонкий ноутбук с чипом M2 и дисплеем Liquid Retina',
-      price: 124990,
-      discount: 5,
-      images: [{ id: 'img3', url: '/api/placeholder/300/300' }],
-      category: { id: 'cat2', name: 'Ноутбуки' },
-      productModel: { id: 'model2', name: 'MacBook Air' },
-      ratings: [
-        { id: 'rate4', rating: 5 },
-        { id: 'rate5', rating: 5 },
-      ],
-      reviews: [{ id: 'rev3' }],
-      createdAt: new Date('2024-02-01'),
-      updatedAt: new Date('2024-03-02'),
-      _count: {
-        ratings: 2,
-        reviews: 1,
-        orderItems: 8,
-      },
-    },
-    {
-      id: 'prod-003',
-      name: 'AirPods Pro',
-      description: 'Беспроводные наушники с активным шумоподавлением',
-      price: 24990,
-      images: [{ id: 'img4', url: '/api/placeholder/300/300' }],
-      category: { id: 'cat3', name: 'Аксессуары' },
-      productModel: { id: 'model3', name: 'AirPods Pro' },
-      ratings: [
-        { id: 'rate6', rating: 4 },
-        { id: 'rate7', rating: 5 },
-        { id: 'rate8', rating: 4 },
-      ],
-      reviews: [{ id: 'rev4' }, { id: 'rev5' }, { id: 'rev6' }],
-      createdAt: new Date('2024-01-20'),
-      updatedAt: new Date('2024-03-01'),
-      _count: {
-        ratings: 3,
-        reviews: 3,
-        orderItems: 25,
-      },
-    },
-    {
-      id: 'prod-004',
-      name: 'iPad Air',
-      description: 'Мощный планшет с чипом M1 и поддержкой Apple Pencil',
-      price: 65990,
-      discount: 15,
-      images: [{ id: 'img5', url: '/api/placeholder/300/300' }],
-      category: { id: 'cat4', name: 'Планшеты' },
-      productModel: { id: 'model4', name: 'iPad Air' },
-      ratings: [{ id: 'rate9', rating: 5 }],
-      reviews: [],
-      createdAt: new Date('2024-02-15'),
-      updatedAt: new Date('2024-02-28'),
-      _count: {
-        ratings: 1,
-        reviews: 0,
-        orderItems: 5,
-      },
-    },
-    {
-      id: 'prod-005',
-      name: 'Apple Watch Series 9',
-      description: 'Умные часы с расширенными функциями здоровья и фитнеса',
-      price: 41990,
-      images: [{ id: 'img6', url: '/api/placeholder/300/300' }],
-      category: { id: 'cat5', name: 'Умные часы' },
-      productModel: { id: 'model5', name: 'Apple Watch Series 9' },
-      ratings: [
-        { id: 'rate10', rating: 5 },
-        { id: 'rate11', rating: 4 },
-      ],
-      reviews: [{ id: 'rev7' }],
-      createdAt: new Date('2024-03-01'),
-      updatedAt: new Date('2024-03-05'),
-      _count: {
-        ratings: 2,
-        reviews: 1,
-        orderItems: 12,
-      },
-    },
-  ]
+  const handleCreateProduct = (productData: ProductCreateInput) => {
+    console.log('Создание продукта:', productData)
+  }
+
+  if (!products) {
+    return null
+  }
 
   const filteredProducts = products.filter(
     (product) =>
@@ -231,11 +91,9 @@ export default function ProductsPage() {
     setPage(0)
   }
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLElement>,
-    product: Product
+    product: ProductWithRelations
   ) => {
     setAnchorEl(event.currentTarget)
     setSelectedProduct(product)
@@ -268,7 +126,7 @@ export default function ProductsPage() {
 
   const calculateAverageRating = (ratings: Rating[]) => {
     if (ratings.length === 0) return 0
-    const sum = ratings.reduce((acc, rating) => acc + rating.rating, 0)
+    const sum = ratings.reduce((acc, rating) => acc + Number(rating.rating), 0)
     return sum / ratings.length
   }
 
@@ -288,6 +146,7 @@ export default function ProductsPage() {
             variant="contained"
             startIcon={<AddIcon />}
             className={styles.addButton}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить товар
           </Button>
@@ -378,8 +237,8 @@ export default function ProductsPage() {
                   .map((product) => {
                     const avgRating = calculateAverageRating(product.ratings)
                     const finalPrice = calculateFinalPrice(
-                      product.price,
-                      product.discount
+                      Number(product.price),
+                      Number(product.discount)
                     )
 
                     return (
@@ -540,32 +399,37 @@ export default function ProductsPage() {
                 <Typography variant="h5">{selectedProduct.name}</Typography>
               </DialogTitle>
               <DialogContent>
-                <Grid container spacing={3}>
+                <Grid container spacing={3} sx={{ pt: 2 }}>
                   <Grid size={5}>
                     <Box className={styles.imageGallery}>
                       <MuiAvatar
                         src={selectedProduct.images[0]?.url}
                         variant="rounded"
-                        sx={{ width: '100%', height: 300 }}
+                        sx={{ width: '100%', height: 350 }}
                         className={styles.mainImage}
                       >
                         <ImageIcon sx={{ fontSize: 64 }} />
                       </MuiAvatar>
                       <Box className={styles.thumbnailContainer}>
-                        {selectedProduct.images.map((image, index) => (
-                          <MuiAvatar
-                            key={image.id}
-                            src={image.url}
-                            variant="rounded"
-                            sx={{ width: 60, height: 60 }}
-                            className={styles.thumbnail}
-                          />
-                        ))}
+                        {selectedProduct.images.map(
+                          (image: {
+                            id: Key | null | undefined
+                            url: string | undefined
+                          }) => (
+                            <MuiAvatar
+                              key={image.id}
+                              src={image.url}
+                              variant="rounded"
+                              sx={{ width: 60, height: 60 }}
+                              className={styles.thumbnail}
+                            />
+                          )
+                        )}
                       </Box>
                     </Box>
                   </Grid>
 
-                  <Grid size={5}>
+                  <Grid size={6}>
                     <Box className={styles.productInfo}>
                       <Typography variant="h6" gutterBottom>
                         Основная информация
@@ -586,7 +450,7 @@ export default function ProductsPage() {
                           Модель:
                         </Typography>
                         <Typography variant="body2">
-                          {selectedProduct.productModel.name}
+                          {selectedProduct.brand.name}
                         </Typography>
                       </Box>
 
@@ -603,16 +467,16 @@ export default function ProductsPage() {
                                 className={styles.finalPrice}
                               >
                                 {calculateFinalPrice(
-                                  selectedProduct.price,
+                                  Number(selectedProduct.price),
                                   selectedProduct.discount
                                 ).toLocaleString()}{' '}
-                                ₽
+                                €
                               </Typography>
                               <Typography
                                 variant="body2"
                                 className={styles.originalPrice}
                               >
-                                {selectedProduct.price.toLocaleString()} ₽
+                                {selectedProduct.price.toLocaleString()} €
                               </Typography>
                               <Chip
                                 label={`Скидка ${selectedProduct.discount}%`}
@@ -622,7 +486,7 @@ export default function ProductsPage() {
                             </>
                           ) : (
                             <Typography variant="h6">
-                              {selectedProduct.price.toLocaleString()} ₽
+                              {selectedProduct.price.toLocaleString()} €
                             </Typography>
                           )}
                         </Box>
@@ -666,7 +530,7 @@ export default function ProductsPage() {
                     </Box>
                   </Grid>
 
-                  <Grid size={3}>
+                  <Grid size={10}>
                     <Typography variant="h6" gutterBottom>
                       Описание
                     </Typography>
@@ -714,6 +578,13 @@ export default function ProductsPage() {
           </DialogActions>
         </Dialog>
       </Box>
+      <CreateProductModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleCreateProduct}
+        categories={categories}
+        brands={brands}
+      />
     </AdminLayout>
   )
 }

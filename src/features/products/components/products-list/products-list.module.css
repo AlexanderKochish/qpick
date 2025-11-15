@@ -1,0 +1,9 @@
+.productsGrid {
+  margin-bottom: 40px;
+}
+
+@media (max-width: 600px) {
+  .productsGrid {
+    margin: 0 -8px;
+  }
+}

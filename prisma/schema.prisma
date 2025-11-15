@@ -137,14 +137,14 @@ model Category {
   @@map("categories")
 }
 
-model ProductModel {
+model Brand {
   id        String     @id @default(cuid())
   name      String
   products  Product[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  @@map("product_models")
+  @@map("brands")
 }
 
 model Product {
@@ -156,8 +156,8 @@ model Product {
   images         Image[]
   categoryId     String
   category       Category      @relation(fields: [categoryId], references: [id])
-  productModelId String
-  productModel   ProductModel  @relation(fields: [productModelId], references: [id])
+  brandId        String
+  brand          Brand         @relation(fields: [brandId], references: [id])
   ratings        Rating[]      
   reviews        Review[]      
   cartItems      CartItem[]
@@ -168,7 +168,7 @@ model Product {
   updatedAt      DateTime      @updatedAt
 
   @@index([categoryId])
-  @@index([productModelId])
+  @@index([brandId])
   @@index([createdAt])
 
   @@map("products")
@@ -296,6 +296,8 @@ model Address {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@unique([userId, city, street, building, apartment, postalCode])
 
   @@map("addresses")
 }

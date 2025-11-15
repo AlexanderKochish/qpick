@@ -1,15 +1,16 @@
 'use client'
 
 import { CldUploadWidget } from 'next-cloudinary'
-import { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import s from './uploader.module.css'
+import { UploadButton } from '../upload-button/upload-button'
 
 interface AvatarUploaderProps {
-  onUploadSuccess: (url: string) => void
-  title?: string
+  onUploadSuccess?: (url: string) => void
+  children: ReactElement
 }
 
-export function Uploader({ onUploadSuccess, title }: AvatarUploaderProps) {
+export function Uploader({ onUploadSuccess, children }: AvatarUploaderProps) {
   const [error, setError] = useState<string>('')
 
   return (
@@ -20,7 +21,7 @@ export function Uploader({ onUploadSuccess, title }: AvatarUploaderProps) {
         onSuccess={(result) => {
           setError('')
           if (typeof result.info === 'object' && 'secure_url' in result.info) {
-            onUploadSuccess(result.info.secure_url)
+            onUploadSuccess?.(result.info.secure_url)
           }
         }}
         onError={(error) => {
@@ -34,9 +35,8 @@ export function Uploader({ onUploadSuccess, title }: AvatarUploaderProps) {
         {({ open }) => {
           return (
             <div>
-              <button type="button" onClick={() => open()} className={s.btn}>
-                {title || 'Upload Image'}
-              </button>
+              <UploadButton open={open}>{children}</UploadButton>
+
               {error && <p className={s.error}>{error}</p>}
             </div>
           )

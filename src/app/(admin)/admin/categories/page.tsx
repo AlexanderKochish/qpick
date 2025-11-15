@@ -44,29 +44,12 @@ import {
 } from '@mui/icons-material'
 import styles from './page.module.css'
 import AdminLayout from '../layout'
-
-interface Category {
-  id: string
-  name: string
-  products: Product[]
-  createdAt: Date
-  updatedAt: Date
-  _count?: {
-    products: number
-  }
-}
-
-interface Product {
-  id: string
-  name: string
-  price: number
-  images: Image[]
-}
-
-interface Image {
-  id: string
-  url: string
-}
+import { useCategory } from '@/features/category/hooks/useCategory'
+import { Category } from '@/features/category/types/types'
+import {
+  createCategory,
+  createBrand,
+} from '@/features/category/actions/actions'
 
 export default function CategoriesPage() {
   const [page, setPage] = useState(0)
@@ -78,150 +61,16 @@ export default function CategoriesPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
+  const [addBrand, setAddBrand] = useState(false)
   const [sortBy, setSortBy] = useState<'name' | 'products' | 'date'>('name')
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const { data: categories } = useCategory()
 
-  const categories: Category[] = [
-    {
-      id: 'cat-001',
-      name: 'Смартфоны',
-      products: [
-        {
-          id: 'prod-001',
-          name: 'iPhone 15 Pro',
-          price: 99990,
-          images: [{ id: 'img1', url: '/api/placeholder/80/80' }],
-        },
-        {
-          id: 'prod-002',
-          name: 'Samsung Galaxy S24',
-          price: 89990,
-          images: [{ id: 'img2', url: '/api/placeholder/80/80' }],
-        },
-      ],
-      createdAt: new Date('2024-01-01'),
-      updatedAt: new Date('2024-03-01'),
-      _count: {
-        products: 15,
-      },
-    },
-    {
-      id: 'cat-002',
-      name: 'Ноутбуки',
-      products: [
-        {
-          id: 'prod-003',
-          name: 'MacBook Air M2',
-          price: 124990,
-          images: [{ id: 'img3', url: '/api/placeholder/80/80' }],
-        },
-        {
-          id: 'prod-004',
-          name: 'Dell XPS 13',
-          price: 109990,
-          images: [{ id: 'img4', url: '/api/placeholder/80/80' }],
-        },
-      ],
-      createdAt: new Date('2024-01-05'),
-      updatedAt: new Date('2024-02-28'),
-      _count: {
-        products: 8,
-      },
-    },
-    {
-      id: 'cat-003',
-      name: 'Планшеты',
-      products: [
-        {
-          id: 'prod-005',
-          name: 'iPad Air',
-          price: 65990,
-          images: [{ id: 'img5', url: '/api/placeholder/80/80' }],
-        },
-        {
-          id: 'prod-006',
-          name: 'Samsung Tab S9',
-          price: 75990,
-          images: [{ id: 'img6', url: '/api/placeholder/80/80' }],
-        },
-      ],
-      createdAt: new Date('2024-01-10'),
-      updatedAt: new Date('2024-03-02'),
-      _count: {
-        products: 12,
-      },
-    },
-    {
-      id: 'cat-004',
-      name: 'Умные часы',
-      products: [
-        {
-          id: 'prod-007',
-          name: 'Apple Watch Series 9',
-          price: 41990,
-          images: [{ id: 'img7', url: '/api/placeholder/80/80' }],
-        },
-        {
-          id: 'prod-008',
-          name: 'Samsung Galaxy Watch 6',
-          price: 29990,
-          images: [{ id: 'img8', url: '/api/placeholder/80/80' }],
-        },
-      ],
-      createdAt: new Date('2024-01-15'),
-      updatedAt: new Date('2024-02-20'),
-      _count: {
-        products: 7,
-      },
-    },
-    {
-      id: 'cat-005',
-      name: 'Наушники',
-      products: [
-        {
-          id: 'prod-009',
-          name: 'AirPods Pro',
-          price: 24990,
-          images: [{ id: 'img9', url: '/api/placeholder/80/80' }],
-        },
-        {
-          id: 'prod-010',
-          name: 'Sony WH-1000XM5',
-          price: 34990,
-          images: [{ id: 'img10', url: '/api/placeholder/80/80' }],
-        },
-      ],
-      createdAt: new Date('2024-01-20'),
-      updatedAt: new Date('2024-03-05'),
-      _count: {
-        products: 20,
-      },
-    },
-    {
-      id: 'cat-006',
-      name: 'Аксессуары',
-      products: [
-        {
-          id: 'prod-011',
-          name: 'Чехол для iPhone',
-          price: 2990,
-          images: [{ id: 'img11', url: '/api/placeholder/80/80' }],
-        },
-        {
-          id: 'prod-012',
-          name: 'Кабель USB-C',
-          price: 1490,
-          images: [{ id: 'img12', url: '/api/placeholder/80/80' }],
-        },
-      ],
-      createdAt: new Date('2024-02-01'),
-      updatedAt: new Date('2024-03-01'),
-      _count: {
-        products: 35,
-      },
-    },
-  ]
+  if (!categories) {
+    return null
+  }
 
-  const sortedCategories = [...categories].sort((a, b) => {
+  const sortedCategories = categories.toSorted((a, b) => {
     switch (sortBy) {
       case 'name':
         return a.name.localeCompare(b.name)
@@ -248,8 +97,6 @@ export default function CategoriesPage() {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLElement>,
@@ -283,13 +130,17 @@ export default function CategoriesPage() {
     setAddDialogOpen(true)
   }
 
+  const handleAddBrand = () => {
+    setAddBrand(true)
+  }
+
   const totalProducts = categories.reduce(
     (sum, category) => sum + (category._count?.products || 0),
     0
   )
-  const averageProductsPerCategory = Math.round(
-    totalProducts / categories.length
-  )
+  const averageProductsPerCategory = isNaN(totalProducts / categories.length)
+    ? 0
+    : Math.round(totalProducts / categories.length)
 
   return (
     <AdminLayout>
@@ -298,14 +149,24 @@ export default function CategoriesPage() {
           <Typography variant="h4" className={styles.title}>
             Управление категориями
           </Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            className={styles.addButton}
-            onClick={handleAddCategory}
-          >
-            Добавить категорию
-          </Button>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              className={styles.addButton}
+              onClick={handleAddCategory}
+            >
+              Добавить категорию
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              className={styles.addButton}
+              onClick={handleAddBrand}
+            >
+              Добавить бренд
+            </Button>
+          </Box>
         </Box>
 
         <Grid container spacing={2} className={styles.statsGrid}>
@@ -370,9 +231,6 @@ export default function CategoriesPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={styles.searchField}
-              InputProps={{
-                startAdornment: <SearchIcon color="action" sx={{ mr: 1 }} />,
-              }}
             />
 
             <FormControl className={styles.sortField}>
@@ -523,26 +381,55 @@ export default function CategoriesPage() {
         >
           <DialogTitle>Добавить новую категорию</DialogTitle>
           <DialogContent>
-            <Box className={styles.dialogContent}>
+            <form
+              id="category"
+              action={createCategory}
+              className={styles.dialogContent}
+            >
               <TextField
                 label="Название категории"
                 fullWidth
+                name="name"
                 margin="normal"
                 placeholder="Введите название категории..."
               />
-              <TextField
-                label="Описание категории"
-                fullWidth
-                margin="normal"
-                multiline
-                rows={3}
-                placeholder="Введите описание категории..."
-              />
-            </Box>
+            </form>
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setAddDialogOpen(false)}>Отмена</Button>
-            <Button variant="contained">Создать категорию</Button>
+            <Button form="category" type="submit" variant="contained">
+              Создать категорию
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={addBrand}
+          onClose={() => setAddBrand(false)}
+          maxWidth="sm"
+          fullWidth
+          className={styles.dialog}
+        >
+          <DialogTitle>Добавить новый бренд</DialogTitle>
+          <DialogContent>
+            <form
+              id="brand"
+              action={createBrand}
+              className={styles.dialogContent}
+            >
+              <TextField
+                label="Название бренда"
+                fullWidth
+                name="name"
+                margin="normal"
+                placeholder="Введите название бренда..."
+              />
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setAddBrand(false)}>Отмена</Button>
+            <Button form="brand" type="submit" variant="contained">
+              Создать бренд
+            </Button>
           </DialogActions>
         </Dialog>
 

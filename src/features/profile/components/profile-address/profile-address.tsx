@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material'
-import { Address } from '../../types/types'
 import { LocationEditIcon } from 'lucide-react'
 import s from './profile-address.module.css'
+import { Address } from '@/generated/prisma/client'
 
 function AddressSection({ addresses }: { addresses: Address[] }) {
   return (
@@ -17,12 +17,12 @@ function AddressSection({ addresses }: { addresses: Address[] }) {
               <Typography variant="subtitle1" className={s.addressTitle}>
                 Основной адрес
               </Typography>
-              {address.isDefault && (
+              {address && (
                 <Chip label="По умолчанию" color="primary" size="small" />
               )}
             </Box>
             <Typography variant="body2" className={s.addressText}>
-              {address.street}, {address.city}, {address.zipCode}
+              {address.street}, {address.city}, {address.postalCode}
             </Typography>
           </CardContent>
         </Card>

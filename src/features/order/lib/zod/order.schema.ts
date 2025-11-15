@@ -27,7 +27,6 @@ export const orderSchema = z.object({
     .string()
     .min(1, 'Apartment number required')
     .max(10, 'Apartment number is too long')
-    .optional()
     .or(z.literal('')),
 
   postalCode: z

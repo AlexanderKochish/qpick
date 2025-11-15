@@ -9,9 +9,9 @@ export class RatingRepository {
   async getById(id: string) {}
   async getAllByCategory(categoryId: string) {}
 
-  async create(data: any) {}
+  // async create(data: any) {}
 
-  async update(data: any) {}
+  // async update(data: any) {}
 
   async removeById(id: string) {}
 }

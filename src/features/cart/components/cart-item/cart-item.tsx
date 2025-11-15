@@ -1,40 +1,37 @@
 'use client'
+
 import { useEffect, useState } from 'react'
-import s from './cart-item.module.css'
-import { IProductCard } from '@/features/products/types/types'
-import BaseCard from '@/shared/components/base-card/base-card'
-import { Minus, Plus, Trash2 } from 'lucide-react'
-import Image from 'next/image'
-import { IconButton } from '@mui/material'
 import { useCart } from '../../hooks/useCart'
 import { useDebounce } from '@/shared/hooks/useDebounce'
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  IconButton,
+  Chip,
+} from '@mui/material'
+import { Delete, Add, Remove } from '@mui/icons-material'
+import { CartItemType } from '../../types/types'
 
-interface Props extends IProductCard {
+interface Props {
   quantity: number
+  item: CartItemType
 }
 
 const CartItem = ({ item, quantity }: Props) => {
   const [qtity, setQtity] = useState(quantity)
   const { updateQuantity } = useCart()
-  const debounceValue = useDebounce(qtity)
+
+  const debouncedQty = useDebounce(qtity, 400)
 
   useEffect(() => {
-    const handleUpdateQuantity = async (itemId: string, value: number) => {
-      try {
-        await updateQuantity({
-          itemId: itemId,
-          quantity: Number(value),
-        })
-      } catch (error) {
-        setQtity(quantity)
-        console.error('Failed to update quantity:', error)
-      }
-    }
-
-    if (debounceValue !== quantity) {
-      handleUpdateQuantity(item.id, +debounceValue)
-    }
-  }, [debounceValue, item.id, quantity])
+    updateQuantity({
+      itemId: item.productId,
+      quantity: +debouncedQty,
+    })
+  }, [debouncedQty, item.productId, updateQuantity])
 
   const handleDecrease = () => {
     setQtity((prev) => Math.max(1, prev - 1))
@@ -44,48 +41,103 @@ const CartItem = ({ item, quantity }: Props) => {
     setQtity((prev) => prev + 1)
   }
 
-  const handleRemove = async () => {
-    try {
-      await updateQuantity({
-        itemId: item.id,
-        quantity: 0,
-      })
-    } catch (error) {
-      console.error('Failed to remove item:', error)
-    }
+  const handleRemove = () => {
+    updateQuantity({
+      itemId: item.productId,
+      quantity: 0,
+    })
   }
 
+  const price = Number(item.product.price)
+  const discount = Number(item.product.discount)
+  const finalPrice = Math.round(price * (1 - discount / 100))
+  const total = finalPrice * qtity
+
   return (
-    <BaseCard>
-      <div className={s.trash}>
-        <IconButton className={s.trashBtn} onClick={handleRemove}>
-          <Trash2 />
-        </IconButton>
-      </div>
-      <div className={s.cardInfo}>
-        <Image
-          src={item.images[0].url}
-          alt="Product card"
-          width={145}
-          height={135}
-        />
-        <div className={s.info}>
-          <h4>{item.name}</h4>
-          <span className={s.price}>{item.price} $</span>
-        </div>
-      </div>
-      <div>
-        <div className={s.quantity}>
-          <IconButton onClick={handleDecrease} className={s.quantityBtn}>
-            <Minus color="#fff" />
-          </IconButton>
-          <span>{qtity}</span>
-          <IconButton onClick={handleIncrease} className={s.quantityBtn}>
-            <Plus color="#fff" />
-          </IconButton>
-        </div>
-      </div>
-    </BaseCard>
+    <Card sx={{ mb: 2, borderRadius: 2 }}>
+      <CardContent sx={{ p: 3 }}>
+        <Grid container spacing={3} alignItems="center">
+          <Grid size={2}>
+            <Box
+              sx={{
+                width: 80,
+                height: 80,
+                borderRadius: 2,
+                backgroundImage: `url(${item.product.images[0].url})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+          </Grid>
+
+          <Grid size={3}>
+            <Typography variant="h6" fontWeight="600">
+              {item.product.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {item.product.brand.name}
+            </Typography>
+
+            {discount > 0 && (
+              <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+                <Chip label={`-${discount}%`} color="error" size="small" />
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ textDecoration: 'line-through' }}
+                >
+                  {price.toLocaleString()} ₽
+                </Typography>
+              </Box>
+            )}
+
+            <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
+              {finalPrice.toLocaleString()} ₽
+            </Typography>
+          </Grid>
+
+          <Grid size={3}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <IconButton
+                size="small"
+                onClick={handleDecrease}
+                disabled={qtity <= 1}
+              >
+                <Remove />
+              </IconButton>
+
+              <Typography
+                variant="h6"
+                sx={{ minWidth: 40, textAlign: 'center' }}
+              >
+                {qtity}
+              </Typography>
+
+              <IconButton size="small" onClick={handleIncrease}>
+                <Add />
+              </IconButton>
+            </Box>
+          </Grid>
+
+          <Grid size={4}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="h6" fontWeight="600">
+                {total.toLocaleString()} ₽
+              </Typography>
+              <IconButton onClick={handleRemove} color="error">
+                <Delete />
+              </IconButton>
+            </Box>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   )
 }
 

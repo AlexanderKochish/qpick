@@ -1,12 +1,12 @@
 import { Grid, TextField } from '@mui/material'
 import s from './profile-info.module.css'
-import { UserProfile } from '../../types/types'
+import { EditProfile } from '../../types/types'
 
 function ProfileInfo({
   user,
   isEditing,
 }: {
-  user: UserProfile
+  user: EditProfile
   isEditing: boolean
 }) {
   return (
@@ -26,17 +26,6 @@ function ProfileInfo({
           defaultValue={user.email}
           fullWidth
           disabled
-          className={s.field}
-        />
-      </Grid>
-      <Grid size={3}>
-        <TextField
-          label="О себе"
-          placeholder="Расскажите о себе..."
-          multiline
-          rows={3}
-          fullWidth
-          disabled={!isEditing}
           className={s.field}
         />
       </Grid>

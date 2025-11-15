@@ -10,6 +10,10 @@ import {
 import Header from '@/widgets/header/header'
 import Footer from '@/widgets/footer/footer'
 import { getCounters } from '@/features/counters/actions/actions'
+import { getCurrentSession } from '@/features/auth/actions/actions'
+import { createTheme, ThemeProvider } from '@mui/material'
+import CssBaseline from '@mui/material/CssBaseline'
+import { revalidatePath } from 'next/cache'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,6 +38,8 @@ export default async function RootLayout({
   const queryClient = new QueryClient()
 
   const initialCounters = await getCounters()
+  const session = await getCurrentSession()
+
   return (
     <QueryProviders>
       <HydrationBoundary state={dehydrate(queryClient)}>
@@ -41,7 +47,10 @@ export default async function RootLayout({
           <body className={`${geistSans.variable} ${geistMono.variable}`}>
             <div className="container">
               <div className="layout">
-                <Header initialCounters={initialCounters} />
+                <Header
+                  initCartCount={initialCounters.cartItemsCount}
+                  isLogged={!!session?.user.id}
+                />
                 <div className="main">{children}</div>
                 <Footer />
               </div>

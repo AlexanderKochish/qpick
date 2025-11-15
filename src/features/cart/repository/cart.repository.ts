@@ -2,7 +2,6 @@ import { getCurrentSession } from '@/features/auth/actions/actions'
 import { PrismaClient } from '@/generated/prisma/client'
 import prisma from '@/shared/lib/prisma'
 import { getOrCreateVisitorId } from '@/shared/utils/fingerprint-server'
-import { serializeCart } from '../lib/utils'
 
 export class CartRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
@@ -25,6 +24,7 @@ export class CartRepository {
           include: {
             product: {
               include: {
+                brand: true,
                 images: true,
               },
             },
@@ -45,6 +45,7 @@ export class CartRepository {
             include: {
               product: {
                 include: {
+                  brand: true,
                   images: true,
                 },
               },

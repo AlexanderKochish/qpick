@@ -34,6 +34,7 @@ import {
 } from '@mui/icons-material'
 import styles from './page.module.css'
 import AdminLayout from '../layout'
+import { useUser } from '@/features/users/hooks/useUser'
 
 interface User {
   id: string
@@ -53,43 +54,16 @@ export default function UsersPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const { data: users } = useUser()
 
-  const users: User[] = [
-    {
-      id: '1',
-      email: 'admin@shop.com',
-      name: 'Администратор Системы',
-      role: 'ADMIN',
-      isActive: true,
-      emailVerified: new Date(),
-      createdAt: new Date('2024-01-01'),
-      orders: [{ id: '1' }],
-    },
-    {
-      id: '2',
-      email: 'user@example.com',
-      name: 'Иван Иванов',
-      role: 'USER',
-      isActive: true,
-      emailVerified: new Date(),
-      createdAt: new Date('2024-01-15'),
-      orders: [{ id: '2' }, { id: '3' }],
-    },
-    {
-      id: '3',
-      email: 'manager@shop.com',
-      name: 'Петр Петров',
-      role: 'MANAGER',
-      isActive: true,
-      emailVerified: new Date(),
-      createdAt: new Date('2024-02-01'),
-      orders: [{ id: '4' }],
-    },
-  ]
+  if (!users) {
+    return null
+  }
 
   const filteredUsers = users.filter(
     (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
@@ -103,8 +77,6 @@ export default function UsersPage() {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, user: User) => {
     setAnchorEl(event.currentTarget)
@@ -187,13 +159,15 @@ export default function UsersPage() {
                     <TableRow key={user.id} className={styles.tableRow}>
                       <TableCell>
                         <Box className={styles.userCell}>
-                          <MuiAvatar
-                            src={user.image}
-                            sx={{ width: 40, height: 40 }}
-                            className={styles.avatar}
-                          >
-                            {user.name.charAt(0)}
-                          </MuiAvatar>
+                          {user.image && (
+                            <MuiAvatar
+                              src={user.image}
+                              sx={{ width: 40, height: 40 }}
+                              className={styles.avatar}
+                            >
+                              {user.name?.charAt(0)}
+                            </MuiAvatar>
+                          )}
                           <Box>
                             <Typography
                               variant="subtitle2"
@@ -222,24 +196,24 @@ export default function UsersPage() {
                           size="small"
                         />
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <Typography variant="body2">
                           {user.orders.length} заказов
                         </Typography>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         <Typography variant="body2">
                           {user.createdAt.toLocaleDateString()}
                         </Typography>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <IconButton
                           onClick={(e) => handleMenuOpen(e, user)}
                           className={styles.menuButton}
                         >
                           <MoreIcon />
                         </IconButton>
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   ))}
               </TableBody>

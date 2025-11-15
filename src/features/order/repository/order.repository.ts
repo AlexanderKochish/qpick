@@ -28,8 +28,19 @@ export class OrderRepository {
     }
 
     const result = await this.db.$transaction(async (tx) => {
-      const address = await tx.address.create({
-        data: {
+      const address = await tx.address.upsert({
+        where: {
+          userId_city_street_building_apartment_postalCode: {
+            userId: session.user.id,
+            city: data.city,
+            street: data.street,
+            building: data.building,
+            apartment: data.apartment as string,
+            postalCode: data.postalCode,
+          },
+        },
+        update: {},
+        create: {
           userId: session.user.id,
           city: data.city,
           street: data.street,

@@ -1,80 +1,371 @@
-.header {
-  /* position: fixed;
-  top: 0;
-  left: 0;
-  right: 0; */
+.topBar {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  padding: 8px 0;
+  font-size: 0.875rem;
+}
+
+.topBarContent {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 65px;
-  padding: 0 1rem;
-  z-index: 1000;
-  overflow: visible !important;
-  background-color: #eaeaea;
+  flex-wrap: wrap;
 }
 
-.dropdownContainer {
-  position: relative;
-  overflow: visible;
+.contactInfo {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.dropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  z-index: 2000;
-  min-width: 280px;
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 0.5rem;
-}
-
-.wrapper {
-  width: 100%;
+.contactItem {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 6px;
 }
 
-.logoSide {
+.contactIcon {
+  font-size: 16px;
+  color: #667eea;
+}
+
+.topBarActions {
+  display: flex;
+  gap: 8px;
+}
+
+.topBarButton {
+  color: white !important;
+  text-transform: none !important;
+  font-size: 0.875rem !important;
+  padding: 4px 12px !important;
+  min-width: auto !important;
+}
+
+.topBarButton:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.appBar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 !important;
+  min-height: 80px !important;
+}
+.firstSection {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-.actions {
+.logoSection {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-}
-.selectText {
-  display: inline-block;
-  margin: 0 0.5rem;
-}
-.logo {
-  font-size: 2rem;
-  font-weight: 600;
 }
 
-@media (max-width: 599px) {
-  .mobMenu {
-    min-width: 42;
-    min-height: 42px;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    color: white;
+.logoLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.02);
+}
+
+.logoIcon {
+  font-size: 32px;
+  color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.logoText {
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.categoriesSection {
+  display: flex;
+  align-items: center;
+}
+
+.categoriesButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+}
+
+.categoriesButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+}
+
+.categoriesIcon {
+  margin-right: 8px;
+}
+
+.searchSection {
+  display: flex;
+  justify-content: center;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 4px;
+  max-width: 500px;
+  width: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.searchContainer:focus-within {
+  border-color: #667eea;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+}
+
+.searchIcon {
+  color: #999;
+  margin: 0 12px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 0.95rem;
+}
+
+.searchInput input {
+  padding: 0;
+}
+
+.searchButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  padding: 8px 20px !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  margin-left: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.searchButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+.actionsSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionButton {
+  color: #2c3e50 !important;
+  transition: all 0.3s ease !important;
+  border-radius: 8px !important;
+  padding: 8px !important;
+}
+
+.actionButton:hover {
+  background: rgba(102, 126, 234, 0.1) !important;
+  color: #667eea !important;
+  transform: translateY(-1px);
+}
+
+.actionIcon {
+  font-size: 24px;
+}
+
+.mobileMenuButton {
+  display: none !important;
+  color: #2c3e50 !important;
+}
+
+.categoriesMenu {
+  margin-top: 8px;
+}
+
+.categoriesMenuList {
+  padding: 8px;
+  min-width: 280px;
+}
+
+.categoryItem {
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+  margin: 2px 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+.categoryItem:hover {
+  background: rgba(102, 126, 234, 0.1) !important;
+}
+
+.categoryContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.categoryInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.categoryName {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.categoryCount {
+  background: #f8f9fa !important;
+  color: #666 !important;
+  font-size: 0.75rem !important;
+}
+
+.allCategories {
+  justify-content: center !important;
+  font-weight: 600 !important;
+  color: #667eea !important;
+}
+
+.userMenu {
+  margin-top: 8px;
+}
+
+.userMenu .MuiMenu-paper {
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mobileDrawer .MuiDrawer-paper {
+  width: 320px;
+  border-radius: 0;
+}
+
+.drawer {
+  padding: 0;
+}
+
+.drawerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.drawerTitle {
+  font-weight: 700 !important;
+  color: white !important;
+}
+
+@media (max-width: 1200px) {
+  .toolbar {
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
   }
 
-  .dropdownContainer {
+  .categoriesSection {
     display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .topBarContent {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .contactInfo {
+    gap: 16px;
+  }
+
+  .searchSection {
+    display: none;
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .topBar {
+    display: none;
+  }
+
+  .toolbar {
+    min-height: 70px !important;
+    padding: 8px 0 !important;
+  }
+
+  .logoIcon {
+    font-size: 28px;
+  }
+
+  .logoText {
+    font-size: 1.25rem !important;
+  }
+
+  .mobileMenuButton {
+    display: flex !important;
+  }
+
+  .actionsSection {
+    gap: 4px;
+  }
+
+  .actionButton {
+    padding: 6px !important;
+  }
+
+  .actionIcon {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoText {
+    display: none;
+  }
+
+  .toolbar {
+    grid-template-columns: auto 1fr auto;
   }
 }

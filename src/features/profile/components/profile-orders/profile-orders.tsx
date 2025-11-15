@@ -16,9 +16,9 @@ function OrdersSection({ orders }: { orders: Order[] }) {
               <Chip
                 label={order.status}
                 color={
-                  order.status === 'completed'
+                  order.status === 'CONFIRMED'
                     ? 'success'
-                    : order.status === 'processing'
+                    : order.status === 'PENDING'
                       ? 'warning'
                       : 'default'
                 }
@@ -29,7 +29,7 @@ function OrdersSection({ orders }: { orders: Order[] }) {
               Дата: {order.createdAt.toLocaleDateString()}
             </Typography>
             <Typography variant="h6" className={s.orderTotal}>
-              {order.total.toLocaleString()} ₽
+              {order.totalPrice.toLocaleString()} ₽
             </Typography>
           </CardContent>
         </Card>

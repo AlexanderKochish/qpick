@@ -1,36 +1,35 @@
 'use client'
-
-import CartItem from '../cart-item/cart-item'
-import EmptyState from '@/shared/components/empty-state/empty-state'
-import emptyCart from '../../../../../public/empty-cart.png'
-import s from './cart-client.module.css'
-
-import { ICart } from '../../types/types'
-import BaseCard from '@/shared/components/base-card/base-card'
+import { useState } from 'react'
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
+  Container,
+  Grid,
   Typography,
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
 } from '@mui/material'
+import { LocalMall } from '@mui/icons-material'
+import { CartItems } from '../../types/types'
+import emptyCart from '../../../../../public/empty-cart.png'
 import { useCart } from '../../hooks/useCart'
-import Image from 'next/image'
-import deliveryMap from '../../../../../public/delivery.png'
-import { ChevronUpIcon } from 'lucide-react'
-import Link from 'next/link'
+import EmptyState from '@/shared/components/empty-state/empty-state'
+import CartItem from '../cart-item/cart-item'
+import CartTotal from '../cart-total/cart-total'
 
 interface Props {
   initialData: {
-    initialCartData: ICart
+    initialCartData: CartItems
     cartTotalPrice: number
   }
 }
 
-const CartClient = ({ initialData }: Props) => {
-  const { data, totalPrice } = useCart({ initialData })
+export default function CartPage({ initialData }: Props) {
+  const { data: cartItems, totalPrice: subtotal } = useCart({ initialData })
+  const [promoCode, setPromoCode] = useState('')
+  const [appliedPromo, setAppliedPromo] = useState('')
 
-  if (data?.items.length === 0) {
+  if (cartItems.items.length === 0 || !subtotal) {
     return (
       <EmptyState
         img={emptyCart}
@@ -40,63 +39,69 @@ const CartClient = ({ initialData }: Props) => {
     )
   }
 
-  return (
-    <section className={s.cartSection}>
-      <h2>Корзина</h2>
-      <div className={s.cart}>
-        <div className={s.cartItems}>
-          {data?.items &&
-            data.items.map((item) => (
-              <CartItem
-                key={item.id}
-                item={item.product}
-                quantity={item.quantity}
-              />
-            ))}
+  const totalDiscount = cartItems.items.reduce(
+    (sum, item) =>
+      sum +
+      ((Number(item.product.price) * Number(item.product.discount)) / 100) *
+        item.quantity,
+    0
+  )
+  const promoDiscount = appliedPromo ? subtotal * 0.1 : 0
+  const total = subtotal - totalDiscount - promoDiscount
 
-          <BaseCard>
-            <h3>Доставка</h3>
-            <Image
-              src={deliveryMap}
-              alt="delivery map"
-              width={584}
-              height={173}
-              sizes="(max-width: 584px) 100vw, 375px"
-              quality={85}
-              priority={false}
-              placeholder="blur"
-              className={s.img}
-            />
-            <Accordion className={s.accordion}>
-              <AccordionSummary
-                expandIcon={<ChevronUpIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-              >
-                <Typography component="span">Доставка курьером</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                Доставка курьером <span>10 $</span>
-              </AccordionDetails>
-            </Accordion>
-          </BaseCard>
-        </div>
-        <div className={s.price}>
-          <BaseCard>
-            <div className={s.totalPrice}>
-              <strong>Итого</strong>
-              <strong>{totalPrice} $</strong>
-            </div>
-            <Link href={'/order'}>
-              <Button sx={{ width: '100%' }} variant="contained">
-                Перейти к оформлению
-              </Button>
-            </Link>
-          </BaseCard>
-        </div>
-      </div>
-    </section>
+  const applyPromoCode = () => {
+    if (promoCode.trim() && !appliedPromo) {
+      setAppliedPromo(promoCode)
+      setPromoCode('')
+    }
+  }
+
+  const removePromoCode = () => {
+    setAppliedPromo('')
+  }
+
+  const steps = ['Корзина', 'Оформление', 'Подтверждение']
+
+  return (
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+          <LocalMall sx={{ mr: 2, verticalAlign: 'middle' }} />
+          Корзина покупок
+        </Typography>
+
+        <Stepper activeStep={0} sx={{ mt: 3 }}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </Box>
+
+      <Grid container spacing={4}>
+        <Grid size={7}>
+          <Typography variant="h6" fontWeight="600" gutterBottom>
+            Товары в корзине ({cartItems.items.length})
+          </Typography>
+
+          {cartItems.items.map((item) => (
+            <CartItem key={item.id} item={item} quantity={item.quantity} />
+          ))}
+        </Grid>
+        <CartTotal
+          appliedPromo={appliedPromo}
+          cartItemsCount={cartItems.items.length}
+          promoCode={promoCode}
+          applyPromoCode={applyPromoCode}
+          promoDiscount={promoDiscount}
+          subtotal={subtotal}
+          total={total}
+          setPromoCode={setPromoCode}
+          removePromoCode={removePromoCode}
+          totalDiscount={totalDiscount}
+        />
+      </Grid>
+    </Container>
   )
 }
-
-export default CartClient

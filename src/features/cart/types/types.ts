@@ -1,5 +1,30 @@
 import { Prisma } from '@/generated/prisma/client'
 
+export type CartItems = Prisma.CartGetPayload<{
+  include: {
+    items: {
+      include: {
+        product: {
+          include: {
+            brand: true
+            images: true
+          }
+        }
+      }
+    }
+  }
+}>
+
+export type CartItemType = Prisma.CartItemGetPayload<{
+  include: {
+    product: {
+      include: {
+        brand: true
+        images: true
+      }
+    }
+  }
+}>
 export interface ICart {
   items: ({
     product: {

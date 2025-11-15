@@ -11,6 +11,7 @@ import {
   Tab,
   Tabs,
   Chip,
+  CircularProgress,
 } from '@mui/material'
 import {
   Edit as EditIcon,
@@ -19,75 +20,35 @@ import {
   Star as StarIcon,
 } from '@mui/icons-material'
 import s from './profile-client.module.css'
-import { UserProfile } from '@/features/profile/types/types'
 import ProfileInfo from '../profile-info/profile-info'
 import AddressSection from '../profile-address/profile-address'
 import OrdersSection from '../profile-orders/profile-orders'
 import ReviewsSection from '../profile-reviews/profile-reviews'
+import { useProfile } from '../../hooks/useProfile'
 
 export default function ProfileClient() {
   const [activeTab, setActiveTab] = useState(0)
   const [isEditing, setIsEditing] = useState(false)
+  const { data: userData, isLoading } = useProfile()
 
-  const userData: UserProfile = {
-    id: '1',
-    email: 'user@example.com',
-    name: 'Иван Иванов',
-    emailVerified: new Date(),
-    role: 'USER',
-    isActive: true,
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date(),
-    avatar: {
-      url: '/api/placeholder/150/150',
-    },
-    orders: [
-      {
-        id: '1',
-        status: 'completed',
-        total: 12500,
-        createdAt: new Date('2024-03-01'),
-      },
-      {
-        id: '2',
-        status: 'processing',
-        total: 8900,
-        createdAt: new Date('2024-03-02'),
-      },
-    ],
-    ratings: [
-      {
-        id: '1',
-        value: 5,
-        product: { name: 'iPhone 15 Pro' },
-        createdAt: new Date('2024-02-15'),
-      },
-      {
-        id: '2',
-        value: 4,
-        product: { name: 'MacBook Air' },
-        createdAt: new Date('2024-02-10'),
-      },
-    ],
-    reviews: [
-      {
-        id: '1',
-        title: 'Отличный товар!',
-        product: { name: 'iPhone 15 Pro' },
-        createdAt: new Date('2024-02-15'),
-      },
-    ],
-    address: [
-      {
-        id: '1',
-        street: 'ул. Пушкина, д. 10',
-        city: 'Москва',
-        zipCode: '101000',
-        isDefault: true,
-      },
-    ],
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          p: 3,
+          height: '90vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
   }
-
+  if (!userData) {
+    return null
+  }
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
@@ -200,3 +161,62 @@ export default function ProfileClient() {
     </Box>
   )
 }
+
+// const userData: UserProfile = {
+//     id: '1',
+//     email: 'user@example.com',
+//     name: 'Иван Иванов',
+//     emailVerified: new Date(),
+//     role: 'USER',
+//     isActive: true,
+//     createdAt: new Date('2024-01-15'),
+//     updatedAt: new Date(),
+//     avatar: {
+//       url: '/api/placeholder/150/150',
+//     },
+//     orders: [
+//       {
+//         id: '1',
+//         status: 'completed',
+//         total: 12500,
+//         createdAt: new Date('2024-03-01'),
+//       },
+//       {
+//         id: '2',
+//         status: 'processing',
+//         total: 8900,
+//         createdAt: new Date('2024-03-02'),
+//       },
+//     ],
+//     ratings: [
+//       {
+//         id: '1',
+//         value: 5,
+//         product: { name: 'iPhone 15 Pro' },
+//         createdAt: new Date('2024-02-15'),
+//       },
+//       {
+//         id: '2',
+//         value: 4,
+//         product: { name: 'MacBook Air' },
+//         createdAt: new Date('2024-02-10'),
+//       },
+//     ],
+//     reviews: [
+//       {
+//         id: '1',
+//         title: 'Отличный товар!',
+//         product: { name: 'iPhone 15 Pro' },
+//         createdAt: new Date('2024-02-15'),
+//       },
+//     ],
+//     address: [
+//       {
+//         id: '1',
+//         street: 'ул. Пушкина, д. 10',
+//         city: 'Москва',
+//         zipCode: '101000',
+//         isDefault: true,
+//       },
+//     ],
+//   }

@@ -12,8 +12,8 @@ export class CategoryRepository {
     })
   }
 
-  async createModel(data: Prisma.ProductModelCreateInput) {
-    return await this.db.productModel.create({
+  async createBrand(data: Prisma.BrandCreateInput) {
+    return await this.db.brand.create({
       data: {
         name: data.name,
       },
@@ -36,7 +36,16 @@ export class CategoryRepository {
   }
 
   async getAllCategories() {
-    return await this.db.category.findMany()
+    return await this.db.category.findMany({
+      include: {
+        products: true,
+        _count: {
+          select: {
+            products: true,
+          },
+        },
+      },
+    })
   }
 
   async getCategoryById(id: string) {

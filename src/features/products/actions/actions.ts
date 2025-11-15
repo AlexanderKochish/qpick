@@ -12,7 +12,7 @@ export async function createProduct(formData: FormData) {
   const price = Number(formData.get('price'))
   const discount = Number(formData.get('discount'))
   const categoryId = formData.get('categoryId') as string
-  const productModelId = formData.get('productModelId') as string
+  const brandId = formData.get('brandId') as string
 
   const dataForPrisma = {
     name,
@@ -20,7 +20,7 @@ export async function createProduct(formData: FormData) {
     price,
     discount,
     category: { connect: { id: categoryId } },
-    productModel: { connect: { id: productModelId } },
+    brand: { connect: { id: brandId } },
   }
 
   await repo.create(dataForPrisma, imageUrls)
@@ -40,6 +40,10 @@ export async function getProductById(id: string) {
 
 export async function getAllProductModel() {
   return await repo.getAllProductModel()
+}
+
+export async function getProductModels() {
+  return await repo.getProductModels()
 }
 
 export async function getAllByCategory() {

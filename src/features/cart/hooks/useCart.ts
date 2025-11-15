@@ -1,4 +1,4 @@
-import { ICart } from '../types/types'
+import { CartItems, ICart } from '../types/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   getCartTotalPrice,
@@ -8,7 +8,7 @@ import {
 
 interface Props {
   initialData?: {
-    initialCartData: ICart
+    initialCartData: CartItems
     cartTotalPrice: number
   }
 }

@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
-import { Rating, Review } from '../../types/types'
 import s from './profile-reviews.module.css'
 import { Rating as MuiRating } from '@mui/material'
+import { Rating, Review } from '../../types/types'
 
 function ReviewsSection({
   ratings,
@@ -26,7 +26,7 @@ function ReviewsSection({
               {rating.product.name}
             </Typography>
             <Box className={s.ratingInfo}>
-              <MuiRating value={rating.value} readOnly />
+              <MuiRating value={4} readOnly />
               <Typography variant="body2" color="text.secondary">
                 {rating.createdAt.toLocaleDateString()}
               </Typography>
@@ -45,7 +45,7 @@ function ReviewsSection({
               {review.product.name}
             </Typography>
             <Typography variant="body1" paragraph>
-              {review.title}
+              {review.review}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {review.createdAt.toLocaleDateString()}

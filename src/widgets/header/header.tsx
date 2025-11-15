@@ -1,195 +1,301 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
-import s from './header.module.css'
-import Link from 'next/link'
-import { Badge, Button, IconButton } from '@mui/material'
-import { SimpleTreeView, TreeItem } from '@mui/x-tree-view'
+
+import { useState } from 'react'
 import {
-  ShoppingCart,
-  Heart,
-  Tablet,
-  ChevronUp,
-  ChevronDown,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Badge,
+  Box,
+  Container,
+  InputBase,
   Menu,
-} from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
-import { getAllProductModel } from '@/features/products/actions/actions'
-import { useCounters } from '@/shared/hooks/useCounters'
+  MenuItem,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Chip,
+} from '@mui/material'
+import {
+  Search,
+  ShoppingCart,
+  Person,
+  Menu as MenuIcon,
+  Close,
+  Phone,
+  Email,
+  LocationOn,
+  Smartphone,
+  Laptop,
+  Headphones,
+  Watch,
+  Tablet,
+} from '@mui/icons-material'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import styles from './header.module.css'
 
 interface Props {
-  initialCounters: {
-    favoritesCount: number
-    cartItemsCount: number
-  }
+  initCartCount: number
+  isLogged: boolean
 }
 
-const Header = ({ initialCounters }: Props) => {
-  const [isTreeOpen, setIsTreeOpen] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement | null>(null)
-  const buttonRef = useRef<HTMLButtonElement | null>(null)
-  const [isOpen, setIsOpen] = useState(false)
+export default function Header({ initCartCount, isLogged }: Props) {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null)
+  const [categoriesAnchor, setCategoriesAnchor] = useState<null | HTMLElement>(
+    null
+  )
+  const router = useRouter()
 
-  const handleTreeToggle = () => setIsTreeOpen((prev) => !prev)
+  const categories = [
+    { name: 'Смартфоны', icon: <Smartphone />, count: 124 },
+    { name: 'Ноутбуки', icon: <Laptop />, count: 89 },
+    { name: 'Наушники', icon: <Headphones />, count: 67 },
+    { name: 'Смарт-часы', icon: <Watch />, count: 45 },
+    { name: 'Планшеты', icon: <Tablet />, count: 32 },
+  ]
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsTreeOpen(false)
-      }
-    }
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setUserMenuAnchor(event.currentTarget)
+  }
 
-  const { data: counters } = useCounters(initialCounters)
+  const handleUserMenuClose = () => {
+    setUserMenuAnchor(null)
+  }
 
-  const { data: models } = useQuery({
-    queryKey: ['product-models'],
-    queryFn: getAllProductModel,
-  })
+  const handleCategoriesOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setCategoriesAnchor(event.currentTarget)
+  }
+
+  const handleCategoriesClose = () => {
+    setCategoriesAnchor(null)
+  }
+
+  const drawer = (
+    <Box className={styles.drawer}>
+      <Box className={styles.drawerHeader}>
+        <Typography variant="h6" className={styles.drawerTitle}>
+          TechDevices
+        </Typography>
+        <IconButton onClick={handleDrawerToggle}>
+          <Close />
+        </IconButton>
+      </Box>
+      <Divider />
+      <List>
+        <ListItem onClick={() => router.push('/')}>
+          <ListItemText primary="Главная" />
+        </ListItem>
+        <ListItem onClick={handleCategoriesOpen}>
+          <ListItemText primary="Категории" />
+        </ListItem>
+        <ListItem onClick={() => router.push('/products')}>
+          <ListItemText primary="Все товары" />
+        </ListItem>
+        <ListItem onClick={() => router.push('/about')}>
+          <ListItemText primary="О нас" />
+        </ListItem>
+        <ListItem onClick={() => router.push('/contact')}>
+          <ListItemText primary="Контакты" />
+        </ListItem>
+      </List>
+    </Box>
+  )
 
   return (
-    <header className={s.header}>
-      <div className={s.wrapper}>
-        <div className={s.logoSide}>
-          <Link href="/" className={s.logo}>
-            <span className={s.logo}>Qpick</span>
-          </Link>
+    <>
+      <Box className={styles.topBar}>
+        <Container maxWidth="xl">
+          <Box className={styles.topBarContent}>
+            <Box className={styles.contactInfo}>
+              <Box className={styles.contactItem}>
+                <Phone className={styles.contactIcon} />
+                <Typography variant="body2">+7 (999) 123-45-67</Typography>
+              </Box>
+              <Box className={styles.contactItem}>
+                <Email className={styles.contactIcon} />
+                <Typography variant="body2">info@techdevices.ru</Typography>
+              </Box>
+              <Box className={styles.contactItem}>
+                <LocationOn className={styles.contactIcon} />
+                <Typography variant="body2">
+                  Москва, ул. Технологическая, 15
+                </Typography>
+              </Box>
+            </Box>
+            <Box className={styles.topBarActions}>
+              <Button className={styles.topBarButton}>Акции</Button>
+              <Button className={styles.topBarButton}>Доставка</Button>
+              <Button className={styles.topBarButton}>Гарантия</Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
 
-          <div className={s.dropdownContainer}>
-            <Button
-              ref={buttonRef}
-              variant="text"
-              onClick={handleTreeToggle}
-              sx={{
-                color: 'black',
-                textTransform: 'none',
-                fontWeight: 500,
-              }}
-            >
-              <Tablet />{' '}
-              <span className={s.selectText}>Выбрать модель телефона</span>
-              {isTreeOpen ? <ChevronUp /> : <ChevronDown />}
-            </Button>
+      <AppBar position="sticky" className={styles.appBar}>
+        <Container maxWidth="xl">
+          <Toolbar className={styles.toolbar}>
+            <Box className={styles.firstSection}>
+              <Box className={styles.logoSection}>
+                <Link href="/" className={styles.logoLink}>
+                  <Box className={styles.logo}>
+                    <Smartphone className={styles.logoIcon} />
+                    <Typography variant="h5" className={styles.logoText}>
+                      TechDevices
+                    </Typography>
+                  </Box>
+                </Link>
+              </Box>
 
-            {isTreeOpen && (
-              <div ref={dropdownRef} className={s.dropdown}>
-                <SimpleTreeView>
-                  {models?.length &&
-                    models?.map((model) => (
-                      <TreeItem
-                        key={model.id}
-                        itemId="apple"
-                        label={model.name}
-                      >
-                        {model.products.map((item) => (
-                          <TreeItem
-                            key={item.id}
-                            itemId={item.id}
-                            label={item.name}
-                          />
-                        ))}
-                      </TreeItem>
-                    ))}
-                </SimpleTreeView>
-              </div>
-            )}
-          </div>
-        </div>
+              <Box className={styles.categoriesSection}>
+                <Button
+                  className={styles.categoriesButton}
+                  onMouseEnter={handleCategoriesOpen}
+                >
+                  <MenuIcon className={styles.categoriesIcon} />
+                  Категории
+                </Button>
+              </Box>
 
-        <div className={s.actions}>
-          <Badge
-            badgeContent={counters?.favoritesCount ?? 0}
-            color="warning"
-            sx={{
-              '& .MuiBadge-badge': {
-                backgroundColor: '#FFA542',
-                color: '#fff',
-                top: 4,
-                right: 4,
-                fontSize: '0.65rem',
-                height: 18,
-                minWidth: 18,
-                borderRadius: '50%',
-              },
-            }}
-          >
-            <Link href={'/favorites'}>
-              <Button
-                variant="outlined"
-                sx={{
-                  minWidth: 42,
-                  minHeight: 42,
-                  width: 42,
-                  height: 42,
-                  borderRadius: '50%',
-                  border: '1px solid transparent',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: 0,
-                  color: 'white',
-                }}
+              <Box className={styles.searchSection}>
+                <Box className={styles.searchContainer}>
+                  <Search className={styles.searchIcon} />
+                  <InputBase
+                    placeholder="Поиск смартфонов, ноутбуков, аксессуаров..."
+                    className={styles.searchInput}
+                  />
+                  <Button variant="contained" className={styles.searchButton}>
+                    Найти
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+            <Box className={styles.actionsSection}>
+              <IconButton
+                className={styles.actionButton}
+                onClick={() => router.push('/cart')}
               >
-                <Heart color="#838383" size={22} strokeWidth={1.8} />
-              </Button>
-            </Link>
-          </Badge>
+                <Badge badgeContent={initCartCount} color="error">
+                  <ShoppingCart className={styles.actionIcon} />
+                </Badge>
+              </IconButton>
 
-          <Badge
-            badgeContent={counters?.cartItemsCount ?? 0}
-            sx={{
-              '& .MuiBadge-badge': {
-                backgroundColor: '#FFA542',
-                color: '#fff',
-                top: 4,
-                right: 4,
-                fontSize: '0.65rem',
-                height: 18,
-                minWidth: 18,
-                borderRadius: '50%',
-              },
-            }}
-          >
-            <Link href={'/cart'}>
-              <Button
-                variant="outlined"
-                sx={{
-                  minWidth: 42,
-                  minHeight: 42,
-                  width: 42,
-                  height: 42,
-                  borderRadius: '50%',
-                  border: '1px solid transparent',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: 0,
-                  color: 'white',
-                }}
+              <IconButton
+                className={styles.actionButton}
+                onClick={handleUserMenuOpen}
               >
-                <ShoppingCart color="#838383" size={22} strokeWidth={1.8} />
-              </Button>
-            </Link>
-          </Badge>
-          <IconButton
-            sx={{
-              display: { xs: 'flex', sm: 'none' },
-            }}
-            className={s.mobMenu}
+                <Person className={styles.actionIcon} />
+              </IconButton>
+
+              <IconButton
+                className={styles.mobileMenuButton}
+                onClick={handleDrawerToggle}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      <Menu
+        anchorEl={categoriesAnchor}
+        open={Boolean(categoriesAnchor)}
+        onClose={handleCategoriesClose}
+        onMouseLeave={handleCategoriesClose}
+        className={styles.categoriesMenu}
+        MenuListProps={{
+          onMouseLeave: handleCategoriesClose,
+          className: styles.categoriesMenuList,
+        }}
+      >
+        {categories.map((category) => (
+          <MenuItem
+            key={category.name}
+            onClick={handleCategoriesClose}
+            className={styles.categoryItem}
           >
-            <Menu size={22} />
-          </IconButton>
-        </div>
-      </div>
-    </header>
+            <Box className={styles.categoryContent}>
+              <Box className={styles.categoryInfo}>
+                {category.icon}
+                <Typography className={styles.categoryName}>
+                  {category.name}
+                </Typography>
+              </Box>
+              <Chip
+                label={category.count}
+                size="small"
+                className={styles.categoryCount}
+              />
+            </Box>
+          </MenuItem>
+        ))}
+        <Divider />
+        <MenuItem
+          onClick={handleCategoriesClose}
+          className={styles.allCategories}
+        >
+          <Typography>Все категории</Typography>
+        </MenuItem>
+      </Menu>
+
+      <Menu
+        anchorEl={userMenuAnchor}
+        open={Boolean(userMenuAnchor)}
+        onClose={handleUserMenuClose}
+        className={styles.userMenu}
+      >
+        {isLogged
+          ? [
+              <MenuItem key="profile" onClick={handleUserMenuClose}>
+                Мой профиль
+              </MenuItem>,
+              <MenuItem key="orders" onClick={handleUserMenuClose}>
+                Мои заказы
+              </MenuItem>,
+              <MenuItem key="favorites" onClick={handleUserMenuClose}>
+                Избранное
+              </MenuItem>,
+              <Divider key="divider" />,
+              <MenuItem key="logout" onClick={handleUserMenuClose}>
+                Выйти
+              </MenuItem>,
+            ]
+          : [
+              <MenuItem
+                key="login"
+                onClick={() => router.push('/auth/sign-in')}
+              >
+                Войти
+              </MenuItem>,
+              <MenuItem
+                key="register"
+                onClick={() => router.push('/auth/sign-up')}
+              >
+                Зарегистрироваться
+              </MenuItem>,
+            ]}
+      </Menu>
+
+      <Drawer
+        variant="temporary"
+        anchor="right"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        className={styles.mobileDrawer}
+      >
+        {drawer}
+      </Drawer>
+    </>
   )
 }
-
-export default Header
