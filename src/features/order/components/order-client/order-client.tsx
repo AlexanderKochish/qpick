@@ -1,30 +1,12 @@
-// import s from './order-client.module.css'
-// import OrderForm from '../order-form/order-form'
-
-// const OrderClient = () => {
-//   return (
-//     <section className={s.orderSection}>
-//       <h2>Оформление заказа</h2>
-//       <OrderForm />
-//     </section>
-//   )
-// }
-
-// export default OrderClient
-
 'use client'
-import { useState } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import {
   Container,
   Paper,
   Typography,
-  TextField,
   Button,
   Grid,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Box,
   Stepper,
   Step,
@@ -32,50 +14,45 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  FormLabel,
   Divider,
-  Alert,
 } from '@mui/material'
-import { LocalShipping, Payment, Person, Place } from '@mui/icons-material'
-import { z } from 'zod'
-import { OrderFormData, orderSchema } from '../../lib/zod/order.schema'
+import { Payment } from '@mui/icons-material'
+import OrderAddress from '../order-address/order-address'
+import OrderTotal from '../order-total/order-total'
+import OrderPhone from '../order-phone/order-phone'
+import { useRouter } from 'next/navigation'
+import { IInitialState, sendOrderForm } from '../../actions/actions'
+import { useCart } from '@/features/cart/hooks/useCart'
 
 const steps = ['Корзина', 'Оформление', 'Подтверждение']
 
+const initialState: IInitialState = {
+  message: '',
+  errors: [],
+}
+
 export default function CheckoutPage() {
+  const router = useRouter()
+  const [selectedPayment, setSelectedPayment] = useState('')
   const [activeStep, setActiveStep] = useState(1)
+  const [state, formAction, pending] = useActionState(
+    sendOrderForm,
+    initialState
+  )
+  const { totalPrice } = useCart()
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors, isSubmitting },
-  //   watch,
-  // } = useForm<OrderFormData>({
-  //   resolver: zodResolver(orderSchema),
-  //   defaultValues: {
-  //     paymentType: 'CARD',
-  //     apartment: '',
-  //   },
-  // })
-
-  const handleSubmit = () => {}
-
-  const onSubmit = async (data: OrderFormData) => {
-    try {
-      // Симуляция API запроса
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log('Order data:', data)
-      setActiveStep(2)
-    } catch (error) {
-      console.error('Order submission error:', error)
+  useEffect(() => {
+    if (state?.redirectTo) {
+      router.push(state.redirectTo)
     }
-  }
+  }, [state, router])
 
-  const selectedPayment = 'hello'
+  const handlePaymentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedPayment(event.target.value)
+  }
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      {/* Шаги оформления */}
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
           Оформление заказа
@@ -91,111 +68,13 @@ export default function CheckoutPage() {
       </Box>
 
       <Grid container spacing={4}>
-        {/* Форма оформления */}
         <Grid size={8}>
           <Paper sx={{ p: 4, borderRadius: 3 }}>
-            <form>
-              {/* Адрес доставки */}
-              <Box sx={{ mb: 4 }}>
-                <Typography
-                  variant="h6"
-                  fontWeight="600"
-                  gutterBottom
-                  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                >
-                  <Place color="primary" />
-                  Адрес доставки
-                </Typography>
-
-                <Grid container spacing={3}>
-                  <Grid size={4}>
-                    <TextField
-                      fullWidth
-                      label="Город"
-                      // {...register('city')}
-                      // error={!!errors.city}
-                      // helperText={errors.city?.message}
-                      placeholder="Например: Москва"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} md={6}>
-                    <TextField
-                      fullWidth
-                      label="Улица"
-                      // {...register('street')}
-                      // error={!!errors.street}
-                      // helperText={errors.street?.message}
-                      placeholder="Например: Ленина"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} md={4}>
-                    <TextField
-                      fullWidth
-                      label="Дом"
-                      // {...register('building')}
-                      // error={!!errors.building}
-                      // helperText={errors.building?.message}
-                      placeholder="Например: 15"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} md={4}>
-                    <TextField
-                      fullWidth
-                      label="Квартира (необязательно)"
-                      // {...register('apartment')}
-                      // error={!!errors.apartment}
-                      // helperText={errors.apartment?.message}
-                      placeholder="Например: 42"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} md={4}>
-                    <TextField
-                      fullWidth
-                      label="Почтовый индекс"
-                      // {...register('postalCode')}
-                      // error={!!errors.postalCode}
-                      // helperText={errors.postalCode?.message}
-                      placeholder="12345"
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-
+            <form action={formAction}>
+              <OrderAddress />
               <Divider sx={{ my: 3 }} />
-
-              {/* Контактная информация */}
-              <Box sx={{ mb: 4 }}>
-                <Typography
-                  variant="h6"
-                  fontWeight="600"
-                  gutterBottom
-                  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                >
-                  <Person color="primary" />
-                  Контактная информация
-                </Typography>
-
-                <Grid container spacing={3}>
-                  <Grid size={4}>
-                    <TextField
-                      fullWidth
-                      label="Телефон"
-                      // {...register('phone')}
-                      // error={!!errors.phone}
-                      // helperText={errors.phone?.message}
-                      placeholder="+7 (999) 123-45-67"
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-
+              <OrderPhone state={state} />
               <Divider sx={{ my: 3 }} />
-
-              {/* Способ оплаты */}
               <Box sx={{ mb: 4 }}>
                 <Typography
                   variant="h6"
@@ -209,8 +88,9 @@ export default function CheckoutPage() {
 
                 <FormControl component="fieldset" fullWidth>
                   <RadioGroup
+                    name="paymentType"
                     value={selectedPayment}
-                    // {...register('paymentType')}
+                    onChange={handlePaymentChange}
                   >
                     <Grid container spacing={2}>
                       <Grid size={5}>
@@ -233,7 +113,6 @@ export default function CheckoutPage() {
                             borderRadius: 2,
                             cursor: 'pointer',
                           }}
-                          // onClick={() => register('paymentType').onChange({ target: { value: 'CARD' } })}
                         >
                           <FormControlLabel
                             value="CARD"
@@ -255,7 +134,7 @@ export default function CheckoutPage() {
                         </Paper>
                       </Grid>
 
-                      <Grid item xs={12} md={6}>
+                      <Grid size={6}>
                         <Paper
                           variant={
                             selectedPayment === 'CASH'
@@ -275,7 +154,6 @@ export default function CheckoutPage() {
                             borderRadius: 2,
                             cursor: 'pointer',
                           }}
-                          // onClick={() => register('paymentType').onChange({ target: { value: 'CASH' } })}
                         >
                           <FormControlLabel
                             value="CASH"
@@ -297,7 +175,7 @@ export default function CheckoutPage() {
                         </Paper>
                       </Grid>
 
-                      <Grid item xs={12} md={6}>
+                      <Grid size={6}>
                         <Paper
                           variant={
                             selectedPayment === 'APPLE_PAY'
@@ -317,7 +195,6 @@ export default function CheckoutPage() {
                             borderRadius: 2,
                             cursor: 'pointer',
                           }}
-                          // onClick={() => register('paymentType').onChange({ target: { value: 'APPLE_PAY' } })}
                         >
                           <FormControlLabel
                             value="APPLE_PAY"
@@ -339,7 +216,7 @@ export default function CheckoutPage() {
                         </Paper>
                       </Grid>
 
-                      <Grid item xs={12} md={6}>
+                      <Grid size={6}>
                         <Paper
                           variant={
                             selectedPayment === 'GOOGLE_PAY'
@@ -359,7 +236,6 @@ export default function CheckoutPage() {
                             borderRadius: 2,
                             cursor: 'pointer',
                           }}
-                          // onClick={() => register('paymentType').onChange({ target: { value: 'GOOGLE_PAY' } })}
                         >
                           <FormControlLabel
                             value="GOOGLE_PAY"
@@ -382,27 +258,16 @@ export default function CheckoutPage() {
                       </Grid>
                     </Grid>
                   </RadioGroup>
-                  {/* {errors.paymentType && (
-                    <Alert severity="error" sx={{ mt: 2 }}>
-                      {errors.paymentType.message}
-                    </Alert>
-                  )} */}
                 </FormControl>
               </Box>
-
-              {/* Скрытое поле totalPrice */}
-              <input
-                type="hidden"
-                // {...register('totalPrice')}
-                value="199990" // Здесь должна быть реальная сумма из корзины
-              />
+              <input name="totalPrice" type="hidden" value={totalPrice} />
 
               <Button
                 type="submit"
                 variant="contained"
                 size="large"
                 fullWidth
-                // disabled={isSubmitting}
+                disabled={pending}
                 sx={{
                   py: 2,
                   borderRadius: 2,
@@ -410,76 +275,13 @@ export default function CheckoutPage() {
                   fontWeight: '600',
                 }}
               >
-                {/* {isSubmitting ? 'Оформление...' : 'Подтвердить заказ'} */}
-                Success
+                {pending ? 'Оформление...' : 'Подтвердить заказ'}
               </Button>
             </form>
           </Paper>
         </Grid>
 
-        {/* Боковая панель с итогами */}
-        <Grid size={4}>
-          <Paper sx={{ p: 3, borderRadius: 3, position: 'sticky', top: 20 }}>
-            <Typography variant="h6" fontWeight="600" gutterBottom>
-              Итоги заказа
-            </Typography>
-
-            <Box sx={{ space: 2, mb: 3 }}>
-              <Box
-                sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}
-              >
-                <Typography variant="body2" color="text.secondary">
-                  Товары (3)
-                </Typography>
-                <Typography variant="body2">154,970 ₽</Typography>
-              </Box>
-
-              <Box
-                sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}
-              >
-                <Typography variant="body2" color="text.secondary">
-                  Скидка
-                </Typography>
-                <Typography variant="body2" color="success.main">
-                  -5,000 ₽
-                </Typography>
-              </Box>
-
-              <Box
-                sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}
-              >
-                <Typography variant="body2" color="text.secondary">
-                  Доставка
-                </Typography>
-                <Typography variant="body2" color="success.main">
-                  Бесплатно
-                </Typography>
-              </Box>
-
-              <Divider sx={{ my: 2 }} />
-
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="h6" fontWeight="600">
-                  Итого
-                </Typography>
-                <Typography variant="h5" fontWeight="600" color="primary">
-                  149,970 ₽
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box sx={{ backgroundColor: 'info.light', p: 2, borderRadius: 2 }}>
-              <Typography
-                variant="body2"
-                color="info.dark"
-                sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-              >
-                <LocalShipping fontSize="small" />
-                Бесплатная доставка за 1-2 дня
-              </Typography>
-            </Box>
-          </Paper>
-        </Grid>
+        <OrderTotal />
       </Grid>
     </Container>
   )
