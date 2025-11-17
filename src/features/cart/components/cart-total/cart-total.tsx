@@ -20,7 +20,7 @@ interface Props {
   promoDiscount: number
   subtotal: number
   totalDiscount: number
-  cartItemsCount: number
+  cartItemsCount: number | undefined
 }
 
 const CartTotal = ({

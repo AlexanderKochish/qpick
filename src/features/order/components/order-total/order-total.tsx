@@ -3,7 +3,7 @@ import { LocalShipping } from '@mui/icons-material'
 import { Box, Divider, Grid, Paper, Typography } from '@mui/material'
 
 interface Props {
-  cart: Cart
+  cart: Cart | undefined
   total: number
   discount?: number
 }

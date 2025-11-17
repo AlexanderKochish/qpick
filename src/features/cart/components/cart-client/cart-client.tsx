@@ -1,35 +1,29 @@
 'use client'
 import { useState } from 'react'
-import {
-  Container,
-  Grid,
-  Typography,
-  Box,
-  Stepper,
-  Step,
-  StepLabel,
-} from '@mui/material'
+import { Container, Grid, Typography, Box } from '@mui/material'
 import { LocalMall } from '@mui/icons-material'
-import { CartItems } from '../../types/types'
+import { Cart } from '../../types/types'
 import emptyCart from '../../../../../public/empty-cart.png'
 import { useCart } from '../../hooks/useCart'
 import EmptyState from '@/shared/components/empty-state/empty-state'
 import CartItem from '../cart-item/cart-item'
 import CartTotal from '../cart-total/cart-total'
+import CheckoutStepper from '@/shared/components/checkout-stepper/checkout-stepper'
 
 interface Props {
   initialData: {
-    initialCartData: CartItems
+    initialCartData: Cart
     cartTotalPrice: number
+    activeStep: number
   }
 }
 
 export default function CartPage({ initialData }: Props) {
-  const { data: cartItems, totalPrice: subtotal } = useCart({ initialData })
+  const { data: cart, totalPrice: subtotal } = useCart({ initialData })
   const [promoCode, setPromoCode] = useState('')
   const [appliedPromo, setAppliedPromo] = useState('')
 
-  if (cartItems.items.length === 0 || !subtotal) {
+  if (cart?.items.length === 0 || !subtotal) {
     return (
       <EmptyState
         img={emptyCart}
@@ -39,7 +33,7 @@ export default function CartPage({ initialData }: Props) {
     )
   }
 
-  const totalDiscount = cartItems.items.reduce(
+  const totalDiscount = cart?.items.reduce(
     (sum, item) =>
       sum +
       ((Number(item.product.price) * Number(item.product.discount)) / 100) *
@@ -47,7 +41,7 @@ export default function CartPage({ initialData }: Props) {
     0
   )
   const promoDiscount = appliedPromo ? subtotal * 0.1 : 0
-  const total = subtotal - totalDiscount - promoDiscount
+  const total = subtotal - totalDiscount! - promoDiscount
 
   const applyPromoCode = () => {
     if (promoCode.trim() && !appliedPromo) {
@@ -60,8 +54,6 @@ export default function CartPage({ initialData }: Props) {
     setAppliedPromo('')
   }
 
-  const steps = ['Корзина', 'Оформление', 'Подтверждение']
-
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4 }}>
@@ -70,28 +62,22 @@ export default function CartPage({ initialData }: Props) {
           Корзина покупок
         </Typography>
 
-        <Stepper activeStep={0} sx={{ mt: 3 }}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <CheckoutStepper activeStep={initialData.activeStep} />
       </Box>
 
       <Grid container spacing={4}>
         <Grid size={7}>
           <Typography variant="h6" fontWeight="600" gutterBottom>
-            Товары в корзине ({cartItems.items.length})
+            Товары в корзине ({cart?.items.length})
           </Typography>
 
-          {cartItems.items.map((item) => (
+          {cart?.items.map((item) => (
             <CartItem key={item.id} item={item} quantity={item.quantity} />
           ))}
         </Grid>
         <CartTotal
           appliedPromo={appliedPromo}
-          cartItemsCount={cartItems.items.length}
+          cartItemsCount={cart?.items.length}
           promoCode={promoCode}
           applyPromoCode={applyPromoCode}
           promoDiscount={promoDiscount}
@@ -99,7 +85,7 @@ export default function CartPage({ initialData }: Props) {
           total={total}
           setPromoCode={setPromoCode}
           removePromoCode={removePromoCode}
-          totalDiscount={totalDiscount}
+          totalDiscount={totalDiscount!}
         />
       </Grid>
     </Container>

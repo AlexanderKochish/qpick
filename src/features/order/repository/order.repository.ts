@@ -102,4 +102,22 @@ export class OrderRepository {
     })
     return amount?.totalPrice.toNumber()
   }
+
+  async getOrderById(id: string) {
+    return await this.db.order.findUnique({
+      where: { id },
+    })
+  }
+
+  async getLatestOrder() {
+    const session = await getCurrentSession()
+    return await this.db.order.findFirst({
+      where: {
+        userId: session?.user.id,
+      },
+      select: {
+        id: true,
+      },
+    })
+  }
 }

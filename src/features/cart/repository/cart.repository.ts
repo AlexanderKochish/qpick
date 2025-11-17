@@ -2,11 +2,12 @@ import { getCurrentSession } from '@/features/auth/actions/actions'
 import { PrismaClient } from '@/generated/prisma/client'
 import prisma from '@/shared/lib/prisma'
 import { getOrCreateVisitorId } from '@/shared/utils/fingerprint-server'
+import { Cart } from '../types/types'
 
 export class CartRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
 
-  async getOrCreateCart() {
+  async getOrCreateCart(): Promise<Cart> {
     const session = await getCurrentSession()
 
     const visitorId = session?.user.id

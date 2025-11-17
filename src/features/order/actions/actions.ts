@@ -1,6 +1,6 @@
 'use server'
 
-import { keyof, z } from 'zod'
+import { z } from 'zod'
 import { orderSchema } from '../lib/zod/order.schema'
 import { OrderRepository } from '../repository/order.repository'
 
@@ -64,4 +64,8 @@ export async function getOrderTotalPrice(orderId: string) {
   if (!orderId) return
 
   return await repo.getOrderTotalPrice(orderId)
+}
+
+export async function getOrderById(id: string) {
+  return await repo.getOrderById(id)
 }
