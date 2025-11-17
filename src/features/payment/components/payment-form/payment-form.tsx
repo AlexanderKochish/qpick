@@ -2,7 +2,7 @@
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { useEffect, useState } from 'react'
-import { CheckoutForm } from '@/features/payment/components/checkout-form'
+import { CheckoutForm } from '@/features/payment/components/checkout-form/checkout-form'
 import { useOrder } from '@/features/order/hooks/useOrder'
 
 const stripePromise = loadStripe(
@@ -69,7 +69,31 @@ export default function PaymentForm({ id }: Props) {
             clientSecret,
             appearance: {
               theme: 'stripe',
+              variables: {
+                colorPrimary: '#1976d2',
+                colorBackground: '#f5f5f5',
+                borderRadius: '8px',
+                fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+              },
+              rules: {
+                '.Input': {
+                  padding: '12px 16px',
+                  fontSize: '16px',
+                },
+                '.Label': {
+                  fontWeight: '600',
+                  marginBottom: '8px',
+                },
+              },
             },
+            loader: 'auto',
+            fonts: [
+              {
+                family: 'Roboto',
+                src: 'url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap)',
+                weight: '400',
+              },
+            ],
           }}
         >
           <CheckoutForm orderId={id} />

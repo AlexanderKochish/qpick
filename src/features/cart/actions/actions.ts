@@ -1,10 +1,11 @@
 'use server'
 
 import { CartRepository } from '../repository/cart.repository'
+import { Cart } from '../types/types'
 
 const repo = new CartRepository()
 
-export async function getOrCreateCart() {
+export async function getOrCreateCart(): Promise<Cart> {
   return await repo.getOrCreateCart()
 }
 

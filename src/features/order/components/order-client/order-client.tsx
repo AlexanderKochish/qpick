@@ -23,6 +23,7 @@ import OrderPhone from '../order-phone/order-phone'
 import { useRouter } from 'next/navigation'
 import { IInitialState, sendOrderForm } from '../../actions/actions'
 import { useCart } from '@/features/cart/hooks/useCart'
+import { useOrder } from '../../hooks/useOrder'
 
 const steps = ['Корзина', 'Оформление', 'Подтверждение']
 
@@ -39,8 +40,10 @@ export default function CheckoutPage() {
     sendOrderForm,
     initialState
   )
-  const { totalPrice } = useCart()
 
+  const { data: cart, totalPrice, discount } = useCart()
+  const discountPrice =
+    totalPrice && discount ? totalPrice - discount : totalPrice
   useEffect(() => {
     if (state?.redirectTo) {
       router.push(state.redirectTo)
@@ -260,7 +263,7 @@ export default function CheckoutPage() {
                   </RadioGroup>
                 </FormControl>
               </Box>
-              <input name="totalPrice" type="hidden" value={totalPrice} />
+              <input name="totalPrice" type="hidden" value={discountPrice} />
 
               <Button
                 type="submit"
@@ -281,7 +284,11 @@ export default function CheckoutPage() {
           </Paper>
         </Grid>
 
-        <OrderTotal />
+        <OrderTotal
+          discount={Number(discount)}
+          cart={cart}
+          total={Number(totalPrice)}
+        />
       </Grid>
     </Container>
   )

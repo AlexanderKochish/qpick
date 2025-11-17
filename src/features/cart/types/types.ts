@@ -1,4 +1,5 @@
 import { Prisma } from '@/generated/prisma/client'
+import { Decimal } from '@prisma/client/runtime/library'
 
 export type CartItems = Prisma.CartGetPayload<{
   include: {
@@ -25,6 +26,29 @@ export type CartItemType = Prisma.CartItemGetPayload<{
     }
   }
 }>
+type ReplaceDecimalWithNumber<T> = {
+  [K in keyof T]: T[K] extends Decimal
+    ? number
+    : T[K] extends object
+      ? ReplaceDecimalWithNumber<T[K]>
+      : T[K]
+}
+export type CartType = Prisma.CartGetPayload<{
+  include: {
+    items: {
+      include: {
+        product: {
+          include: {
+            brand: true
+            images: true
+          }
+        }
+      }
+    }
+  }
+}>
+
+export type Cart = ReplaceDecimalWithNumber<CartType>
 export interface ICart {
   items: ({
     product: {
@@ -44,7 +68,7 @@ export interface ICart {
       price: number
       discount: number | null
       categoryId: string
-      productModelId: string
+      brandId: string
     }
   } & {
     id: string
@@ -70,7 +94,7 @@ export interface Product {
   price: Prisma.Decimal
   discount?: Prisma.Decimal | null
   categoryId: string
-  productModelId: string
+  brandId: string
   images: ProductImage[]
   createdAt: Date
   updatedAt: Date
@@ -85,16 +109,6 @@ export interface CartItem {
   updatedAt: Date
   product: Product
 }
-
-export interface Cart {
-  id: string
-  userId: string | null
-  visitorId: string | null
-  createdAt: Date
-  updatedAt: Date
-  items: CartItem[]
-}
-
 export interface SerializedProduct {
   id: string
   name: string

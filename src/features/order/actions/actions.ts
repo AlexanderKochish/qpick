@@ -1,12 +1,24 @@
 'use server'
 
-import { z } from 'zod'
+import { keyof, z } from 'zod'
 import { orderSchema } from '../lib/zod/order.schema'
 import { OrderRepository } from '../repository/order.repository'
+
+type FormFields = {
+  city?: { errors: string[] }
+  street?: { errors: string[] }
+  building?: { errors: string[] }
+  apartment?: { errors: string[] }
+  postalCode?: { errors: string[] }
+  phone?: { errors: string[] }
+  paymentType?: { errors: string[] }
+  totalPrice?: { errors: string[] }
+}
 
 export interface IInitialState {
   message?: string
   errors?: string[]
+  properties?: FormFields
   redirectTo?: string
   orderId?: string
 }
@@ -19,12 +31,13 @@ export async function sendOrderForm(
 ): Promise<IInitialState> {
   const data = Object.fromEntries(formData.entries())
   const validatedFields = orderSchema.safeParse(data)
-  console.log({ data })
+
   if (!validatedFields.success) {
     const fieldErrors = z.treeifyError(validatedFields.error)
     return {
       message: 'Please correct the errors in the form.',
       errors: fieldErrors.errors,
+      properties: fieldErrors.properties,
     }
   }
 
@@ -36,11 +49,13 @@ export async function sendOrderForm(
       redirectTo: `/payment/${result.order.id}`,
       orderId: result.order.id,
       errors: undefined,
+      properties: undefined,
     }
   } catch (error) {
     return {
       message: error instanceof Error ? error.message : 'Order creation failed',
       errors: [],
+      properties: undefined,
     }
   }
 }

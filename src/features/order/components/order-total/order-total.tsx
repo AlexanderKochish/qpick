@@ -1,9 +1,14 @@
-import { useCart } from '@/features/cart/hooks/useCart'
+import { Cart } from '@/features/cart/types/types'
 import { LocalShipping } from '@mui/icons-material'
 import { Box, Divider, Grid, Paper, Typography } from '@mui/material'
 
-const OrderTotal = () => {
-  const { data: cart, totalPrice } = useCart()
+interface Props {
+  cart: Cart
+  total: number
+  discount?: number
+}
+
+const OrderTotal = ({ cart, total, discount }: Props) => {
   return (
     <Grid size={4}>
       <Paper sx={{ p: 3, borderRadius: 3, position: 'sticky', top: 20 }}>
@@ -14,24 +19,24 @@ const OrderTotal = () => {
         <Box sx={{ space: 2, mb: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Товары ({cart?.items.length})
+              Товары (
+              {cart?.items.reduce((acc, curr) => acc + curr.quantity, 0)})
             </Typography>
-            <Typography variant="body2">{totalPrice} €</Typography>
+            <Typography variant="body2">{total} €</Typography>
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-            <Typography variant="body2" color="text.secondary">
-              Скидка
-            </Typography>
-            <Typography variant="body2" color="success.main">
-              (
-              {cart?.items.reduce(
-                (acc, curr) => acc + Number(curr.product.discount),
-                0
-              )}
-              ) €
-            </Typography>
-          </Box>
+          {discount && (
+            <Box
+              sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                Скидка
+              </Typography>
+              <Typography variant="body2" color="success.main">
+                ({discount}) €
+              </Typography>
+            </Box>
+          )}
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2" color="text.secondary">
@@ -49,7 +54,7 @@ const OrderTotal = () => {
               Итого
             </Typography>
             <Typography variant="h5" fontWeight="600" color="primary">
-              {totalPrice} €
+              {total && discount ? total - discount : total} €
             </Typography>
           </Box>
         </Box>

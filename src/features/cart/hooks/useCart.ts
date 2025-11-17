@@ -1,4 +1,4 @@
-import { CartItems, ICart } from '../types/types'
+import { Cart } from '../types/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   getCartTotalPrice,
@@ -8,7 +8,7 @@ import {
 
 interface Props {
   initialData?: {
-    initialCartData: CartItems
+    initialCartData: Cart
     cartTotalPrice: number
   }
 }
@@ -39,8 +39,14 @@ export const useCart = (props?: Props) => {
       },
     })
 
+  const discount = data?.items.reduce(
+    (acc, curr) => acc + Number(curr.product.discount),
+    0
+  )
+
   return {
     data,
+    discount,
     updateQuantity,
     totalPrice,
     isPendingUpdateQuantity,

@@ -8,6 +8,7 @@ interface Props {
 }
 
 const OrderPhone = ({ state }: Props) => {
+  const phoneError = state?.properties?.phone?.errors?.[0]
   return (
     <Box sx={{ mb: 4 }}>
       <Typography
@@ -27,6 +28,8 @@ const OrderPhone = ({ state }: Props) => {
             label="Телефон"
             name="phone"
             placeholder="+3 (980) 123 33 33"
+            error={!!phoneError}
+            helperText={phoneError}
           />
         </Grid>
       </Grid>
