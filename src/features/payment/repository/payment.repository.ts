@@ -32,7 +32,10 @@ export class PaymentRepository {
     return result
   }
 
-  async updatePaymentStatus(orderId: string, status: 'SUCCEEDED' | 'FAILED') {
+  async updatePaymentStatus(
+    orderId: string,
+    status: 'SUCCEEDED' | 'FAILED' | 'CANCELLED'
+  ) {
     await this.db.payment.update({
       where: { orderId },
       data: { status },

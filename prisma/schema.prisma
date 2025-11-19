@@ -33,6 +33,7 @@ enum PaymentStatus {
   SUCCEEDED
   FAILED
   REFUNDED
+  CANCELLED
 }
 
 enum PaymentMethod {
@@ -151,7 +152,7 @@ model Product {
   id             String        @id @default(cuid())
   name           String
   description    String
-  price          Decimal       @db.Decimal(10, 2)
+  price          Int
   discount       Int?          @default(0)
   images         Image[]
   categoryId     String
@@ -245,7 +246,7 @@ model Order {
   userId              String   
   user                User       @relation(fields: [userId], references: [id])
   items               OrderItem[]
-  totalPrice          Decimal 
+  totalPrice          Int 
 
   status              OrderStatus     @default(PENDING)
   
@@ -274,7 +275,7 @@ model OrderItem {
   productId  String
   product    Product   @relation(fields: [productId], references: [id])
   quantity   Int       @default(1)
-  priceAtBuy Decimal 
+  priceAtBuy Int 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 
@@ -309,7 +310,7 @@ model Payment {
 
   method      PaymentMethod   @default(CARD)
   status      PaymentStatus   @default(PENDING)
-  amount      Decimal         @db.Decimal(10, 2)
+  amount      Int
 
   processorId String?
 

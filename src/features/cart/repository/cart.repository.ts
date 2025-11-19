@@ -56,19 +56,7 @@ export class CartRepository {
       })
     }
 
-    const safeCart = {
-      ...cart,
-      items: cart.items.map((item) => ({
-        ...item,
-        product: {
-          ...item.product,
-          price: item.product.price.toNumber(),
-          discount: item.product.discount,
-        },
-      })),
-    }
-
-    return safeCart
+    return cart
   }
 
   async addToCart(productId: string, quantity = 1) {
@@ -159,7 +147,7 @@ export class CartRepository {
     })
 
     return items.reduce((total, item) => {
-      return total + item.product.price.toNumber() * item.quantity
+      return total + item.product.price * item.quantity
     }, 0)
   }
 

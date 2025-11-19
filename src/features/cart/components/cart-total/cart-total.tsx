@@ -9,6 +9,7 @@ import {
   Paper,
 } from '@mui/material'
 import { ShoppingCartCheckout } from '@mui/icons-material'
+import Link from 'next/link'
 
 interface Props {
   appliedPromo: string
@@ -163,20 +164,22 @@ const CartTotal = ({
           </Box>
         )}
 
-        <Button
-          fullWidth
-          variant="contained"
-          size="large"
-          startIcon={<ShoppingCartCheckout />}
-          disabled={!!cartItemsCount}
-          sx={{
-            py: 1.5,
-            borderRadius: 2,
-            fontSize: '1.1rem',
-          }}
-        >
-          Перейти к оформлению
-        </Button>
+        <Link href={'/order'}>
+          <Button
+            fullWidth
+            variant="contained"
+            size="large"
+            startIcon={<ShoppingCartCheckout />}
+            disabled={cartItemsCount! === 0}
+            sx={{
+              py: 1.5,
+              borderRadius: 2,
+              fontSize: '1.1rem',
+            }}
+          >
+            Перейти к оформлению
+          </Button>
+        </Link>
 
         <Typography
           variant="body2"

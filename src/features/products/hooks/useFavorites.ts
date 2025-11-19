@@ -1,5 +1,9 @@
-import { toggleFavorite } from '@/features/favorites/actions/actions'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  isProductInFavorites,
+  toggleFavorite,
+} from '@/features/favorites/actions/actions'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { use } from 'react'
 
 export const useFavorites = () => {
   const queryClient = useQueryClient()
@@ -12,7 +16,15 @@ export const useFavorites = () => {
     },
   })
 
+  const { data } = useQuery({
+    queryKey: ['favorite'],
+    queryFn: isProductInFavorites,
+  })
+
+  const isFavorite = data?.items.flatMap((favorite) => Object.values(favorite))
+
   return {
+    isFavorite,
     mutate,
     isPending,
   }

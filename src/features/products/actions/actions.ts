@@ -49,3 +49,7 @@ export async function getProductModels() {
 export async function getAllByCategory() {
   return await repo.getAllByCategory()
 }
+
+export async function getProductsByCategory(categoryId: string) {
+  return await repo.getProductsByCategory(categoryId)
+}

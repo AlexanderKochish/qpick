@@ -23,6 +23,30 @@ export class ProductRepository {
     })
   }
 
+  async getProductsByCategory(categoryId: string) {
+    return await this.db.product.findMany({
+      where: {
+        category: {
+          id: categoryId,
+        },
+      },
+      include: {
+        images: true,
+        reviews: true,
+        ratings: true,
+        category: true,
+        brand: true,
+        _count: {
+          select: {
+            ratings: true,
+            reviews: true,
+            orderItems: true,
+          },
+        },
+      },
+    })
+  }
+
   async getById(id: string) {
     return await this.db.product.findUnique({
       where: { id },

@@ -13,10 +13,12 @@ export class FavoriteRepository {
             product: {
               include: {
                 images: true,
+                category: true,
               },
             },
           },
         },
+        _count: true,
       },
     })
   }

@@ -1,32 +1,29 @@
 'use client'
 
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Step,
-  StepLabel,
-  Stepper,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Container, Grid, Typography } from '@mui/material'
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { useState } from 'react'
+import { MouseEventHandler, useState } from 'react'
 import s from './checkout-form.module.css'
 import OrderTotal from '@/features/order/components/order-total/order-total'
 import { useOrder } from '@/features/order/hooks/useOrder'
 import { useCart } from '@/features/cart/hooks/useCart'
+import { useRouter } from 'next/navigation'
+import CheckoutStepper from '@/shared/components/checkout-stepper/checkout-stepper'
 
-const steps = ['Корзина', 'Оформление', 'Подтверждение']
-
-export function CheckoutForm({ orderId }: { orderId: string }) {
+export function CheckoutForm({
+  orderId,
+  step,
+}: {
+  orderId: string
+  step: number
+}) {
   const stripe = useStripe()
   const elements = useElements()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [activeStep, setActiveStep] = useState(2)
   const { data: totalPrice } = useOrder(orderId)
   const { data: cart } = useCart()
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -57,6 +54,23 @@ export function CheckoutForm({ orderId }: { orderId: string }) {
     }
   }
 
+  async function handleReject() {
+    const res = await fetch('/api/order/cancel', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ orderId }),
+    })
+
+    if (res.ok) {
+      router.push('/cart')
+      router.refresh()
+    } else {
+      console.error('Failed to cancel order')
+    }
+  }
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4 }}>
@@ -64,13 +78,7 @@ export function CheckoutForm({ orderId }: { orderId: string }) {
           Оформление заказа
         </Typography>
 
-        <Stepper activeStep={activeStep} sx={{ mt: 3 }}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <CheckoutStepper activeStep={step} />
       </Box>
       <Grid container spacing={2} size={10}>
         <Grid size={7}>
@@ -91,6 +99,14 @@ export function CheckoutForm({ orderId }: { orderId: string }) {
               {isLoading ? 'Processing...' : 'Pay Now'}
             </Button>
           </form>
+          <Button
+            type="submit"
+            variant="outlined"
+            color="error"
+            onClick={handleReject}
+          >
+            Отклонить
+          </Button>
         </Grid>
         <OrderTotal cart={cart} total={Number(totalPrice)} />
       </Grid>

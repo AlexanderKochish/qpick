@@ -3,14 +3,16 @@ import {
   getOrCreateCart,
 } from '@/features/cart/actions/actions'
 import OrderClient from '@/features/order/components/order-client/order-client'
-import { redirect } from 'next/navigation'
+import { redirect, RedirectType } from 'next/navigation'
 
 const OrderPage = async () => {
   const cart = await getOrCreateCart()
-  if (!cart.id && cart.items.length === 0) {
-    redirect('/cart')
-  }
   const step = await getCurrentCheckoutStep()
+  console.log({ cart })
+  if (cart.items.length === 0) {
+    redirect('/cart', RedirectType.replace)
+  }
+
   return <OrderClient activeStap={step} />
 }
 

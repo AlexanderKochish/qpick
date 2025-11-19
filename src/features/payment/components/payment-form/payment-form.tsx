@@ -11,50 +11,35 @@ const stripePromise = loadStripe(
 
 interface Props {
   id: string
+  step: number
 }
 
-export default function PaymentForm({ id }: Props) {
+export default function PaymentForm({ id, step }: Props) {
   const [clientSecret, setClientSecret] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
-  const {
-    data: amount,
-    isLoading: orderLoading,
-    error: orderError,
-  } = useOrder(id)
+  const { isLoading: orderLoading, error: orderError } = useOrder(id)
 
   useEffect(() => {
-    if (!amount) return
+    if (!id) return
 
-    async function createPayment() {
+    async function loadPI() {
       try {
-        setIsLoading(true)
-        setError('')
-
-        const response = await fetch('/api/create-payment-intent', {
+        const res = await fetch('/api/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            orderId: id,
-            amount: Math.round(amount! * 100),
-          }),
+          body: JSON.stringify({ orderId: id }),
         })
 
-        if (!response.ok) {
-          throw new Error('Failed to create payment')
-        }
-
-        const data = await response.json()
+        const data = await res.json()
         setClientSecret(data.clientSecret)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Payment error')
       } finally {
         setIsLoading(false)
       }
     }
 
-    createPayment()
-  }, [id, amount])
+    loadPI()
+  }, [id])
 
   if (orderLoading || isLoading) return <div>Loading payment...</div>
   if (orderError) return <div>Error loading order: {orderError.message}</div>
@@ -96,7 +81,7 @@ export default function PaymentForm({ id }: Props) {
             ],
           }}
         >
-          <CheckoutForm orderId={id} />
+          <CheckoutForm orderId={id} step={step} />
         </Elements>
       )}
     </div>

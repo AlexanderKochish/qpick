@@ -1,7 +1,7 @@
-import Card from '@/features/products/components/card/card'
 import { getAllFavorites } from '../../actions/actions'
 import { getCurrentSession } from '@/features/auth/actions/actions'
 import s from './favorites.module.css'
+import FavoriteCard from '../card/card'
 
 const Favorites = async () => {
   const session = await getCurrentSession()
@@ -12,8 +12,8 @@ const Favorites = async () => {
       <h2>Избранное</h2>
       <div className={s.favoritesList}>
         {favorites?.items &&
-          favorites.items.map((item) => (
-            <Card key={item.product.id} item={item.product} />
+          favorites.items.map(({ product }) => (
+            <FavoriteCard key={product.id} product={product} />
           ))}
       </div>
     </section>

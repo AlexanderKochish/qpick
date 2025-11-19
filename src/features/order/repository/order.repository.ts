@@ -1,6 +1,6 @@
 import prisma from '@/shared/lib/prisma'
 import { orderSchemaType } from '../lib/zod/order.schema'
-import { Prisma, PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient } from '@/generated/prisma/client'
 import { getCurrentSession } from '@/features/auth/actions/actions'
 
 export class OrderRepository {
@@ -53,7 +53,7 @@ export class OrderRepository {
       const order = await tx.order.create({
         data: {
           userId: session.user.id,
-          totalPrice: new Prisma.Decimal(data.totalPrice),
+          totalPrice: Number(data.totalPrice),
           status: 'PENDING',
           customerEmail: session.user.email!,
           customerPhone: data.phone,
@@ -62,7 +62,7 @@ export class OrderRepository {
             create: cart.items.map((item) => ({
               productId: item.productId,
               quantity: item.quantity,
-              priceAtBuy: new Prisma.Decimal(item.product.price),
+              priceAtBuy: item.product.price,
             })),
           },
         },
@@ -73,7 +73,7 @@ export class OrderRepository {
           orderId: order.id,
           method: data.paymentType,
           status: 'PENDING',
-          amount: new Prisma.Decimal(data.totalPrice),
+          amount: Number(data.totalPrice),
         },
       })
 
@@ -100,7 +100,7 @@ export class OrderRepository {
         totalPrice: true,
       },
     })
-    return amount?.totalPrice.toNumber()
+    return amount?.totalPrice
   }
 
   async getOrderById(id: string) {

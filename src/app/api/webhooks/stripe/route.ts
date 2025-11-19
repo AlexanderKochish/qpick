@@ -2,12 +2,8 @@ import {
   confirmPayment,
   updatePaymentStatus,
 } from '@/features/payment/actions/actions'
+import { stripe } from '@/shared/lib/stripe'
 import { NextRequest } from 'next/server'
-import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-10-29.clover',
-})
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
@@ -34,7 +30,12 @@ export async function POST(request: NextRequest) {
 
         await updatePaymentStatus(failedOrderId, 'FAILED')
         break
+      case 'payment_intent.canceled':
+        const canceledPayment = event.data.object
+        const canceledOrderId = canceledPayment.metadata.orderId
 
+        await updatePaymentStatus(canceledOrderId, 'CANCELLED')
+        break
       default:
         return
     }

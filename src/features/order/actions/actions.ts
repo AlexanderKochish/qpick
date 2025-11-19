@@ -31,7 +31,7 @@ export async function sendOrderForm(
 ): Promise<IInitialState> {
   const data = Object.fromEntries(formData.entries())
   const validatedFields = orderSchema.safeParse(data)
-
+  console.log({ data })
   if (!validatedFields.success) {
     const fieldErrors = z.treeifyError(validatedFields.error)
     return {

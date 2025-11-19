@@ -19,15 +19,14 @@ import {
   ShoppingCart,
 } from '@mui/icons-material'
 import { useFavorites } from '../../hooks/useFavorites'
-import { useCart } from '@/features/cart/hooks/useCart'
-import { ProductCard as ProductCardType } from '../../types/types'
 import Link from 'next/link'
 import { addToCart } from '@/features/cart/actions/actions'
+import { ProductCard as PropductType } from '../../types/types'
 
 interface Props {
-  product: ProductCardType
-  finalPrice: number
-  averageRating: number
+  product: PropductType
+  finalPrice?: number
+  averageRating?: number
 }
 
 const ProductCard = ({ product, finalPrice }: Props) => {
@@ -69,15 +68,18 @@ const ProductCard = ({ product, finalPrice }: Props) => {
             <Share />
           </IconButton>
         </Box>
-        <Link href={`/product/${product.id}`}>
-          <CardMedia
-            component="img"
-            height="200"
-            image={product.images[0].url || '/api/placeholder/400/400'}
-            alt={product.name}
-            className={s.productImage}
-          />
-        </Link>
+        <Box className={s.imageBlock}>
+          <Link href={`/product/${product.id}`}>
+            <CardMedia
+              component="img"
+              width={150}
+              height={200}
+              image={product.images[0].url || '/api/placeholder/400/400'}
+              alt={product.name}
+              className={s.productImage}
+            />
+          </Link>
+        </Box>
         <CardContent className={s.cardContent}>
           <Chip
             label={product.category.name}
@@ -86,14 +88,11 @@ const ProductCard = ({ product, finalPrice }: Props) => {
             className={s.categoryChip}
           />
 
-          <Typography
-            variant="h6"
-            className={s.productName}
-            // onClick={() => handleProductClick(product.id)}
-          >
-            {product.name}
-          </Typography>
-
+          <Link href={`/product/${product.id}`}>
+            <Typography variant="h6" className={s.productName}>
+              {product.name}
+            </Typography>
+          </Link>
           <Typography
             variant="body2"
             color="text.secondary"
@@ -113,15 +112,15 @@ const ProductCard = ({ product, finalPrice }: Props) => {
             {product.discount && Number(product.discount) > 0 ? (
               <>
                 <Typography variant="h6" className={s.finalPrice}>
-                  {formatPrice(finalPrice)} ₽
+                  {finalPrice && formatPrice(finalPrice)} €
                 </Typography>
                 <Typography variant="body2" className={s.originalPrice}>
-                  {formatPrice(Number(product.price))} ₽
+                  {formatPrice(Number(product.price))} €
                 </Typography>
               </>
             ) : (
               <Typography variant="h6" className={s.finalPrice}>
-                {formatPrice(Number(product.price))} ₽
+                {formatPrice(Number(product.price))} €
               </Typography>
             )}
           </Box>

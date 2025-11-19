@@ -38,6 +38,7 @@ import {
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import styles from './header.module.css'
+import { useCategory } from '@/features/category/hooks/useCategory'
 
 interface Props {
   initCartCount: number
@@ -53,13 +54,7 @@ export default function Header({ initCartCount, isLogged }: Props) {
   )
   const router = useRouter()
 
-  const categories = [
-    { name: 'Смартфоны', icon: <Smartphone />, count: 124 },
-    { name: 'Ноутбуки', icon: <Laptop />, count: 89 },
-    { name: 'Наушники', icon: <Headphones />, count: 67 },
-    { name: 'Смарт-часы', icon: <Watch />, count: 45 },
-    { name: 'Планшеты', icon: <Tablet />, count: 32 },
-  ]
+  const { data: categories } = useCategory()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -120,17 +115,15 @@ export default function Header({ initCartCount, isLogged }: Props) {
             <Box className={styles.contactInfo}>
               <Box className={styles.contactItem}>
                 <Phone className={styles.contactIcon} />
-                <Typography variant="body2">+7 (999) 123-45-67</Typography>
+                <Typography variant="body2">+38 (098) 111 11 11</Typography>
               </Box>
               <Box className={styles.contactItem}>
                 <Email className={styles.contactIcon} />
-                <Typography variant="body2">info@techdevices.ru</Typography>
+                <Typography variant="body2">info@techdevices.ua</Typography>
               </Box>
               <Box className={styles.contactItem}>
                 <LocationOn className={styles.contactIcon} />
-                <Typography variant="body2">
-                  Москва, ул. Технологическая, 15
-                </Typography>
+                <Typography variant="body2">Киев, ул. Шевченка, 15</Typography>
               </Box>
             </Box>
             <Box className={styles.topBarActions}>
@@ -219,21 +212,24 @@ export default function Header({ initCartCount, isLogged }: Props) {
           className: styles.categoriesMenuList,
         }}
       >
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <MenuItem
             key={category.name}
             onClick={handleCategoriesClose}
             className={styles.categoryItem}
           >
             <Box className={styles.categoryContent}>
-              <Box className={styles.categoryInfo}>
-                {category.icon}
-                <Typography className={styles.categoryName}>
-                  {category.name}
-                </Typography>
-              </Box>
+              <Link href={`/category/${category.name}/${category.id}`}>
+                <Box className={styles.categoryInfo}>
+                  {category.name === 'smartphones' && <Smartphone />}
+                  {category.name === 'laptops' && <Laptop />}
+                  <Typography className={styles.categoryName}>
+                    {category.name}
+                  </Typography>
+                </Box>
+              </Link>
               <Chip
-                label={category.count}
+                label={category._count.products}
                 size="small"
                 className={styles.categoryCount}
               />
@@ -245,7 +241,9 @@ export default function Header({ initCartCount, isLogged }: Props) {
           onClick={handleCategoriesClose}
           className={styles.allCategories}
         >
-          <Typography>Все категории</Typography>
+          <Link href={'/'}>
+            <Typography>Все категории</Typography>
+          </Link>
         </MenuItem>
       </Menu>
 
@@ -258,13 +256,13 @@ export default function Header({ initCartCount, isLogged }: Props) {
         {isLogged
           ? [
               <MenuItem key="profile" onClick={handleUserMenuClose}>
-                Мой профиль
+                <Link href={'/profile'}>Мой профиль</Link>
               </MenuItem>,
               <MenuItem key="orders" onClick={handleUserMenuClose}>
                 Мои заказы
               </MenuItem>,
               <MenuItem key="favorites" onClick={handleUserMenuClose}>
-                Избранное
+                <Link href={'/favorites'}> Избранное</Link>
               </MenuItem>,
               <Divider key="divider" />,
               <MenuItem key="logout" onClick={handleUserMenuClose}>

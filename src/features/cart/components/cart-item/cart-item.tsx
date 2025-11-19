@@ -86,13 +86,13 @@ const CartItem = ({ item, quantity }: Props) => {
                   color="text.secondary"
                   sx={{ textDecoration: 'line-through' }}
                 >
-                  {price.toLocaleString()} ₽
+                  {price.toLocaleString()} €
                 </Typography>
               </Box>
             )}
 
             <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
-              {finalPrice.toLocaleString()} ₽
+              {finalPrice.toLocaleString()} €
             </Typography>
           </Grid>
 
@@ -128,7 +128,7 @@ const CartItem = ({ item, quantity }: Props) => {
               }}
             >
               <Typography variant="h6" fontWeight="600">
-                {total.toLocaleString()} ₽
+                {total.toLocaleString()} €
               </Typography>
               <IconButton onClick={handleRemove} color="error">
                 <Delete />

@@ -9,7 +9,7 @@ export async function confirmPayment(orderId: string) {
 
 export async function updatePaymentStatus(
   orderId: string,
-  status: 'SUCCEEDED' | 'FAILED'
+  status: 'SUCCEEDED' | 'FAILED' | 'CANCELLED'
 ) {
   return await repo.updatePaymentStatus(orderId, status)
 }
