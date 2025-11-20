@@ -61,7 +61,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 0 !important;
-  min-height: 80px !important;
+  height: 50px !important;
 }
 .firstSection {
   display: flex;
@@ -279,6 +279,7 @@
 
 .drawer {
   padding: 0;
+  min-height: 40px;
 }
 
 .drawerHeader {

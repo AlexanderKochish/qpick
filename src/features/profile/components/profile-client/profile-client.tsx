@@ -11,7 +11,6 @@ import {
   Tab,
   Tabs,
   Chip,
-  CircularProgress,
 } from '@mui/material'
 import {
   Edit as EditIcon,
@@ -25,6 +24,7 @@ import AddressSection from '../profile-address/profile-address'
 import OrdersSection from '../profile-orders/profile-orders'
 import ReviewsSection from '../profile-reviews/profile-reviews'
 import { useProfile } from '../../hooks/useProfile'
+import Spinner from '@/shared/components/spinner/spinner'
 
 export default function ProfileClient() {
   const [activeTab, setActiveTab] = useState(0)
@@ -32,19 +32,7 @@ export default function ProfileClient() {
   const { data: userData, isLoading } = useProfile()
 
   if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: 3,
-          height: '90vh',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    )
+    return <Spinner />
   }
   if (!userData) {
     return null

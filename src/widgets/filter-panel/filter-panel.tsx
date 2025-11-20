@@ -1,20 +1,19 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import s from './filter-panel.module.css'
 import {
   AppBar,
   Box,
-  Button,
   MenuItem,
   TextField,
   Toolbar,
   Typography,
 } from '@mui/material'
-import { FilterList } from '@mui/icons-material'
+import { SortBy } from '@/shared/types/types'
 
 interface Props {
   itemsLength?: number
-  sortBy: string
-  setSortBy: (value: string) => Dispatch<SetStateAction<string>>
+  sortBy: SortBy
+  setSortBy: Dispatch<SetStateAction<SortBy>>
 }
 
 const FilterPanel = ({ itemsLength, sortBy, setSortBy }: Props) => {
@@ -31,19 +30,26 @@ const FilterPanel = ({ itemsLength, sortBy, setSortBy }: Props) => {
           <TextField
             select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
+            onChange={(e) => setSortBy(e.target.value as SortBy)}
             className={s.sortSelect}
             size="small"
+            slotProps={{
+              select: {
+                MenuProps: {
+                  disableScrollLock: true,
+                },
+              },
+            }}
           >
             <MenuItem value="newest">Сначала новинки</MenuItem>
             <MenuItem value="price-low">Сначала дешевые</MenuItem>
             <MenuItem value="price-high">Сначала дорогие</MenuItem>
-            <MenuItem value="rating">По рейтингу</MenuItem>
+            <MenuItem value="ratings">По рейтингу</MenuItem>
           </TextField>
 
-          <Button startIcon={<FilterList />} className={s.filterButton}>
+          {/* <Button startIcon={<FilterList />} className={s.filterButton}>
             Фильтры
-          </Button>
+          </Button> */}
         </Box>
       </Toolbar>
     </AppBar>

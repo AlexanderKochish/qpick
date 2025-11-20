@@ -31,9 +31,6 @@ import {
   LocationOn,
   Smartphone,
   Laptop,
-  Headphones,
-  Watch,
-  Tablet,
 } from '@mui/icons-material'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -47,7 +44,6 @@ interface Props {
 
 export default function Header({ initCartCount, isLogged }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null)
   const [categoriesAnchor, setCategoriesAnchor] = useState<null | HTMLElement>(
     null
@@ -164,6 +160,8 @@ export default function Header({ initCartCount, isLogged }: Props) {
                 <Box className={styles.searchContainer}>
                   <Search className={styles.searchIcon} />
                   <InputBase
+                    // value={search}
+                    // onChange={(e) => setSearch(e.target.value)}
                     placeholder="Поиск смартфонов, ноутбуков, аксессуаров..."
                     className={styles.searchInput}
                   />
@@ -207,6 +205,7 @@ export default function Header({ initCartCount, isLogged }: Props) {
         onClose={handleCategoriesClose}
         onMouseLeave={handleCategoriesClose}
         className={styles.categoriesMenu}
+        disableScrollLock={true}
         MenuListProps={{
           onMouseLeave: handleCategoriesClose,
           className: styles.categoriesMenuList,
