@@ -1,8 +1,14 @@
+export const dynamic = 'force-dynamic'
 import HomeClient from '@/features/home/components/home-client/home-client'
 import { getAllProducts } from '@/features/products/actions/actions'
 
-export default async function HomePage() {
-  const products = await getAllProducts()
+interface Props {
+  searchParams: Promise<{ search?: string }>
+}
 
-  return <HomeClient initialData={products} />
+export default async function HomePage({ searchParams }: Props) {
+  const products = await getAllProducts('', (await searchParams).search)
+  const search = (await searchParams).search ?? ''
+
+  return <HomeClient initialData={products} search={search || ''} />
 }

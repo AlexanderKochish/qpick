@@ -4,8 +4,9 @@ import prisma from '@/shared/lib/prisma'
 export class ProductRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
 
-  async getAll(sortBy?: string) {
-    let orderBy: Record<string, string> = {}
+  async getAll(sortBy?: string, search?: string) {
+    let orderBy: Prisma.ProductOrderByWithRelationInput = {}
+    const where: Prisma.ProductWhereInput = {}
 
     switch (sortBy) {
       case 'price-low':
@@ -17,14 +18,26 @@ export class ProductRepository {
       case 'newest':
         orderBy = { createdAt: 'desc' }
         break
-      case 'rating':
-        orderBy = { rating: 'desc' }
+      case 'ratings':
+        orderBy = {
+          ratings: {
+            _count: 'desc',
+          },
+        }
         break
       default:
         orderBy = { createdAt: 'desc' }
     }
 
+    if (search?.trim()) {
+      where.name = {
+        contains: search,
+        mode: 'insensitive',
+      }
+    }
+
     return await this.db.product.findMany({
+      where,
       orderBy: orderBy,
       include: {
         images: true,

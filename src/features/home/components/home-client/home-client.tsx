@@ -20,23 +20,25 @@ import { useRouter } from 'next/navigation'
 
 interface Props {
   initialData: ProductCard[]
+  search: string
 }
 
-const HomeClient = ({ initialData }: Props) => {
+const HomeClient = ({ initialData, search }: Props) => {
   const router = useRouter()
   const [sortBy, setSortBy] = useState<SortBy>('newest')
   const [currentPage, setCurrentPage] = useState(1)
-  const { data: products, isLoading } = useProducts(sortBy, initialData)
+  const { data: products, isLoading } = useProducts(sortBy, initialData, search)
+
   const itemsPerPage = 12
 
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const currentProducts = products?.slice(startIndex, startIndex + itemsPerPage)
+  const totalPages = products?.length
+    ? Math.ceil(products.length / itemsPerPage)
+    : 0
   if (products?.length === 0) {
     return <p>Products not found.Try again letter</p>
   }
-
-  const totalPages =
-    products?.length && Math.ceil(products.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentProducts = products?.slice(startIndex, startIndex + itemsPerPage)
 
   return (
     <Box className={s.container}>

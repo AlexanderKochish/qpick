@@ -36,6 +36,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import styles from './header.module.css'
 import { useCategory } from '@/features/category/hooks/useCategory'
+import { useSearch } from '@/shared/hooks/useSearch'
 
 interface Props {
   initCartCount: number
@@ -49,6 +50,7 @@ export default function Header({ initCartCount, isLogged }: Props) {
     null
   )
   const router = useRouter()
+  const { search, setSearch } = useSearch()
 
   const { data: categories } = useCategory()
 
@@ -160,8 +162,8 @@ export default function Header({ initCartCount, isLogged }: Props) {
                 <Box className={styles.searchContainer}>
                   <Search className={styles.searchIcon} />
                   <InputBase
-                    // value={search}
-                    // onChange={(e) => setSearch(e.target.value)}
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                     placeholder="Поиск смартфонов, ноутбуков, аксессуаров..."
                     className={styles.searchInput}
                   />

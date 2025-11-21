@@ -1,6 +1,5 @@
 'use server'
 
-import { strict } from 'node:assert'
 import { ProductRepository } from '../repository/product.repository'
 
 const repo = new ProductRepository()
@@ -31,8 +30,10 @@ export const handleUpload = async (url: string, productId: string) => {
   await repo.addImage(productId, url)
 }
 
-export async function getAllProducts(sortBy?: string) {
-  return await repo.getAll(sortBy)
+export async function getAllProducts(sortBy?: string, search?: string) {
+  const products = await repo.getAll(sortBy, search)
+
+  return products
 }
 
 export async function getProductById(id: string) {
