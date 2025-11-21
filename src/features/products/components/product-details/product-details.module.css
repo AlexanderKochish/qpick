@@ -26,7 +26,6 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Секция изображений */
 .imageSection {
   position: sticky;
   top: 24px;
@@ -92,7 +91,6 @@
   object-fit: cover;
 }
 
-/* Секция информации */
 .infoSection {
   padding: 0 16px;
 }
@@ -253,106 +251,12 @@
   color: #667eea;
 }
 
-/* Детальная информация */
 .detailsSection {
   margin-top: 48px;
 }
 
-.tabsAppBar {
-  background: white !important;
-  box-shadow: none !important;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.tabs {
-  min-height: 64px;
-}
-
-.tabs .MuiTab-root {
-  text-transform: none !important;
-  font-weight: 500;
-  font-size: 1rem;
-  min-height: 64px;
-}
-
 .tabContent {
   padding: 32px 0;
-}
-
-.description {
-  line-height: 1.7;
-}
-
-.specifications {
-  max-width: 800px;
-}
-
-.specItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.reviewsHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.ratingSummary {
-  text-align: center;
-  padding: 24px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  min-width: 200px;
-}
-
-.averageRating {
-  font-weight: 700 !important;
-  color: #2c3e50;
-  margin-bottom: 8px !important;
-}
-
-.reviewsList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.reviewCard {
-  border-radius: 12px !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
-}
-
-.reviewHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.reviewAuthor {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-}
-
-.reviewComment {
-  line-height: 1.6;
-  color: #2c3e50;
 }
 
 .faq {
@@ -360,7 +264,6 @@
   padding: 48px 0;
 }
 
-/* Кнопка назад */
 .backButton {
   position: fixed !important;
   bottom: 24px;
@@ -374,8 +277,61 @@
 .backButton:hover {
   background: #f5f5f5 !important;
 }
+.dialog {
+  backdrop-filter: blur(5px);
+}
 
-/* Адаптивность */
+.dialogTitle {
+  text-align: center;
+  font-weight: 600;
+  padding: 20px 24px 10px;
+}
+
+.dialogContent {
+  padding: 0 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ratingSection {
+  margin: 16px 0;
+  text-align: center;
+}
+
+.ratingSection legend {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.prosCons {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.prosCons > * {
+  flex: 1;
+}
+
+.actions {
+  padding: 16px 24px;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .prosCons {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .dialogContent {
+    padding: 0 16px;
+  }
+}
 @media (max-width: 900px) {
   .content {
     padding: 20px;

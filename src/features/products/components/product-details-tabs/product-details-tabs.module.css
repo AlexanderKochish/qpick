@@ -1,0 +1,16 @@
+.tabsAppBar {
+  background: white !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tabs {
+  min-height: 64px;
+}
+
+.tabs .MuiTab-root {
+  text-transform: none !important;
+  font-weight: 500;
+  font-size: 1rem;
+  min-height: 64px;
+}

@@ -9,16 +9,14 @@ import {
   Button,
   Chip,
   Rating,
-  Divider,
   IconButton,
-  Tabs,
-  Tab,
-  Card,
-  CardContent,
-  Avatar,
   Breadcrumbs,
   Link,
-  AppBar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
 } from '@mui/material'
 import {
   Favorite,
@@ -30,13 +28,17 @@ import {
   LocalShipping,
   AssignmentReturn,
   Security,
-  Comment,
 } from '@mui/icons-material'
 import { useRouter } from 'next/navigation'
 import s from './product-details.module.css'
 import Image from 'next/image'
 import { Rating as RatingType } from '@/generated/prisma/client'
 import { ProductWithRelations } from '@/features/products/types/types'
+import ProductDetailsTabs from '../product-details-tabs/product-details-tabs'
+import ProductDescription from '../product-description/product-description'
+import ProductSpecifications from '../product-specifications/product-specifications'
+import ProductReview from '../product-review/product-review'
+import { SendIcon } from 'lucide-react'
 
 interface Props {
   product: ProductWithRelations | null
@@ -47,6 +49,7 @@ const ProductDetails = ({ product }: Props) => {
   const [favorite, setFavorite] = useState(false)
   const [activeTab, setActiveTab] = useState(0)
   const [quantity, setQuantity] = useState(1)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   if (!product) return null
   const calculateAverageRating = (ratings: RatingType[]) => {
@@ -71,6 +74,10 @@ const ProductDetails = ({ product }: Props) => {
   const buyNow = () => {
     addToCart()
     router.push('/cart')
+  }
+
+  const handleAddReview = () => {
+    console.log('review')
   }
 
   const averageRating = calculateAverageRating(product.ratings)
@@ -277,124 +284,25 @@ const ProductDetails = ({ product }: Props) => {
           </Grid>
         </Grid>
 
-        {/* Детальная информация */}
         <Box className={s.detailsSection}>
-          <AppBar position="static" className={s.tabsAppBar}>
-            <Tabs
-              value={activeTab}
-              onChange={(_, newValue) => setActiveTab(newValue)}
-              className={s.tabs}
-            >
-              <Tab label="Описание" />
-              <Tab label="Характеристики" />
-              <Tab label="Отзывы и оценки" />
-              <Tab label="Вопросы и ответы" />
-            </Tabs>
-          </AppBar>
+          <ProductDetailsTabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
 
           <Box className={s.tabContent}>
             {activeTab === 0 && (
-              <Box className={s.description}>
-                <Typography variant="h6" gutterBottom>
-                  Описание товара
-                </Typography>
-                <Typography variant="body1" paragraph>
-                  {product.description}
-                </Typography>
-                <Typography variant="body1">
-                  iPhone 15 Pro Max представляет собой вершину технологий Apple.
-                  С титановым корпусом, который одновременно прочный и легкий,
-                  этот смартфон устанавливает новые стандарты в индустрии.
-                </Typography>
-              </Box>
+              <ProductDescription description={product.description} />
             )}
 
-            {activeTab === 1 && (
-              <Box className={s.specifications}>
-                <Typography variant="h6" gutterBottom>
-                  Технические характеристики
-                </Typography>
-                {/* <Grid container spacing={2}>
-                  {product.specifications.map((spec, index) => (
-                    <Grid size={4} key={index}>
-                      <Box className={s.specItem}>
-                        <Typography variant="body2" color="text.secondary">
-                          {spec.name}
-                        </Typography>
-                        <Typography variant="body2" fontWeight="medium">
-                          {spec.value}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid> */}
-              </Box>
-            )}
+            {activeTab === 1 && <ProductSpecifications />}
 
             {activeTab === 2 && (
-              <Box className={s.reviews}>
-                <Box className={s.reviewsHeader}>
-                  <Box className={s.ratingSummary}>
-                    <Typography variant="h4" className={s.averageRating}>
-                      {averageRating.toFixed(1)}
-                    </Typography>
-                    <Rating value={averageRating} readOnly size="large" />
-                    <Typography variant="body2" color="text.secondary">
-                      На основе {product.ratings.length} оценок
-                    </Typography>
-                  </Box>
-                  <Button variant="outlined" startIcon={<Comment />}>
-                    Написать отзыв
-                  </Button>
-                </Box>
-
-                <Divider />
-
-                <Box className={s.reviewsList}>
-                  {product.ratings.map((rating) => (
-                    <Card key={rating.id} className={s.reviewCard}>
-                      <CardContent>
-                        <Box className={s.reviewHeader}>
-                          <Box className={s.reviewAuthor}>
-                            {rating.author.avatar && (
-                              <Avatar
-                                src={rating.author?.avatar.url}
-                                className={s.avatar}
-                              >
-                                {rating.author.name?.charAt(0)}
-                              </Avatar>
-                            )}
-                            <Box>
-                              <Typography variant="subtitle2">
-                                {rating.author.name}
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                              >
-                                {rating.createdAt.toLocaleDateString('ru-RU')}
-                              </Typography>
-                            </Box>
-                          </Box>
-                          <Rating
-                            value={Number(rating.rating)}
-                            readOnly
-                            size="small"
-                          />
-                        </Box>
-                        {rating.rating && (
-                          <Typography
-                            variant="body1"
-                            className={s.reviewComment}
-                          >
-                            {rating.rating}
-                          </Typography>
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))}
-                </Box>
-              </Box>
+              <ProductReview
+                averageRating={averageRating.toFixed(1)}
+                product={product}
+                setOpenDialog={setDialogOpen}
+              />
             )}
 
             {activeTab === 3 && (
@@ -411,7 +319,83 @@ const ProductDetails = ({ product }: Props) => {
         </Box>
       </Container>
 
-      {/* Плавающая кнопка назад */}
+      <Dialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        className={s.dialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle className={s.dialogTitle}>
+          Оставить отзыв о товаре
+        </DialogTitle>
+
+        <DialogContent className={s.dialogContent}>
+          <form className={s.form}>
+            <TextField
+              name="name"
+              label="Ваше имя"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              required
+            />
+
+            <div className={s.ratingSection}>
+              <Typography component="legend">Ваша оценка</Typography>
+              <Rating
+                name="rating"
+                // value={ratingValue}
+                // onChange={(event, newValue) => setRatingValue(newValue)}
+                size="large"
+                precision={0.5}
+              />
+            </div>
+            <TextField
+              name="review"
+              label="Ваш отзыв"
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={4}
+              margin="normal"
+              required
+            />
+
+            <div className={s.prosCons}>
+              <TextField
+                name="pros"
+                label="Достоинства"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                name="cons"
+                label="Недостатки"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              />
+            </div>
+          </form>
+        </DialogContent>
+
+        <DialogActions className={s.actions}>
+          <Button onClick={() => setDialogOpen(false)} variant="outlined">
+            Отмена
+          </Button>
+          <Button
+            onClick={handleAddReview}
+            color="primary"
+            variant="contained"
+            startIcon={<SendIcon />}
+            disabled={!product._count.ratings}
+          >
+            Опубликовать отзыв
+          </Button>
+        </DialogActions>
+      </Dialog>
       <IconButton className={s.backButton} onClick={() => router.back()}>
         <ArrowBack />
       </IconButton>

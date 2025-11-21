@@ -1,4 +1,4 @@
-import ProductDetails from '@/features/admin/components/product-details/product-details'
+import ProductDetails from '@/features/products/components/product-details/product-details'
 import { getProductById } from '@/features/products/actions/actions'
 import { serializeDecimals } from '@/shared/utils/serializeDecimals'
 
