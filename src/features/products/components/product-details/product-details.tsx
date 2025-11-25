@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useActionState, useState } from 'react'
 import {
   Box,
   Container,
@@ -39,6 +39,7 @@ import ProductDescription from '../product-description/product-description'
 import ProductSpecifications from '../product-specifications/product-specifications'
 import ProductReview from '../product-review/product-review'
 import { SendIcon } from 'lucide-react'
+import CreateReviewModal from '@/features/reviews/components/create-review-modal/create-review-modal'
 
 interface Props {
   product: ProductWithRelations | null
@@ -96,7 +97,10 @@ const ProductDetails = ({ product }: Props) => {
           <Link href="/" className={s.breadcrumbLink}>
             Главная
           </Link>
-          <Link href="/product" className={s.breadcrumbLink}>
+          <Link
+            href={`/category/${product.category.name}/${product.categoryId}`}
+            className={s.breadcrumbLink}
+          >
             {product.category.name}
           </Link>
           <Typography color="text.primary">{product.name}</Typography>
@@ -321,83 +325,11 @@ const ProductDetails = ({ product }: Props) => {
         </Box>
       </Container>
 
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        className={s.dialog}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle className={s.dialogTitle}>
-          Оставить отзыв о товаре
-        </DialogTitle>
-
-        <DialogContent className={s.content}>
-          <form className={s.form}>
-            <TextField
-              name="name"
-              label="Ваше имя"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              required
-            />
-
-            <div className={s.ratingSection}>
-              <Typography component="legend">Ваша оценка</Typography>
-              <Rating
-                name="rating"
-                // value={ratingValue}
-                // onChange={(event, newValue) => setRatingValue(newValue)}
-                size="large"
-                precision={0.5}
-              />
-            </div>
-            <TextField
-              name="review"
-              label="Ваш отзыв"
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={4}
-              margin="normal"
-              required
-            />
-
-            <div className={s.prosCons}>
-              <TextField
-                name="pros"
-                label="Достоинства"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-              />
-              <TextField
-                name="cons"
-                label="Недостатки"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-              />
-            </div>
-          </form>
-        </DialogContent>
-
-        <DialogActions className={s.actions}>
-          <Button onClick={() => setDialogOpen(false)} variant="outlined">
-            Отмена
-          </Button>
-          <Button
-            onClick={handleAddReview}
-            color="primary"
-            variant="contained"
-            startIcon={<SendIcon />}
-            disabled={!product._count.ratings}
-          >
-            Опубликовать отзыв
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <CreateReviewModal
+        isOpen={dialogOpen}
+        setIsOpen={setDialogOpen}
+        ratingCount={product._count.ratings}
+      />
       <IconButton className={s.backButton} onClick={() => router.back()}>
         <ArrowBack />
       </IconButton>

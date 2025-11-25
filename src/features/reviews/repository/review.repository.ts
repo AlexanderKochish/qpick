@@ -1,17 +1,14 @@
+import { PrismaClient } from '@/generated/prisma/client'
+import { ReviewCreateInput } from '@/generated/prisma/models'
 import prisma from '@/shared/lib/prisma'
-import { PrismaClient } from '@prisma/client'
 
 export class ReviewRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
 
-  async getAll() {}
-
-  async getById(id: string) {}
-  async getAllByCategory(categoryId: string) {}
-
-  async create(data: any) {}
-
-  async update(data: any) {}
-
-  async removeById(id: string) {}
+  async create(data: ReviewCreateInput, authorId: string) {
+    if (!authorId) return null
+    return await this.db.review.create({
+      data,
+    })
+  }
 }
