@@ -22,7 +22,6 @@ import { useFavorites } from '../../hooks/useFavorites'
 import Link from 'next/link'
 import { addToCart } from '@/features/cart/actions/actions'
 import { ProductCard as PropductType } from '../../types/types'
-
 interface Props {
   product: PropductType
   finalPrice?: number
@@ -30,17 +29,14 @@ interface Props {
 }
 
 const ProductCard = ({ product, finalPrice }: Props) => {
-  // const isFavorite = use(isProductInFavorites())?.items.flatMap((favorite) =>
-  //   Object.values(favorite)
-  // )
-  const { mutate } = useFavorites()
+  const { mutate, isFavorite, isPending } = useFavorites()
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-EN').format(price)
   }
-  const isFavorite = true
+
   return (
-    <Grid size={3} key={product.id}>
+    <Grid size={{ lg: 3, md: 4, xs: 8 }} key={product.id}>
       <Card className={s.productCard}>
         {product.discount && product.discount > 0 && (
           <Chip
@@ -52,10 +48,11 @@ const ProductCard = ({ product, finalPrice }: Props) => {
         )}
         <Box className={s.cardActions}>
           <IconButton
+            disabled={isPending}
             className={s.actionButton}
             onClick={() => mutate(product.id)}
           >
-            {isFavorite ? (
+            {isFavorite?.includes(product.id) ? (
               <Favorite className={s.favoriteActive} />
             ) : (
               <FavoriteBorder className={s.favorite} />

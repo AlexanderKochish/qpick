@@ -1,3 +1,4 @@
+'use client'
 import { Dispatch, SetStateAction } from 'react'
 import s from './filter-panel.module.css'
 import {
@@ -12,11 +13,11 @@ import { SortBy } from '@/shared/types/types'
 
 interface Props {
   itemsLength?: number
-  sortBy: SortBy
-  setSortBy: Dispatch<SetStateAction<SortBy>>
+  sortBy: string
+  setSortBy: (value: SortBy) => void
 }
 
-const FilterPanel = ({ itemsLength, sortBy, setSortBy }: Props) => {
+const FilterPanel = ({ itemsLength, setSortBy, sortBy }: Props) => {
   return (
     <AppBar position="sticky" className={s.filtersBar}>
       <Toolbar className={s.filtersToolbar}>

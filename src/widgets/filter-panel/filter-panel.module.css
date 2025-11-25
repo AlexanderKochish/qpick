@@ -39,18 +39,18 @@
 }
 
 @media (max-width: 900px) {
-  .filtersToolbar {
-    flex-direction: column;
-    gap: 16px;
-    align-items: stretch;
-  }
-
   .filtersRight {
     justify-content: space-between;
   }
 }
 
 @media (max-width: 480px) {
+  .filtersToolbar {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
   .filtersRight {
     flex-direction: column;
     gap: 12px;

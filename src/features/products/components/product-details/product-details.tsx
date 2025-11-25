@@ -105,7 +105,7 @@ const ProductDetails = ({ product }: Props) => {
 
       <Container maxWidth="xl" className={s.content}>
         <Grid container spacing={4}>
-          <Grid size={6}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className={s.imageSection}>
               <Box
                 className={s.mainImage}
@@ -149,7 +149,7 @@ const ProductDetails = ({ product }: Props) => {
             </Box>
           </Grid>
 
-          <Grid size={6}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className={s.infoSection}>
               <Typography variant="h4" className={s.productName}>
                 {product.name}
@@ -221,18 +221,20 @@ const ProductDetails = ({ product }: Props) => {
                 >
                   Купить сейчас
                 </Button>
-                <IconButton
-                  className={s.favoriteButton}
-                  onClick={() => setFavorite(!favorite)}
-                >
-                  {favorite ? <Favorite color="error" /> : <FavoriteBorder />}
-                </IconButton>
-                <IconButton className={s.actionButton}>
-                  <CompareArrows />
-                </IconButton>
-                <IconButton className={s.actionButton}>
-                  <Share />
-                </IconButton>
+                <Grid container spacing={2}>
+                  <IconButton
+                    className={s.favoriteButton}
+                    onClick={() => setFavorite(!favorite)}
+                  >
+                    {favorite ? <Favorite color="error" /> : <FavoriteBorder />}
+                  </IconButton>
+                  <IconButton className={s.actionButton}>
+                    <CompareArrows />
+                  </IconButton>
+                  <IconButton className={s.actionButton}>
+                    <Share />
+                  </IconButton>
+                </Grid>
               </Box>
 
               <Box className={s.quantitySection}>
@@ -330,7 +332,7 @@ const ProductDetails = ({ product }: Props) => {
           Оставить отзыв о товаре
         </DialogTitle>
 
-        <DialogContent className={s.dialogContent}>
+        <DialogContent className={s.content}>
           <form className={s.form}>
             <TextField
               name="name"

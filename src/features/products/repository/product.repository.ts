@@ -6,7 +6,6 @@ export class ProductRepository {
 
   async getAll(sortBy?: string, search?: string) {
     let orderBy: Prisma.ProductOrderByWithRelationInput = {}
-    const where: Prisma.ProductWhereInput = {}
 
     switch (sortBy) {
       case 'price-low':
@@ -29,6 +28,7 @@ export class ProductRepository {
         orderBy = { createdAt: 'desc' }
     }
 
+    const where: Prisma.ProductWhereInput = {}
     if (search?.trim()) {
       where.name = {
         contains: search,
@@ -38,7 +38,7 @@ export class ProductRepository {
 
     return await this.db.product.findMany({
       where,
-      orderBy: orderBy,
+      orderBy,
       include: {
         images: true,
         reviews: true,

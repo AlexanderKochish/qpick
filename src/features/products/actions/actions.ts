@@ -31,9 +31,7 @@ export const handleUpload = async (url: string, productId: string) => {
 }
 
 export async function getAllProducts(sortBy?: string, search?: string) {
-  const products = await repo.getAll(sortBy, search)
-
-  return products
+  return await repo.getAll(sortBy, search)
 }
 
 export async function getProductById(id: string) {

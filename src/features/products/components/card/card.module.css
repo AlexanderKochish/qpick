@@ -6,6 +6,7 @@
   min-height: 200px;
   height: 100%;
   display: flex;
+  width: 300px;
   flex-direction: column;
 }
 

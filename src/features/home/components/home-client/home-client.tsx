@@ -14,21 +14,23 @@ import ProductsList from '@/features/products/components/products-list/products-
 import Spinner from '@/shared/components/spinner/spinner'
 import { Sort } from '@mui/icons-material'
 import { useProducts } from '@/features/products/hooks/useProducts'
-import { SortBy } from '@/shared/types/types'
 import { ProductCard } from '@/features/products/types/types'
 import { useRouter } from 'next/navigation'
+import { useSort } from '@/shared/hooks/useSort'
+import { SortBy } from '@/shared/types/types'
 
 interface Props {
   initialData: ProductCard[]
-  search: string
+  search?: string
+  sort?: SortBy
 }
 
-const HomeClient = ({ initialData, search }: Props) => {
+const HomeClient = ({ initialData, search, sort }: Props) => {
   const router = useRouter()
-  const [sortBy, setSortBy] = useState<SortBy>('newest')
   const [currentPage, setCurrentPage] = useState(1)
-  const { data: products, isLoading } = useProducts(sortBy, initialData, search)
 
+  const { setSortBy, sortBy } = useSort()
+  const { data: products, isLoading } = useProducts(sort, initialData, search)
   const itemsPerPage = 12
 
   const startIndex = (currentPage - 1) * itemsPerPage
@@ -66,11 +68,11 @@ const HomeClient = ({ initialData, search }: Props) => {
       <Container maxWidth="xl" className={s.mainContent}>
         <FilterPanel
           itemsLength={products?.length}
-          sortBy={sortBy}
           setSortBy={setSortBy}
+          sortBy={sortBy}
         />
-        {isLoading && <Spinner />}
-        <ProductsList products={products} />
+        {/* {isLoading && <Spinner />} */}
+        <ProductsList products={currentProducts} />
 
         {totalPages && totalPages > 1 && (
           <Box className={s.pagination}>

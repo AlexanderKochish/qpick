@@ -24,7 +24,7 @@ export class FavoriteRepository {
   }
 
   async isFavorites(userId: string) {
-    return await this.db.favorite.findUnique({
+    return await this.db.favorite.findMany({
       where: { userId },
       include: {
         items: {

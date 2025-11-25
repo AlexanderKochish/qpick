@@ -338,7 +338,9 @@ export default function ProductsPage() {
                         </TableCell>
                         <TableCell>
                           <IconButton
-                            onClick={(e) => handleMenuOpen(e, product)}
+                            onClick={(e) =>
+                              handleMenuOpen(e, product as ProductWithRelations)
+                            }
                             className={styles.menuButton}
                           >
                             <MoreIcon />

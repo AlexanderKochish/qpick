@@ -20,10 +20,11 @@ export const useSearch = () => {
     } else {
       params.delete('search')
     }
+
     startTransition(() => {
       router.push(`?${params.toString()}`, { scroll: false })
     })
   }, [debouncedSearch])
 
-  return { search, setSearch }
+  return { search, setSearch, isPending }
 }

@@ -3,7 +3,6 @@ import {
   toggleFavorite,
 } from '@/features/favorites/actions/actions'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { use } from 'react'
 
 export const useFavorites = () => {
   const queryClient = useQueryClient()
@@ -21,7 +20,7 @@ export const useFavorites = () => {
     queryFn: isProductInFavorites,
   })
 
-  const isFavorite = data?.items.flatMap((favorite) => Object.values(favorite))
+  const isFavorite = data && data[0]?.items.map((item) => item.productId)
 
   return {
     isFavorite,
