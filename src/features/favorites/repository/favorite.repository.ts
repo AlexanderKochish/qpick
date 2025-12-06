@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient } from '@prisma/client'
 import prisma from '@/shared/lib/prisma'
 
 export class FavoriteRepository {

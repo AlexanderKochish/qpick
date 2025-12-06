@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Chip, Typography } from '@mui/material'
 
 import s from './profile-orders.module.css'
-import { Order } from '@/generated/prisma/client'
+import { Order } from '@prisma/client'
 
 function OrdersSection({ orders }: { orders: Order[] }) {
   return (

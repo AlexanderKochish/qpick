@@ -1,9 +1,9 @@
 'use client'
 import { Box, Grid, Typography } from '@mui/material'
 import s from './products-list.module.css'
-import { Rating } from '@/generated/prisma/client'
 import { ProductCard as ProductCardType } from '../../types/types'
 import ProductCard from '../card/card'
+import { Rating } from '@prisma/client'
 
 interface Props {
   products: ProductCardType[] | undefined

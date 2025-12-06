@@ -1,4 +1,4 @@
-import { Image, Prisma } from '@/generated/prisma/client'
+import { Image, Prisma } from '@prisma/client'
 
 export type Category = Prisma.CategoryGetPayload<{
   include: {

@@ -1,6 +1,6 @@
 import { getCurrentSession } from '@/features/auth/actions/actions'
-import { PrismaClient } from '@/generated/prisma/client'
 import prisma from '@/shared/lib/prisma'
+import { PrismaClient } from '@prisma/client'
 
 export class ProfileRepository {
   constructor(private readonly db: PrismaClient = prisma) {}

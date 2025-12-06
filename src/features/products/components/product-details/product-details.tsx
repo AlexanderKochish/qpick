@@ -32,7 +32,7 @@ import {
 import { useRouter } from 'next/navigation'
 import s from './product-details.module.css'
 import Image from 'next/image'
-import { Rating as RatingType } from '@/generated/prisma/client'
+
 import { ProductWithRelations } from '@/features/products/types/types'
 import ProductDetailsTabs from '../product-details-tabs/product-details-tabs'
 import ProductDescription from '../product-description/product-description'
@@ -40,6 +40,7 @@ import ProductSpecifications from '../product-specifications/product-specificati
 import ProductReview from '../product-review/product-review'
 import { SendIcon } from 'lucide-react'
 import CreateReviewModal from '@/features/reviews/components/create-review-modal/create-review-modal'
+import { Rating as RatingType } from '@prisma/client'
 
 interface Props {
   product: ProductWithRelations | null

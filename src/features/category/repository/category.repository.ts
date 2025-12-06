@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 import prisma from '@/shared/lib/prisma'
 
 export class CategoryRepository {

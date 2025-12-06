@@ -1,5 +1,6 @@
-import { PrismaClient } from '@/generated/prisma/client'
 import prisma from '@/shared/lib/prisma'
+import { PrismaClient } from '@prisma/client'
+
 type ReviewCreate = {
   review: string
   authorId: string

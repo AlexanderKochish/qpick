@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material'
 import { LocationEditIcon } from 'lucide-react'
 import s from './profile-address.module.css'
-import { Address } from '@/generated/prisma/client'
+import { Address } from '@prisma/client'
 
 function AddressSection({ addresses }: { addresses: Address[] }) {
   return (

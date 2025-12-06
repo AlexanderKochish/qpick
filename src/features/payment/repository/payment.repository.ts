@@ -1,6 +1,5 @@
-import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient } from '@prisma/client'
 import prisma from '@/shared/lib/prisma'
-
 export class PaymentRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
 

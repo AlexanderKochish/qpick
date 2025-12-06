@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs'
 const getPrismaAdapter = async () => {
   if (typeof window === 'undefined') {
     const { PrismaAdapter } = await import('@auth/prisma-adapter')
-    const { prisma } = await import('@/shared/lib/prisma-edge')
+    const { prisma } = await import('@/shared/lib/prisma')
     return PrismaAdapter(prisma)
   }
   return undefined
@@ -31,7 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         try {
-          const { prisma } = await import('@/shared/lib/prisma-edge')
+          const { prisma } = await import('@/shared/lib/prisma')
 
           const user = await prisma.user.findUnique({
             where: {

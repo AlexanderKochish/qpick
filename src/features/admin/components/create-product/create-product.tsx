@@ -20,10 +20,9 @@ import {
 import { Close, CloudUpload } from '@mui/icons-material'
 import { styled } from '@mui/material/styles'
 import { Uploader } from '@/shared/components/uploader/uploader'
-import { ProductCreateInput } from '@/generated/prisma/models'
 import { createProduct } from '@/features/products/actions/actions'
-import { Brand, Category } from '@/generated/prisma/client'
 import Image from 'next/image'
+import { Brand, Category, Product } from '@prisma/client'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -88,7 +87,9 @@ const RemoveImageButton = styled(Chip)(({ theme }) => ({
 interface CreateProductModalProps {
   open: boolean
   onClose: () => void
-  onSubmit: (productData: ProductCreateInput) => void
+  onSubmit: (
+    productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>
+  ) => void
   categories?: Category[]
   brands?: Brand[]
 }

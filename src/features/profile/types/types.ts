@@ -1,6 +1,5 @@
-import { Order } from '@/generated/prisma/client'
-import { RatingValue } from '@/generated/prisma/enums'
-import { Decimal } from '@prisma/client/runtime/library'
+import { Order } from '@prisma/client'
+import { RatingValue } from '@prisma/client'
 
 export interface EditProfile {
   email: string

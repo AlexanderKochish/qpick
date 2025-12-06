@@ -43,12 +43,11 @@ import {
 import styles from './page.module.css'
 import AdminLayout from '../layout'
 import CreateProductModal from '@/features/admin/components/create-product/create-product'
-import { ProductCreateInput } from '@/generated/prisma/models'
 import { useCategory } from '@/features/category/hooks/useCategory'
 import { useProductModel } from '@/features/products/hooks/useProductModel'
 import { useProducts } from '@/features/products/hooks/useProducts'
-import { Rating } from '@/generated/prisma/client'
 import { ProductWithRelations } from '@/features/products/types/types'
+import { Product, Rating } from '@prisma/client'
 
 export default function ProductsPage() {
   const [page, setPage] = useState(0)
@@ -65,7 +64,9 @@ export default function ProductsPage() {
   const { data: products } = useProducts()
   const { data: brands } = useProductModel()
 
-  const handleCreateProduct = (productData: ProductCreateInput) => {
+  const handleCreateProduct = (
+    productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>
+  ) => {
     console.log('Создание продукта:', productData)
   }
 

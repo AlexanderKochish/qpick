@@ -1,7 +1,7 @@
-import prisma from '@/shared/lib/prisma'
 import { orderSchemaType } from '../lib/zod/order.schema'
-import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { getCurrentSession } from '@/features/auth/actions/actions'
+import prisma from '@/shared/lib/prisma'
 
 export class OrderRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
