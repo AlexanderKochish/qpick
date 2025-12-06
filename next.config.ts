@@ -1,6 +1,18 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.plugins = config.plugins || []
+    }
+    return config
+  },
+
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
+  },
+
+  serverExternalPackages: ['@prisma/client', 'prisma'],
   images: {
     qualities: [75, 85],
     remotePatterns: [
