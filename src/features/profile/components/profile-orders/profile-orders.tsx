@@ -1,6 +1,7 @@
 import { Box, Card, CardContent, Chip, Typography } from '@mui/material'
-import { Order } from '../../types/types'
+
 import s from './profile-orders.module.css'
+import { Order } from '@/generated/prisma/client'
 
 function OrdersSection({ orders }: { orders: Order[] }) {
   return (
@@ -29,7 +30,7 @@ function OrdersSection({ orders }: { orders: Order[] }) {
               Дата: {order.createdAt.toLocaleDateString()}
             </Typography>
             <Typography variant="h6" className={s.orderTotal}>
-              {order.totalPrice.toLocaleString()} ₽
+              {order.totalPrice} $
             </Typography>
           </CardContent>
         </Card>

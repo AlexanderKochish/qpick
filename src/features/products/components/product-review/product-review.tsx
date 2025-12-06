@@ -20,6 +20,7 @@ interface Props {
 }
 
 const ProductReview = ({ averageRating, product, setOpenDialog }: Props) => {
+  console.log(product.reviews)
   return (
     <Box className={s.reviews}>
       <Box className={s.reviewsHeader}>
@@ -44,38 +45,39 @@ const ProductReview = ({ averageRating, product, setOpenDialog }: Props) => {
       <Divider />
 
       <Box className={s.reviewsList}>
-        {product.ratings.map((rating) => (
-          <Card key={rating.id} className={s.reviewCard}>
-            <CardContent>
-              <Box className={s.reviewHeader}>
-                <Box className={s.reviewAuthor}>
-                  {rating.author.avatar && (
-                    <Avatar
-                      src={rating.author?.avatar.url}
-                      className={s.avatar}
-                    >
-                      {rating.author.name?.charAt(0)}
-                    </Avatar>
-                  )}
-                  <Box>
-                    <Typography variant="subtitle2">
-                      {rating.author.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {rating.createdAt.toLocaleDateString('ru-RU')}
-                    </Typography>
+        {product.reviews &&
+          product.reviews.map((review) => (
+            <Card key={review.id} className={s.reviewCard}>
+              <CardContent>
+                <Box className={s.reviewHeader}>
+                  <Box className={s.reviewAuthor}>
+                    {review.author.avatar && (
+                      <Avatar
+                        src={review.author?.avatar.url}
+                        className={s.avatar}
+                      >
+                        {review.author.name?.charAt(0)}
+                      </Avatar>
+                    )}
+                    <Box>
+                      <Typography variant="subtitle2">
+                        {review.author.name}
+                      </Typography>
+                      {/* <Typography variant="body2" color="text.secondary">
+                        {review.createdAt.toLocaleDateString('en-EN')}
+                      </Typography> */}
+                    </Box>
                   </Box>
+                  {/* <Rating value={Number(review.review)} readOnly size="small" /> */}
                 </Box>
-                <Rating value={Number(rating.rating)} readOnly size="small" />
-              </Box>
-              {rating.rating && (
-                <Typography variant="body1" className={s.reviewComment}>
-                  {rating.rating}
-                </Typography>
-              )}
-            </CardContent>
-          </Card>
-        ))}
+                {review.review && (
+                  <Typography variant="body1" className={s.reviewComment}>
+                    {review.review}
+                  </Typography>
+                )}
+              </CardContent>
+            </Card>
+          ))}
       </Box>
     </Box>
   )

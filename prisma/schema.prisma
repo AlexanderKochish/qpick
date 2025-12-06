@@ -51,6 +51,12 @@ enum RatingValue {
   FIVE 
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String  
@@ -209,9 +215,12 @@ model Review {
   author    User     @relation(fields: [authorId], references: [id])
   productId String
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  status    ReviewStatus @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([productId, authorId])
+  @@index([status])
   @@map("reviews")
 }
 

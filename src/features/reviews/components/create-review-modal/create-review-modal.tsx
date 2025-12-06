@@ -9,7 +9,6 @@ import {
   Typography,
 } from '@mui/material'
 import { SendIcon } from 'lucide-react'
-import React, { useActionState } from 'react'
 import s from './create-review-modal.module.css'
 import { createReview } from '../../actions/actions'
 
@@ -17,9 +16,15 @@ interface Props {
   setIsOpen: (open: boolean) => void
   isOpen: boolean
   ratingCount?: number
+  productId: string
 }
 
-const CreateReviewModal = ({ setIsOpen, isOpen, ratingCount }: Props) => {
+const CreateReviewModal = ({
+  setIsOpen,
+  isOpen,
+  ratingCount,
+  productId,
+}: Props) => {
   return (
     <Dialog
       open={isOpen}
@@ -34,14 +39,7 @@ const CreateReviewModal = ({ setIsOpen, isOpen, ratingCount }: Props) => {
 
       <DialogContent className={s.content}>
         <form id="review-modal" action={createReview} className={s.form}>
-          <TextField
-            name="name"
-            label="Ваше имя"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            required
-          />
+          <input type="hidden" name="productId" value={productId} />
 
           <div className={s.ratingSection}>
             <Typography component="legend">Ваша оценка</Typography>
@@ -64,7 +62,7 @@ const CreateReviewModal = ({ setIsOpen, isOpen, ratingCount }: Props) => {
             required
           />
 
-          <div className={s.prosCons}>
+          {/* <div className={s.prosCons}>
             <TextField
               name="pros"
               label="Достоинства"
@@ -79,7 +77,7 @@ const CreateReviewModal = ({ setIsOpen, isOpen, ratingCount }: Props) => {
               fullWidth
               margin="normal"
             />
-          </div>
+          </div> */}
         </form>
       </DialogContent>
 

@@ -1,17 +1,20 @@
 import prisma from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 
+enum RatingValue {
+  ONE = 1,
+  TWO,
+  THREE,
+  FOUR,
+  FIVE,
+}
+
+type RatingCreate = {
+  rating: RatingValue
+}
+
 export class RatingRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
 
-  async getAll() {}
-
-  async getById(id: string) {}
-  async getAllByCategory(categoryId: string) {}
-
-  // async create(data: any) {}
-
-  // async update(data: any) {}
-
-  async removeById(id: string) {}
+  async create(data: RatingCreate) {}
 }

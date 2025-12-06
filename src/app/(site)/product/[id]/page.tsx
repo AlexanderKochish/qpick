@@ -1,6 +1,5 @@
 import ProductDetails from '@/features/products/components/product-details/product-details'
 import { getProductById } from '@/features/products/actions/actions'
-import { serializeDecimals } from '@/shared/utils/serializeDecimals'
 
 export default async function ProductPage({
   params,
@@ -10,8 +9,7 @@ export default async function ProductPage({
   const { id } = await params
   const product = await getProductById(id)
 
-  const serializableProduct = serializeDecimals(product)
-  return <ProductDetails product={serializableProduct} />
+  return <ProductDetails product={product} />
 }
 
 //  specifications: [

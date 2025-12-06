@@ -48,7 +48,9 @@ export class ProductRepository {
         _count: {
           select: {
             ratings: true,
-            reviews: true,
+            reviews: {
+              where: { status: 'APPROVED' },
+            },
             orderItems: true,
           },
         },

@@ -1,4 +1,5 @@
-import { OrderStatus, RatingValue } from '@/generated/prisma/enums'
+import { Order } from '@/generated/prisma/client'
+import { RatingValue } from '@/generated/prisma/enums'
 import { Decimal } from '@prisma/client/runtime/library'
 
 export interface EditProfile {
@@ -25,19 +26,6 @@ export interface UserProfile {
   address: Address[]
 }
 
-export interface Order {
-  id: string
-  userId: string
-  createdAt: Date
-  updatedAt: Date
-  status: OrderStatus
-  totalPrice: Decimal
-  shippingAddressId: string | null
-  paymentId: string | null
-  customerEmail: string
-  customerPhone: string
-}
-
 export interface Rating {
   id: string
   createdAt: Date
@@ -54,10 +42,10 @@ type Product = {
   createdAt: Date
   updatedAt: Date
   description: string
-  price: Decimal
+  price: number
   discount: number | null
   categoryId: string
-  productModelId: string
+  brandId: string
 }
 
 export interface Review {

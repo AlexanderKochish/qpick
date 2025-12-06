@@ -329,6 +329,7 @@ const ProductDetails = ({ product }: Props) => {
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
         ratingCount={product._count.ratings}
+        productId={product.id}
       />
       <IconButton className={s.backButton} onClick={() => router.back()}>
         <ArrowBack />
