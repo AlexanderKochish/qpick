@@ -11,7 +11,7 @@ function ProfileInfo({
 }) {
   return (
     <Grid container spacing={3}>
-      <Grid size={6}>
+      <Grid size={{ md: 6, xs: 12 }}>
         <TextField
           label="Имя"
           defaultValue={user.name}
@@ -20,7 +20,7 @@ function ProfileInfo({
           className={s.field}
         />
       </Grid>
-      <Grid size={6}>
+      <Grid size={{ md: 6, xs: 12 }}>
         <TextField
           label="Email"
           defaultValue={user.email}

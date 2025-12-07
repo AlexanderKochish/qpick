@@ -264,6 +264,7 @@
 .drawer {
   padding: 0;
   min-height: 40px;
+  width: 70dvw;
 }
 
 .drawerHeader {

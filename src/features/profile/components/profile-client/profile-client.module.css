@@ -130,7 +130,7 @@
   }
 }
 
-@media (width < 435px) {
+@media (width < 385px) {
   .stats {
     flex-direction: column;
     gap: 16px;

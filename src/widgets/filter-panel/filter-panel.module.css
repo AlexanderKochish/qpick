@@ -10,6 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 8px 0 !important;
 }
 
@@ -44,7 +45,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 340px) {
   .filtersToolbar {
     flex-direction: column;
     gap: 16px;

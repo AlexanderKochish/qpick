@@ -35,7 +35,7 @@ const ProductsList = ({ products }: Props) => {
   }
 
   return (
-    <Grid container spacing={3} className={s.productsGrid}>
+    <div className={s.productsGrid}>
       {products?.map((product) => {
         const finalPrice = calculateFinalPrice(
           Number(product.price),
@@ -52,7 +52,7 @@ const ProductsList = ({ products }: Props) => {
           />
         )
       })}
-    </Grid>
+    </div>
   )
 }
 

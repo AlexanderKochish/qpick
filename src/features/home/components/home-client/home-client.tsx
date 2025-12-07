@@ -11,7 +11,6 @@ import {
 } from '@mui/material'
 import FilterPanel from '@/widgets/filter-panel/filter-panel'
 import ProductsList from '@/features/products/components/products-list/products-list'
-import Spinner from '@/shared/components/spinner/spinner'
 import { Sort } from '@mui/icons-material'
 import { useProducts } from '@/features/products/hooks/useProducts'
 import { ProductCard } from '@/features/products/types/types'
@@ -30,7 +29,7 @@ const HomeClient = ({ initialData, search, sort }: Props) => {
   const [currentPage, setCurrentPage] = useState(1)
 
   const { setSortBy, sortBy } = useSort()
-  const { data: products, isLoading } = useProducts(sort, initialData, search)
+  const { data: products } = useProducts(sort, initialData, search)
   const itemsPerPage = 12
 
   const startIndex = (currentPage - 1) * itemsPerPage
