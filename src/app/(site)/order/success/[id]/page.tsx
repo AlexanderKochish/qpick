@@ -13,7 +13,7 @@ async function SuccessPage({ params }: { params: Promise<{ id: string }> }) {
     console.log('⚠️ Manual confirmation failed (maybe already confirmed)')
   }
   return (
-    <div>
+    <div className={s.successSection}>
       <BaseCard>
         <div className={s.content}>
           <h1 className={s.title}>Payment Successful!</h1>

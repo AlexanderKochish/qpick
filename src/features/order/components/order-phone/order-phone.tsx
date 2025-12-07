@@ -22,7 +22,7 @@ const OrderPhone = ({ state }: Props) => {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid size={4}>
+        <Grid size={{ lg: 4, xs: 12 }}>
           <TextField
             fullWidth
             label="Телефон"

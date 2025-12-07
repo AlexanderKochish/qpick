@@ -19,14 +19,17 @@ import {
   ListItemText,
   Divider,
   Chip,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material'
 import {
   Search,
   ShoppingCart,
   Person,
-  Menu as MenuIcon,
+  CategoryOutlined,
   Close,
   Phone,
+  Menu as MenuIcon,
   Email,
   LocationOn,
   Smartphone,
@@ -34,7 +37,7 @@ import {
 } from '@mui/icons-material'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import styles from './header.module.css'
+import s from './header.module.css'
 import { useCategory } from '@/features/category/hooks/useCategory'
 import { useSearch } from '@/shared/hooks/useSearch'
 
@@ -50,6 +53,8 @@ export default function Header({ initCartCount, isLogged }: Props) {
     null
   )
   const router = useRouter()
+  const theme = useTheme()
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const { search, setSearch } = useSearch()
 
   const { data: categories } = useCategory()
@@ -75,9 +80,9 @@ export default function Header({ initCartCount, isLogged }: Props) {
   }
 
   const drawer = (
-    <Box className={styles.drawer}>
-      <Box className={styles.drawerHeader}>
-        <Typography variant="h6" className={styles.drawerTitle}>
+    <Box className={s.drawer}>
+      <Box className={s.drawerHeader}>
+        <Typography variant="h6" className={s.drawerTitle}>
           TechDevices
         </Typography>
         <IconButton onClick={handleDrawerToggle}>
@@ -107,91 +112,88 @@ export default function Header({ initCartCount, isLogged }: Props) {
 
   return (
     <>
-      <Box className={styles.topBar}>
+      <Box className={s.topBar}>
         <Container maxWidth="xl">
-          <Box className={styles.topBarContent}>
-            <Box className={styles.contactInfo}>
-              <Box className={styles.contactItem}>
-                <Phone className={styles.contactIcon} />
+          <Box className={s.topBarContent}>
+            <Box className={s.contactInfo}>
+              <Box className={s.contactItem}>
+                <Phone className={s.contactIcon} />
                 <Typography variant="body2">+38 (098) 111 11 11</Typography>
               </Box>
-              <Box className={styles.contactItem}>
-                <Email className={styles.contactIcon} />
+              <Box className={s.contactItem}>
+                <Email className={s.contactIcon} />
                 <Typography variant="body2">info@techdevices.ua</Typography>
               </Box>
-              <Box className={styles.contactItem}>
-                <LocationOn className={styles.contactIcon} />
+              <Box className={s.contactItem}>
+                <LocationOn className={s.contactIcon} />
                 <Typography variant="body2">Киев, ул. Шевченка, 15</Typography>
               </Box>
             </Box>
-            <Box className={styles.topBarActions}>
-              <Button className={styles.topBarButton}>Акции</Button>
-              <Button className={styles.topBarButton}>Доставка</Button>
-              <Button className={styles.topBarButton}>Гарантия</Button>
+            <Box className={s.topBarActions}>
+              <Button className={s.topBarButton}>Акции</Button>
+              <Button className={s.topBarButton}>Доставка</Button>
+              <Button className={s.topBarButton}>Гарантия</Button>
             </Box>
           </Box>
         </Container>
       </Box>
 
-      <AppBar position="sticky" className={styles.appBar}>
+      <AppBar position="sticky" className={s.appBar}>
         <Container maxWidth="xl">
-          <Toolbar className={styles.toolbar}>
-            <Box className={styles.firstSection}>
-              <Box className={styles.logoSection}>
-                <Link href="/" className={styles.logoLink}>
-                  <Box className={styles.logo}>
-                    <Smartphone className={styles.logoIcon} />
-                    <Typography variant="h5" className={styles.logoText}>
+          <Toolbar className={s.toolbar}>
+            <Box className={s.firstSection}>
+              <Box className={s.logoSection}>
+                <Link href="/" className={s.logoLink}>
+                  <Box className={s.logo}>
+                    <Smartphone className={s.logoIcon} />
+                    <Typography variant="h5" className={s.logoText}>
                       TechDevices
                     </Typography>
                   </Box>
                 </Link>
               </Box>
 
-              <Box className={styles.categoriesSection}>
+              <Box className={s.categoriesSection}>
                 <Button
-                  className={styles.categoriesButton}
+                  className={s.categoriesButton}
                   onMouseEnter={handleCategoriesOpen}
                 >
-                  <MenuIcon className={styles.categoriesIcon} />
-                  Категории
+                  <CategoryOutlined className={s.categoriesIcon} />
+                  {isSmall ? '' : 'Категории'}
                 </Button>
               </Box>
 
-              <Box className={styles.searchSection}>
-                <Box className={styles.searchContainer}>
-                  <Search className={styles.searchIcon} />
+              <Box className={s.searchSection}>
+                <Box className={s.searchContainer}>
+                  <Search className={s.searchIcon} />
                   <InputBase
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Поиск смартфонов, ноутбуков, аксессуаров..."
-                    className={styles.searchInput}
+                    placeholder="Поиск..."
+                    className={s.searchInput}
                   />
-                  <Button variant="contained" className={styles.searchButton}>
-                    Найти
-                  </Button>
                 </Box>
               </Box>
             </Box>
-            <Box className={styles.actionsSection}>
+            <Box className={s.actionsSection}>
               <IconButton
-                className={styles.actionButton}
+                className={s.actionButton}
                 onClick={() => router.push('/cart')}
               >
                 <Badge badgeContent={initCartCount} color="error">
-                  <ShoppingCart className={styles.actionIcon} />
+                  <ShoppingCart className={s.actionIcon} />
                 </Badge>
               </IconButton>
 
               <IconButton
-                className={styles.actionButton}
+                className={s.actionButton}
                 onClick={handleUserMenuOpen}
               >
-                <Person className={styles.actionIcon} />
+                <Person className={s.actionIcon} />
               </IconButton>
 
               <IconButton
-                className={styles.mobileMenuButton}
+                className={s.mobileMenuButton}
                 onClick={handleDrawerToggle}
               >
                 <MenuIcon />
@@ -206,25 +208,25 @@ export default function Header({ initCartCount, isLogged }: Props) {
         open={Boolean(categoriesAnchor)}
         onClose={handleCategoriesClose}
         onMouseLeave={handleCategoriesClose}
-        className={styles.categoriesMenu}
+        className={s.categoriesMenu}
         disableScrollLock={true}
         MenuListProps={{
           onMouseLeave: handleCategoriesClose,
-          className: styles.categoriesMenuList,
+          className: s.categoriesMenuList,
         }}
       >
         {categories?.map((category) => (
           <MenuItem
             key={category.name}
             onClick={handleCategoriesClose}
-            className={styles.categoryItem}
+            className={s.categoryItem}
           >
-            <Box className={styles.categoryContent}>
+            <Box className={s.categoryContent}>
               <Link href={`/category/${category.name}/${category.id}`}>
-                <Box className={styles.categoryInfo}>
+                <Box className={s.categoryInfo}>
                   {category.name === 'smartphones' && <Smartphone />}
                   {category.name === 'laptops' && <Laptop />}
-                  <Typography className={styles.categoryName}>
+                  <Typography className={s.categoryName}>
                     {category.name}
                   </Typography>
                 </Box>
@@ -232,16 +234,13 @@ export default function Header({ initCartCount, isLogged }: Props) {
               <Chip
                 label={category._count.products}
                 size="small"
-                className={styles.categoryCount}
+                className={s.categoryCount}
               />
             </Box>
           </MenuItem>
         ))}
         <Divider />
-        <MenuItem
-          onClick={handleCategoriesClose}
-          className={styles.allCategories}
-        >
+        <MenuItem onClick={handleCategoriesClose} className={s.allCategories}>
           <Link href={'/'}>
             <Typography>Все категории</Typography>
           </Link>
@@ -252,7 +251,7 @@ export default function Header({ initCartCount, isLogged }: Props) {
         anchorEl={userMenuAnchor}
         open={Boolean(userMenuAnchor)}
         onClose={handleUserMenuClose}
-        className={styles.userMenu}
+        className={s.userMenu}
       >
         {isLogged
           ? [
@@ -291,7 +290,7 @@ export default function Header({ initCartCount, isLogged }: Props) {
         anchor="right"
         open={mobileOpen}
         onClose={handleDrawerToggle}
-        className={styles.mobileDrawer}
+        className={s.mobileDrawer}
       >
         {drawer}
       </Drawer>

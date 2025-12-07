@@ -17,7 +17,6 @@
 
 .avatarSection {
   text-align: center;
-  margin-bottom: 24px;
 }
 
 .avatar {
@@ -39,7 +38,6 @@
 .stats {
   display: flex;
   justify-content: space-around;
-  margin: 24px 0;
   padding: 16px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -130,7 +128,9 @@
     gap: 16px;
     align-items: stretch;
   }
+}
 
+@media (width < 435px) {
   .stats {
     flex-direction: column;
     gap: 16px;

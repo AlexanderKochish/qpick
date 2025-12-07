@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Container, Grid, Typography, Box } from '@mui/material'
+import { Grid, Typography, Box } from '@mui/material'
 import { LocalMall } from '@mui/icons-material'
 import { Cart } from '../../types/types'
 import emptyCart from '../../../../../public/empty-cart.png'
@@ -9,6 +9,7 @@ import EmptyState from '@/shared/components/empty-state/empty-state'
 import CartItem from '../cart-item/cart-item'
 import CartTotal from '../cart-total/cart-total'
 import CheckoutStepper from '@/shared/components/checkout-stepper/checkout-stepper'
+import s from './cart-client.module.css'
 
 interface Props {
   initialData: {
@@ -55,7 +56,7 @@ export default function CartPage({ initialData }: Props) {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <section className={s.cartSection}>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
           <LocalMall sx={{ mr: 2, verticalAlign: 'middle' }} />
@@ -66,7 +67,7 @@ export default function CartPage({ initialData }: Props) {
       </Box>
 
       <Grid container spacing={4}>
-        <Grid size={7}>
+        <Grid size={{ lg: 8, xs: 12 }}>
           <Typography variant="h6" fontWeight="600" gutterBottom>
             Товары в корзине ({cart?.items.length})
           </Typography>
@@ -88,6 +89,6 @@ export default function CartPage({ initialData }: Props) {
           totalDiscount={totalDiscount!}
         />
       </Grid>
-    </Container>
+    </section>
   )
 }

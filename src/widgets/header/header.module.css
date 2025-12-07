@@ -86,7 +86,7 @@
 }
 
 .logo:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 
 .logoIcon {
@@ -166,22 +166,6 @@
 
 .searchInput input {
   padding: 0;
-}
-
-.searchButton {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  color: white !important;
-  border-radius: 8px !important;
-  padding: 8px 20px !important;
-  text-transform: none !important;
-  font-weight: 600 !important;
-  margin-left: 8px !important;
-  transition: all 0.3s ease !important;
-}
-
-.searchButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
 }
 
 .actionsSection {
@@ -301,10 +285,6 @@
     grid-template-columns: auto 1fr auto;
     gap: 16px;
   }
-
-  .categoriesSection {
-    display: none;
-  }
 }
 
 @media (max-width: 900px) {
@@ -317,12 +297,14 @@
     gap: 16px;
   }
 
-  .searchSection {
-    display: none;
-  }
-
   .toolbar {
     grid-template-columns: 1fr auto;
+  }
+}
+
+@media (width < 789px) {
+  .logoText {
+    display: none;
   }
 }
 
@@ -362,7 +344,11 @@
 }
 
 @media (max-width: 480px) {
-  .logoText {
+  .categoriesSection {
+    display: none;
+  }
+
+  .searchSection {
     display: none;
   }
 

@@ -1,9 +1,27 @@
-import { Order } from '@prisma/client'
+import { Order, Prisma } from '@prisma/client'
 
 export interface EditProfile {
   email: string
   name: string | null
 }
+
+export type Profile = Prisma.UserGetPayload<{
+  include: {
+    ratings: {
+      include: {
+        product: true
+      }
+    }
+    reviews: {
+      include: {
+        product: true
+      }
+    }
+    address: true
+    orders: true
+    avatar: true
+  }
+}>
 
 export interface UserProfile {
   id: string
@@ -16,8 +34,12 @@ export interface UserProfile {
   createdAt: Date
   updatedAt: Date
   avatar: {
-    url: string | null
-  }
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    url: string
+    userId: string
+  } | null
   orders: Order[]
   ratings: Rating[]
   reviews: Review[]

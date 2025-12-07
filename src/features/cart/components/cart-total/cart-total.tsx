@@ -37,7 +37,7 @@ const CartTotal = ({
   cartItemsCount,
 }: Props) => {
   return (
-    <Grid size={5}>
+    <Grid size={{ lg: 4, xs: 12 }}>
       <Paper sx={{ p: 3, borderRadius: 2, position: 'sticky', top: 20 }}>
         <Typography variant="h6" fontWeight="600" gutterBottom>
           Итоги заказа

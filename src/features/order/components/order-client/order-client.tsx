@@ -1,14 +1,6 @@
 'use client'
 import { useActionState, useEffect } from 'react'
-import {
-  Container,
-  Paper,
-  Typography,
-  Button,
-  Grid,
-  Box,
-  Divider,
-} from '@mui/material'
+import { Paper, Typography, Button, Grid, Box, Divider } from '@mui/material'
 import OrderAddress from '../order-address/order-address'
 import OrderTotal from '../order-total/order-total'
 import OrderPhone from '../order-phone/order-phone'
@@ -17,6 +9,7 @@ import { IInitialState, sendOrderForm } from '../../actions/actions'
 import { useCart } from '@/features/cart/hooks/useCart'
 import CheckoutStepper from '@/shared/components/checkout-stepper/checkout-stepper'
 import OrderRadioGrop from '../order-radio-group/order-radio-grop'
+import s from './order-client.module.css'
 
 const initialState: IInitialState = {
   message: '',
@@ -46,7 +39,7 @@ export default function OrderClient({ activeStap }: Props) {
   }, [state, router])
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <section className={s.orderSection}>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
           Оформление заказа
@@ -55,8 +48,8 @@ export default function OrderClient({ activeStap }: Props) {
         <CheckoutStepper activeStep={activeStap} />
       </Box>
 
-      <Grid container spacing={4}>
-        <Grid size={8}>
+      <div className={s.order}>
+        <Grid size={{ lg: 8, xs: 12 }}>
           <Paper sx={{ p: 4, borderRadius: 3 }}>
             <form action={formAction}>
               <OrderAddress />
@@ -90,7 +83,7 @@ export default function OrderClient({ activeStap }: Props) {
           cart={cart}
           total={Number(totalPrice)}
         />
-      </Grid>
-    </Container>
+      </div>
+    </section>
   )
 }

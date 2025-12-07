@@ -5,6 +5,22 @@
   gap: 1.5rem;
 }
 
+.order {
+  display: grid;
+  grid-template-columns: 8fr 4fr;
+  grid-template-areas: 'form side';
+  gap: 1rem;
+}
+
+@media (max-width: 989px) {
+  .order {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'side'
+      'form';
+  }
+}
+
 @media (max-width: 599px) {
   .orderSection {
     gap: 0.5rem;

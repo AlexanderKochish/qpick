@@ -16,7 +16,7 @@ const OrderAddress = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid size={4}>
+        <Grid size={{ md: 4, xs: 12 }}>
           <TextField
             fullWidth
             label="Город"
@@ -28,7 +28,7 @@ const OrderAddress = () => {
           />
         </Grid>
 
-        <Grid size={4}>
+        <Grid size={{ md: 4, xs: 12 }}>
           <TextField
             fullWidth
             label="Улица"
@@ -40,7 +40,7 @@ const OrderAddress = () => {
           />
         </Grid>
 
-        <Grid size={4}>
+        <Grid size={{ md: 4, xs: 12 }}>
           <TextField
             fullWidth
             label="Дом"
@@ -52,7 +52,7 @@ const OrderAddress = () => {
           />
         </Grid>
 
-        <Grid size={4}>
+        <Grid size={{ md: 4, xs: 12 }}>
           <TextField
             fullWidth
             label="Квартира (необязательно)"
@@ -64,7 +64,7 @@ const OrderAddress = () => {
           />
         </Grid>
 
-        <Grid size={4}>
+        <Grid size={{ md: 4, xs: 12 }}>
           <TextField
             fullWidth
             label="Почтовый индекс"

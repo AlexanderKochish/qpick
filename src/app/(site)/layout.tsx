@@ -11,6 +11,7 @@ import Header from '@/widgets/header/header'
 import Footer from '@/widgets/footer/footer'
 import { getCounters } from '@/features/counters/actions/actions'
 import { getCurrentSession } from '@/features/auth/actions/actions'
+import NextTopLoader from 'nextjs-toploader'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -42,6 +43,7 @@ export default async function RootLayout({
       <HydrationBoundary state={dehydrate(queryClient)}>
         <html lang="en">
           <body className={`${geistSans.variable} ${geistMono.variable}`}>
+            <NextTopLoader />
             <div className="container">
               <div className="layout">
                 <Header

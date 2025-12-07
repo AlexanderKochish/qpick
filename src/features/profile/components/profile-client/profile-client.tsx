@@ -11,7 +11,15 @@ import {
   Tab,
   Tabs,
   Chip,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material'
+import {
+  InfoOutlined,
+  LocationOnOutlined,
+  ShoppingBagOutlined,
+  RateReviewOutlined,
+} from '@mui/icons-material'
 import {
   Edit as EditIcon,
   Favorite as FavoriteIcon,
@@ -23,20 +31,18 @@ import ProfileInfo from '../profile-info/profile-info'
 import AddressSection from '../profile-address/profile-address'
 import OrdersSection from '../profile-orders/profile-orders'
 import ReviewsSection from '../profile-reviews/profile-reviews'
-import { useProfile } from '../../hooks/useProfile'
-import Spinner from '@/shared/components/spinner/spinner'
+import { Profile } from '../../types/types'
 
-export default function ProfileClient() {
+interface Props {
+  profileData: Profile
+}
+
+export default function ProfileClient({ profileData }: Props) {
   const [activeTab, setActiveTab] = useState(0)
   const [isEditing, setIsEditing] = useState(false)
-  const { data: userData, isLoading } = useProfile()
+  const theme = useTheme()
+  const isSmall = useMediaQuery(theme.breakpoints.down('lg'))
 
-  if (isLoading) {
-    return <Spinner />
-  }
-  if (!userData) {
-    return null
-  }
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
@@ -47,22 +53,26 @@ export default function ProfileClient() {
         Мой профиль
       </Typography>
 
-      <Grid container spacing={3}>
-        <Grid size={4}>
+      <Grid
+        container
+        spacing={3}
+        sx={{ justifyContent: 'center', marginBottom: 2 }}
+      >
+        <Grid size={{ xs: 12, md: 10, lg: 4 }}>
           <Paper className={s.sidebar}>
             <Box className={s.avatarSection}>
               <MuiAvatar
-                src={userData.avatar?.url}
+                src={profileData.avatar?.url}
                 sx={{ width: 120, height: 120 }}
                 className={s.avatar}
               >
-                {userData.name?.charAt(0)}
+                {profileData.name?.charAt(0)}
               </MuiAvatar>
               <Typography variant="h6" className={s.userName}>
-                {userData.name}
+                {profileData.name}
               </Typography>
               <Chip
-                label={userData.role}
+                label={profileData.role}
                 color="primary"
                 size="small"
                 className={s.roleChip}
@@ -73,40 +83,40 @@ export default function ProfileClient() {
               <Box className={s.statItem}>
                 <OrderIcon color="primary" />
                 <Typography variant="body2">
-                  Заказы: {userData.orders.length}
+                  Заказы: {profileData.orders.length}
                 </Typography>
               </Box>
               <Box className={s.statItem}>
                 <StarIcon color="warning" />
                 <Typography variant="body2">
-                  Оценки: {userData.ratings.length}
+                  Оценки: {profileData.ratings.length}
                 </Typography>
               </Box>
               <Box className={s.statItem}>
                 <FavoriteIcon color="error" />
                 <Typography variant="body2">
-                  Отзывы: {userData.reviews.length}
+                  Отзывы: {profileData.reviews.length}
                 </Typography>
               </Box>
             </Box>
 
             <Box className={s.infoSection}>
               <Typography variant="subtitle2" color="text.secondary">
-                Email: {userData.email}
+                Email: {profileData.email}
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                Дата регистрации: {userData.createdAt.toLocaleDateString()}
+                Дата регистрации: {profileData.createdAt.toLocaleDateString()}
               </Typography>
               <Chip
-                label={userData.isActive ? 'Активен' : 'Неактивен'}
-                color={userData.isActive ? 'success' : 'default'}
+                label={profileData.isActive ? 'Активен' : 'Неактивен'}
+                color={profileData.isActive ? 'success' : 'default'}
                 size="small"
               />
             </Box>
           </Paper>
         </Grid>
 
-        <Grid size={8}>
+        <Grid size={{ lg: 8, xs: 12, md: 10 }}>
           <Paper className={s.content}>
             <Box className={s.tabsHeader}>
               <Tabs
@@ -114,10 +124,22 @@ export default function ProfileClient() {
                 onChange={handleTabChange}
                 className={s.tabs}
               >
-                <Tab label="Основная информация" />
-                <Tab label="Адреса" />
-                <Tab label="Заказы" />
-                <Tab label="Отзывы и оценки" />
+                <Tab
+                  icon={<InfoOutlined />}
+                  label={isSmall ? null : 'Основная информация'}
+                />
+                <Tab
+                  icon={<LocationOnOutlined />}
+                  label={isSmall ? null : 'Адреса'}
+                />
+                <Tab
+                  icon={<ShoppingBagOutlined />}
+                  label={isSmall ? null : 'Заказы'}
+                />
+                <Tab
+                  icon={<RateReviewOutlined />}
+                  label={isSmall ? null : 'Отзывы и оценки'}
+                />
               </Tabs>
               <Button
                 startIcon={<EditIcon />}
@@ -130,16 +152,16 @@ export default function ProfileClient() {
 
             <Box className={s.tabContent}>
               {activeTab === 0 && (
-                <ProfileInfo user={userData} isEditing={isEditing} />
+                <ProfileInfo user={profileData} isEditing={isEditing} />
               )}
               {activeTab === 1 && (
-                <AddressSection addresses={userData.address} />
+                <AddressSection addresses={profileData.address} />
               )}
-              {activeTab === 2 && <OrdersSection orders={userData.orders} />}
+              {activeTab === 2 && <OrdersSection orders={profileData.orders} />}
               {activeTab === 3 && (
                 <ReviewsSection
-                  ratings={userData.ratings}
-                  reviews={userData.reviews}
+                  ratings={profileData.ratings}
+                  reviews={profileData.reviews}
                 />
               )}
             </Box>

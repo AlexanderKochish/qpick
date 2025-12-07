@@ -57,7 +57,7 @@ const CartItem = ({ item, quantity }: Props) => {
     <Card sx={{ mb: 2, borderRadius: 2 }}>
       <CardContent sx={{ p: 3 }}>
         <Grid container spacing={3} alignItems="center">
-          <Grid size={2}>
+          <Grid size={{ lg: 2, md: 12, xs: 14 }}>
             <Box
               sx={{
                 width: 80,
@@ -70,7 +70,7 @@ const CartItem = ({ item, quantity }: Props) => {
             />
           </Grid>
 
-          <Grid size={3}>
+          <Grid size={{ lg: 4, md: 12, xs: 14 }}>
             <Typography variant="h6" fontWeight="600">
               {item.product.name}
             </Typography>
@@ -96,7 +96,7 @@ const CartItem = ({ item, quantity }: Props) => {
             </Typography>
           </Grid>
 
-          <Grid size={3}>
+          <Grid size={{ lg: 3, md: 12, xs: 14 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <IconButton
                 size="small"
@@ -119,7 +119,7 @@ const CartItem = ({ item, quantity }: Props) => {
             </Box>
           </Grid>
 
-          <Grid size={4}>
+          <Grid size={{ lg: 3, md: 12, xs: 14 }}>
             <Box
               sx={{
                 display: 'flex',

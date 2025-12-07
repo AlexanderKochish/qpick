@@ -35,7 +35,7 @@ const OrderRadioGrop = () => {
           onChange={handlePaymentChange}
         >
           <Grid container spacing={2}>
-            <Grid size={5}>
+            <Grid size={{ md: 5, xs: 12 }}>
               <Paper
                 variant={selectedPayment === 'CARD' ? 'elevation' : 'outlined'}
                 sx={{
@@ -63,7 +63,7 @@ const OrderRadioGrop = () => {
               </Paper>
             </Grid>
 
-            <Grid size={6}>
+            <Grid size={{ md: 6, xs: 12 }}>
               <Paper
                 variant={selectedPayment === 'CASH' ? 'elevation' : 'outlined'}
                 sx={{
@@ -91,7 +91,7 @@ const OrderRadioGrop = () => {
               </Paper>
             </Grid>
 
-            <Grid size={6}>
+            <Grid size={{ md: 6, xs: 12 }}>
               <Paper
                 variant={
                   selectedPayment === 'APPLE_PAY' ? 'elevation' : 'outlined'
@@ -123,7 +123,7 @@ const OrderRadioGrop = () => {
               </Paper>
             </Grid>
 
-            <Grid size={6}>
+            <Grid size={{ md: 6, xs: 12 }}>
               <Paper
                 variant={
                   selectedPayment === 'GOOGLE_PAY' ? 'elevation' : 'outlined'
