@@ -1,5 +1,4 @@
 import { Order } from '@prisma/client'
-import { RatingValue } from '@prisma/client'
 
 export interface EditProfile {
   email: string
@@ -29,7 +28,7 @@ export interface Rating {
   id: string
   createdAt: Date
   updatedAt: Date
-  rating: RatingValue
+  rating: number
   authorId: string
   productId: string
   product: Product

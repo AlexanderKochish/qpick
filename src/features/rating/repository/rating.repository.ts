@@ -1,20 +1,43 @@
 import prisma from '@/shared/lib/prisma'
-import { PrismaClient } from '@prisma/client'
-
-enum RatingValue {
-  ONE = 1,
-  TWO,
-  THREE,
-  FOUR,
-  FIVE,
-}
+import { Prisma, PrismaClient } from '@prisma/client'
 
 type RatingCreate = {
-  rating: RatingValue
+  rating: string
+  authorId: string
+  productId: string
 }
 
 export class RatingRepository {
-  constructor(private readonly db: PrismaClient = prisma) {}
+  async create(
+    data: RatingCreate,
+    db: PrismaClient | Prisma.TransactionClient = prisma
+  ) {
+    if (!data.rating) return null
 
-  async create(data: RatingCreate) {}
+    const existing = await db.rating.findUnique({
+      where: {
+        authorId_productId: {
+          authorId: data.authorId,
+          productId: data.productId,
+        },
+      },
+    })
+
+    if (existing) {
+      return await db.rating.update({
+        where: { id: existing.id },
+        data: {
+          rating: Number(data.rating),
+        },
+      })
+    }
+
+    return await db.rating.create({
+      data: {
+        authorId: data.authorId,
+        productId: data.productId,
+        rating: Number(data.rating),
+      },
+    })
+  }
 }

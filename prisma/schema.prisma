@@ -44,14 +44,6 @@ enum PaymentMethod {
   GOOGLE_PAY
 }
 
-enum RatingValue {
-  ONE
-  TWO  
-  THREE  
-  FOUR  
-  FIVE 
-}
-
 enum ReviewStatus {
   PENDING
   APPROVED
@@ -195,7 +187,7 @@ model Image {
 
 model Rating {
   id        String   @id @default(uuid())
-  rating    RatingValue 
+  rating    Int
   authorId  String  
   author    User     @relation(fields: [authorId], references: [id])
   productId String

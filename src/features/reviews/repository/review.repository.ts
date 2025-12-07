@@ -1,16 +1,20 @@
 import prisma from '@/shared/lib/prisma'
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 
 type ReviewCreate = {
   review: string
   authorId: string
   productId: string
 }
-export class ReviewRepository {
-  constructor(private readonly db: PrismaClient = prisma) {}
 
-  async create(data: ReviewCreate) {
-    const existing = await this.db.review.findUnique({
+export class ReviewRepository {
+  async create(
+    data: ReviewCreate,
+    db: PrismaClient | Prisma.TransactionClient = prisma
+  ) {
+    if (!data.review) return null
+
+    const existing = await db.review.findUnique({
       where: {
         productId_authorId: {
           productId: data.productId,
@@ -18,21 +22,24 @@ export class ReviewRepository {
         },
       },
     })
+
     if (existing) {
-      await this.db.review.update({
+      return await db.review.update({
         where: { id: existing.id },
         data: {
           status: 'PENDING',
-          ...data,
-        },
-      })
-    } else {
-      await this.db.review.create({
-        data: {
-          status: 'PENDING',
-          ...data,
+          review: data.review,
         },
       })
     }
+
+    return await db.review.create({
+      data: {
+        status: 'PENDING',
+        authorId: data.authorId,
+        productId: data.productId,
+        review: data.review,
+      },
+    })
   }
 }

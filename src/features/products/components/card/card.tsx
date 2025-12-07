@@ -22,6 +22,7 @@ import { useFavorites } from '../../hooks/useFavorites'
 import Link from 'next/link'
 import { addToCart } from '@/features/cart/actions/actions'
 import { ProductCard as PropductType } from '../../types/types'
+import { Rating as RatingType } from '@/features/profile/types/types'
 interface Props {
   product: PropductType
   finalPrice?: number
@@ -30,6 +31,12 @@ interface Props {
 
 const ProductCard = ({ product, finalPrice }: Props) => {
   const { mutate, isFavorite, isPending } = useFavorites()
+
+  const calculateAverageRating = (ratings: RatingType[]) => {
+    if (ratings.length === 0) return 0
+    const sum = ratings.reduce((acc, rating) => acc + Number(rating.rating), 0)
+    return sum / ratings.length
+  }
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-EN').format(price)
@@ -99,7 +106,11 @@ const ProductCard = ({ product, finalPrice }: Props) => {
           </Typography>
 
           <Box className={s.ratingSection}>
-            <Rating value={4} readOnly size="small" />
+            <Rating
+              value={calculateAverageRating(product.ratings as RatingType[])}
+              readOnly
+              size="small"
+            />
             <Typography variant="body2" color="text.secondary">
               ({product._count?.ratings || 0})
             </Typography>

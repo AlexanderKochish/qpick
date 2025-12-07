@@ -26,7 +26,7 @@ function ReviewsSection({
               {rating.product.name}
             </Typography>
             <Box className={s.ratingInfo}>
-              <MuiRating value={4} readOnly />
+              <MuiRating value={rating.rating} readOnly />
               <Typography variant="body2" color="text.secondary">
                 {rating.createdAt.toLocaleDateString()}
               </Typography>

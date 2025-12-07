@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useState } from 'react'
 import {
   Box,
   Container,
@@ -12,11 +12,6 @@ import {
   IconButton,
   Breadcrumbs,
   Link,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
 } from '@mui/material'
 import {
   Favorite,
@@ -38,7 +33,6 @@ import ProductDetailsTabs from '../product-details-tabs/product-details-tabs'
 import ProductDescription from '../product-description/product-description'
 import ProductSpecifications from '../product-specifications/product-specifications'
 import ProductReview from '../product-review/product-review'
-import { SendIcon } from 'lucide-react'
 import CreateReviewModal from '@/features/reviews/components/create-review-modal/create-review-modal'
 import { Rating as RatingType } from '@prisma/client'
 
@@ -76,10 +70,6 @@ const ProductDetails = ({ product }: Props) => {
   const buyNow = () => {
     addToCart()
     router.push('/cart')
-  }
-
-  const handleAddReview = () => {
-    console.log('review')
   }
 
   const averageRating = calculateAverageRating(product.ratings)

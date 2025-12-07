@@ -20,7 +20,6 @@ interface Props {
 }
 
 const ProductReview = ({ averageRating, product, setOpenDialog }: Props) => {
-  console.log(product.reviews)
   return (
     <Box className={s.reviews}>
       <Box className={s.reviewsHeader}>
@@ -59,16 +58,16 @@ const ProductReview = ({ averageRating, product, setOpenDialog }: Props) => {
                         {review.author.name?.charAt(0)}
                       </Avatar>
                     )}
-                    <Box>
+                    <Box sx={{ display: 'flex', gap: 5 }}>
                       <Typography variant="subtitle2">
                         {review.author.name}
                       </Typography>
-                      {/* <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body2" color="text.secondary">
                         {review.createdAt.toLocaleDateString('en-EN')}
-                      </Typography> */}
+                      </Typography>
                     </Box>
                   </Box>
-                  {/* <Rating value={Number(review.review)} readOnly size="small" /> */}
+                  <Rating value={Number(averageRating)} readOnly size="small" />
                 </Box>
                 {review.review && (
                   <Typography variant="body1" className={s.reviewComment}>
