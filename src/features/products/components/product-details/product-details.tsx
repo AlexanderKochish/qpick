@@ -115,13 +115,13 @@ const ProductDetails = ({ product }: Props) => {
                   width={200}
                   height={350}
                 />
-                {product.discount && product.discount > 0 && (
+                {product.discount && product.discount > 0 ? (
                   <Chip
                     label={`-${product.discount}%`}
                     color="error"
                     className={s.discountBadge}
                   />
-                )}
+                ) : null}
               </Box>
 
               <Box className={s.thumbnails}>
