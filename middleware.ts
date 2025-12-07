@@ -2,22 +2,19 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const sessionToken = request.cookies.get('next-auth.session-token')
-  const secureSessionToken = request.cookies.get(
-    '__Secure-authjs.session-token'
+  const session =
+    request.cookies.get('__Secure-authjs.session-token') ||
+    request.cookies.get('authjs.session-token')
+
+  const isAuthenticated = !!session
+
+  const protectedRoutes = ['/profile', '/checkout', '/admin']
+
+  const isProtected = protectedRoutes.some((route) =>
+    request.nextUrl.pathname.startsWith(route)
   )
 
-  const isAuthenticated = !!(sessionToken || secureSessionToken)
-
-  if (!isAuthenticated && request.nextUrl.pathname.startsWith('/profile')) {
-    return NextResponse.redirect(new URL('/auth/sign-in', request.url))
-  }
-
-  if (!isAuthenticated && request.nextUrl.pathname.startsWith('/checkout')) {
-    return NextResponse.redirect(new URL('/auth/sign-in', request.url))
-  }
-
-  if (!isAuthenticated && request.nextUrl.pathname.startsWith('/admin')) {
+  if (!isAuthenticated && isProtected) {
     return NextResponse.redirect(new URL('/auth/sign-in', request.url))
   }
 
