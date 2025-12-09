@@ -131,55 +131,6 @@
   color: #999;
 }
 
-.actionButtons {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.cartButton {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  border-radius: 8px !important;
-  padding: 12px 32px !important;
-  font-weight: 600 !important;
-  text-transform: none !important;
-  flex: 1;
-  min-width: 140px;
-  transition: all 0.3s ease !important;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
-}
-
-.cartButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
-}
-
-.buyButton {
-  border-radius: 8px !important;
-  padding: 12px 32px !important;
-  font-weight: 600 !important;
-  text-transform: none !important;
-  flex: 1;
-  min-width: 140px;
-  border-color: #667eea !important;
-  color: #667eea !important;
-}
-
-.favoriteButton {
-  border: 1px solid #e0e0e0 !important;
-  border-radius: 8px !important;
-  width: 48px !important;
-  height: 48px !important;
-}
-
-.actionButton {
-  border: 1px solid #e0e0e0 !important;
-  border-radius: 8px !important;
-  width: 48px !important;
-  height: 48px !important;
-}
-
 .quantitySection {
   display: flex;
   align-items: center;
@@ -281,15 +232,6 @@
 
   .infoSection {
     padding: 0;
-  }
-
-  .actionButtons {
-    flex-direction: column;
-  }
-
-  .cartButton,
-  .buyButton {
-    flex: none;
   }
 
   .reviewsHeader {

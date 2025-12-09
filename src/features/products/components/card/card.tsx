@@ -6,23 +6,17 @@ import {
   CardContent,
   CardMedia,
   Chip,
-  Grid,
   IconButton,
   Rating,
   Typography,
 } from '@mui/material'
-import {
-  CompareArrows,
-  Favorite,
-  FavoriteBorder,
-  Share,
-  ShoppingCart,
-} from '@mui/icons-material'
-import { useFavorites } from '../../hooks/useFavorites'
+import { CompareArrows, Share, ShoppingCart } from '@mui/icons-material'
 import Link from 'next/link'
 import { addToCart } from '@/features/cart/actions/actions'
 import { ProductCard as PropductType } from '../../types/types'
 import { Rating as RatingType } from '@/features/profile/types/types'
+import FavoriteToggle from '../favorite-toggle/favorite-toggle'
+import ShareButton from '@/shared/components/share-button/share-button'
 interface Props {
   product: PropductType
   finalPrice?: number
@@ -30,8 +24,6 @@ interface Props {
 }
 
 const ProductCard = ({ product, finalPrice }: Props) => {
-  const { mutate, isFavorite, isPending } = useFavorites()
-
   const calculateAverageRating = (ratings: RatingType[]) => {
     if (ratings.length === 0) return 0
     const sum = ratings.reduce((acc, rating) => acc + Number(rating.rating), 0)
@@ -53,23 +45,11 @@ const ProductCard = ({ product, finalPrice }: Props) => {
         />
       ) : null}
       <Box className={s.cardActions}>
-        <IconButton
-          disabled={isPending}
-          className={s.actionButton}
-          onClick={() => mutate(product.id)}
-        >
-          {isFavorite?.includes(product.id) ? (
-            <Favorite className={s.favoriteActive} />
-          ) : (
-            <FavoriteBorder className={s.favorite} />
-          )}
-        </IconButton>
+        <FavoriteToggle productId={product.id} />
         <IconButton className={s.actionButton}>
           <CompareArrows />
         </IconButton>
-        <IconButton className={s.actionButton}>
-          <Share />
-        </IconButton>
+        <ShareButton className="secondary" link={`/product/${product.id}`} />
       </Box>
       <Box className={s.imageBlock}>
         <Link href={`/product/${product.id}`}>

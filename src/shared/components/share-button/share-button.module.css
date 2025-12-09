@@ -1,0 +1,17 @@
+.primary {
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  width: 48px !important;
+  height: 48px !important;
+}
+
+.secondary {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.secondary:hover {
+  background: white !important;
+}

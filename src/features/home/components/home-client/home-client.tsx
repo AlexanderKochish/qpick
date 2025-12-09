@@ -56,7 +56,7 @@ const HomeClient = ({ initialData, search, sort }: Props) => {
               variant="contained"
               size="large"
               className={s.heroButton}
-              onClick={() => router.push('/products')}
+              onClick={() => router.push('/')}
             >
               Смотреть все товары
             </Button>

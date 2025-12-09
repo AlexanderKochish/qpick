@@ -4,7 +4,17 @@ import prisma from '@/shared/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { auth } from '../../../../auth'
 
-export async function register(formData: FormData) {
+type RegisterResult = {
+  success: boolean
+  userId?: string
+}
+
+type RegisterError = {
+  success: false
+  error: string
+}
+
+export async function register(formData: FormData): Promise<RegisterResult> {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const name = formData.get('name') as string

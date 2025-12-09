@@ -1,0 +1,35 @@
+.dialog {
+  backdrop-filter: blur(5px);
+}
+
+.dialogTitle {
+  text-align: center;
+  font-weight: 600;
+  padding: 20px 24px 10px;
+}
+
+.dialogContent {
+  padding: 0 24px;
+}
+
+.actions {
+  width: 100%;
+  padding: 16px 24px;
+  gap: 12px;
+}
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+}
+
+@media (max-width: 600px) {
+  .dialogContent {
+    padding: 0 16px;
+  }
+}

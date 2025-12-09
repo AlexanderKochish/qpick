@@ -1,26 +1,28 @@
 'use client'
 
-import { Heart } from 'lucide-react'
 import { useFavorites } from '../../hooks/useFavorites'
 import { IconButton } from '@mui/material'
+import { Favorite, FavoriteBorder } from '@mui/icons-material'
+import s from './favorite-toggle.module.css'
+
 interface Props {
-  isFavorite?: boolean
   productId: string
 }
 
-const FavoriteToggle = ({ isFavorite, productId }: Props) => {
-  const { mutate, isPending } = useFavorites()
+const FavoriteToggle = ({ productId }: Props) => {
+  const { mutate, isPending, isFavorite } = useFavorites()
 
   return (
     <IconButton
-      sx={{
-        width: 40,
-        height: 40,
-      }}
       disabled={isPending}
+      className={s.actionButton}
       onClick={() => mutate(productId)}
     >
-      {isFavorite ? <Heart fill="black" /> : <Heart color="#1C1C27" />}
+      {isFavorite?.includes(productId) ? (
+        <Favorite color="error" />
+      ) : (
+        <FavoriteBorder />
+      )}
     </IconButton>
   )
 }

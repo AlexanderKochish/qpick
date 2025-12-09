@@ -1,52 +1,50 @@
 'use client'
 import s from './actions-buttons.module.css'
-import { Button } from '@mui/material'
-import { toggleFavorite } from '@/features/favorites/actions/actions'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Box, Button, Grid, IconButton } from '@mui/material'
+import { CompareArrows, ShoppingCart } from '@mui/icons-material'
+import { useRouter } from 'next/navigation'
 import { addToCart } from '@/features/cart/actions/actions'
+import FavoriteToggle from '../favorite-toggle/favorite-toggle'
+import ShareButton from '@/shared/components/share-button/share-button'
 
 interface Props {
-  productId?: string
+  productId: string
 }
 
 const ActionsButtons = ({ productId }: Props) => {
-  const queryClient = useQueryClient()
-  const { mutate } = useMutation({
-    mutationKey: ['favorite'],
-    mutationFn: (id: string) => toggleFavorite(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['counters'] })
-    },
-  })
+  const router = useRouter()
+  const buyNow = (id: string) => {
+    addToCart(id)
+    router.push('/cart')
+  }
 
-  const { mutate: addToCartMutate } = useMutation({
-    mutationKey: ['product-cart'],
-    mutationFn: (id: string) => addToCart(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['counters'] })
-      queryClient.invalidateQueries({ queryKey: ['total-price'] })
-      queryClient.invalidateQueries({ queryKey: ['cart'] })
-    },
-  })
   return (
-    <div className={s.actions}>
+    <Box className={s.actionButtons}>
       <Button
-        fullWidth
         variant="contained"
-        onClick={() => addToCartMutate(productId!)}
+        size="large"
+        startIcon={<ShoppingCart />}
+        className={s.cartButton}
+        onClick={() => addToCart(productId)}
       >
-        Buy
+        В корзину
       </Button>
-      {productId && (
-        <Button
-          fullWidth
-          onClick={() => mutate(productId!)}
-          variant="contained"
-        >
-          Add into cart
-        </Button>
-      )}
-    </div>
+      <Button
+        variant="outlined"
+        size="large"
+        className={s.buyButton}
+        onClick={() => buyNow(productId)}
+      >
+        Купить сейчас
+      </Button>
+      <Grid container spacing={2}>
+        <FavoriteToggle productId={productId} />
+        <IconButton className={s.actionButton}>
+          <CompareArrows />
+        </IconButton>
+        <ShareButton />
+      </Grid>
+    </Box>
   )
 }
 

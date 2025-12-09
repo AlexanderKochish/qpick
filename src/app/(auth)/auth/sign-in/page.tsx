@@ -25,7 +25,7 @@ import {
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import styles from './page.module.css'
+import s from './page.module.css'
 
 export default function SignIn() {
   const router = useRouter()
@@ -76,41 +76,41 @@ export default function SignIn() {
   }
 
   return (
-    <Box className={styles.container}>
-      <Box className={styles.background} />
+    <Box className={s.container}>
+      <Box className={s.background} />
 
-      <Container component="main" maxWidth="sm" className={styles.content}>
-        <Paper elevation={24} className={styles.paper}>
-          <Box className={styles.header}>
-            <Box className={styles.logo}>
-              <Smartphone className={styles.logoIcon} />
+      <Container component="main" maxWidth="sm" className={s.content}>
+        <Paper elevation={24} className={s.paper}>
+          <Box className={s.header}>
+            <Box className={s.logo}>
+              <Smartphone className={s.logoIcon} />
             </Box>
-            <Typography variant="h3" component="h1" className={styles.title}>
+            <Typography variant="h3" component="h1" className={s.title}>
               TechDevices
             </Typography>
-            <Typography variant="h6" className={styles.subtitle}>
+            <Typography variant="h6" className={s.subtitle}>
               Welcome Back
             </Typography>
-            <Typography variant="body2" className={styles.description}>
+            <Typography variant="body2" className={s.description}>
               Sign in to your account to continue
             </Typography>
           </Box>
 
           {error && (
-            <Alert severity="error" className={styles.alert}>
+            <Alert severity="error" className={s.alert}>
               {error}
             </Alert>
           )}
 
-          <Alert severity="info" className={styles.demoAlert}>
-            <Box className={styles.demoContent}>
+          <Alert severity="info" className={s.demoAlert}>
+            <Box className={s.demoContent}>
               <Typography variant="body2">
                 Demo: demo@techdevices.com / demo123
               </Typography>
               <Button
                 size="small"
                 onClick={handleDemoLogin}
-                className={styles.demoButton}
+                className={s.demoButton}
               >
                 Use Demo
               </Button>
@@ -120,7 +120,7 @@ export default function SignIn() {
           <Box
             component="form"
             onSubmit={handleCredentialsSignIn}
-            className={styles.form}
+            className={s.form}
           >
             <TextField
               fullWidth
@@ -131,14 +131,16 @@ export default function SignIn() {
               placeholder="Enter your email"
               margin="normal"
               required
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email className={styles.inputIcon} />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Email className={s.inputIcon} />
+                    </InputAdornment>
+                  ),
+                },
               }}
-              className={styles.textField}
+              className={s.textField}
             />
 
             <TextField
@@ -150,29 +152,31 @@ export default function SignIn() {
               placeholder="Enter your password"
               margin="normal"
               required
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock className={styles.inputIcon} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                      className={styles.passwordToggle}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Lock className={s.inputIcon} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                        className={s.passwordToggle}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
               }}
-              className={styles.textField}
+              className={s.textField}
             />
 
-            <Box className={styles.forgotPassword}>
-              <Link href="/auth/forgot-password" className={styles.forgotLink}>
+            <Box className={s.forgotPassword}>
+              <Link href="/auth/forgot-password" className={s.forgotLink}>
                 Forgot your password?
               </Link>
             </Box>
@@ -183,11 +187,11 @@ export default function SignIn() {
               variant="contained"
               size="large"
               disabled={isLoading}
-              className={styles.submitButton}
+              className={s.submitButton}
             >
               {isLoading ? (
-                <Box className={styles.loadingContent}>
-                  <CircularProgress size={20} className={styles.spinner} />
+                <Box className={s.loadingContent}>
+                  <CircularProgress size={20} className={s.spinner} />
                   Signing In...
                 </Box>
               ) : (
@@ -196,8 +200,8 @@ export default function SignIn() {
             </Button>
           </Box>
 
-          <Divider className={styles.divider}>
-            <Typography variant="body2" className={styles.dividerText}>
+          <Divider className={s.divider}>
+            <Typography variant="body2" className={s.dividerText}>
               Or continue with
             </Typography>
           </Divider>
@@ -208,16 +212,16 @@ export default function SignIn() {
             size="large"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className={styles.googleButton}
+            className={s.googleButton}
             startIcon={<Google />}
           >
             Sign in with Google
           </Button>
 
-          <Box className={styles.signupLink}>
-            <Typography variant="body2" className={styles.signupText}>
+          <Box className={s.signupLink}>
+            <Typography variant="body2" className={s.signupText}>
               Don&apos;t have an account?{' '}
-              <Link href="/auth/signup" className={styles.link}>
+              <Link href="/auth/sign-up" className={s.link}>
                 Sign up
               </Link>
             </Typography>

@@ -19,8 +19,9 @@ function ReviewsSection({
       <Typography variant="subtitle1" gutterBottom className={s.sectionTitle}>
         Оценки товаров
       </Typography>
+
       {ratings.map((rating) => (
-        <Card key={rating.id} className={s.ratingCard}>
+        <Card key={rating.id} className={s.card}>
           <CardContent>
             <Typography variant="subtitle2" gutterBottom>
               {rating.product.name}
@@ -38,8 +39,9 @@ function ReviewsSection({
       <Typography variant="subtitle1" gutterBottom className={s.sectionTitle}>
         Отзывы
       </Typography>
+
       {reviews.map((review) => (
-        <Card key={review.id} className={s.reviewCard}>
+        <Card key={review.id} className={s.card}>
           <CardContent>
             <Typography variant="subtitle2" gutterBottom>
               {review.product.name}

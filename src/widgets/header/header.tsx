@@ -40,6 +40,7 @@ import { useRouter } from 'next/navigation'
 import s from './header.module.css'
 import { useCategory } from '@/features/category/hooks/useCategory'
 import { useSearch } from '@/shared/hooks/useSearch'
+import { logout } from '@/features/profile/actions/actions'
 
 interface Props {
   initCartCount: number
@@ -67,6 +68,10 @@ export default function Header({ initCartCount, isLogged }: Props) {
     setUserMenuAnchor(event.currentTarget)
   }
 
+  const handleLogout = () => {
+    logout()
+    setUserMenuAnchor(null)
+  }
   const handleUserMenuClose = () => {
     setUserMenuAnchor(null)
   }
@@ -210,9 +215,11 @@ export default function Header({ initCartCount, isLogged }: Props) {
         onMouseLeave={handleCategoriesClose}
         className={s.categoriesMenu}
         disableScrollLock={true}
-        MenuListProps={{
-          onMouseLeave: handleCategoriesClose,
-          className: s.categoriesMenuList,
+        slotProps={{
+          list: {
+            onMouseLeave: handleCategoriesClose,
+            className: s.categoriesMenuList,
+          },
         }}
       >
         {categories?.map((category) => (
@@ -265,7 +272,7 @@ export default function Header({ initCartCount, isLogged }: Props) {
                 <Link href={'/favorites'}> Избранное</Link>
               </MenuItem>,
               <Divider key="divider" />,
-              <MenuItem key="logout" onClick={handleUserMenuClose}>
+              <MenuItem key="logout" onClick={handleLogout}>
                 Выйти
               </MenuItem>,
             ]

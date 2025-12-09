@@ -1,0 +1,43 @@
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+.inputBox {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+  background: var(--mui-palette-background-paper);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 6px 10px;
+  gap: 8px;
+  transition: border 0.3s ease;
+}
+
+.inputBox:focus-within {
+  border-color: #667eea;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.9rem;
+  color: black;
+}
+
+.copyBtn {
+  background: rgba(102, 126, 234, 0.1) !important;
+  border-radius: 10px !important;
+  transition: all 0.25s ease !important;
+}
+
+.copyBtn:hover {
+  background: rgba(102, 126, 234, 0.2) !important;
+  transform: translateY(-2px);
+}

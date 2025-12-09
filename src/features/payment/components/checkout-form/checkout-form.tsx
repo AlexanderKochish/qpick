@@ -80,33 +80,34 @@ export function CheckoutForm({
 
         <CheckoutStepper activeStep={step} />
       </Box>
-      <Grid container spacing={2} size={10}>
-        <Grid size={7}>
+      <Grid container spacing={2} size={12}>
+        <Grid size={{ lg: 7, xs: 12 }}>
           <form className={s.form} onSubmit={handleSubmit}>
             <PaymentElement />
 
             {error && (
               <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
             )}
-
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              disabled={!stripe || isLoading}
-              sx={{ mt: 2 }}
-            >
-              {isLoading ? 'Processing...' : 'Pay Now'}
-            </Button>
+            <div className={s.btnsGroup}>
+              <Button
+                type="submit"
+                variant="outlined"
+                color="error"
+                onClick={handleReject}
+                fullWidth
+              >
+                Отклонить
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={!stripe || isLoading}
+              >
+                {isLoading ? 'Processing...' : 'Pay Now'}
+              </Button>
+            </div>
           </form>
-          <Button
-            type="submit"
-            variant="outlined"
-            color="error"
-            onClick={handleReject}
-          >
-            Отклонить
-          </Button>
         </Grid>
         <OrderTotal cart={cart} total={Number(totalPrice)} />
       </Grid>

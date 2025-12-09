@@ -14,11 +14,6 @@ import {
   Link,
 } from '@mui/material'
 import {
-  Favorite,
-  FavoriteBorder,
-  ShoppingCart,
-  Share,
-  CompareArrows,
   ArrowBack,
   LocalShipping,
   AssignmentReturn,
@@ -35,6 +30,7 @@ import ProductSpecifications from '../product-specifications/product-specificati
 import ProductReview from '../product-review/product-review'
 import CreateReviewModal from '@/features/reviews/components/create-review-modal/create-review-modal'
 import { Rating as RatingType } from '@prisma/client'
+import ActionsButtons from '../actions-buttons/actions-buttons'
 
 interface Props {
   product: ProductWithRelations | null
@@ -42,7 +38,6 @@ interface Props {
 const ProductDetails = ({ product }: Props) => {
   const router = useRouter()
   const [selectedImage, setSelectedImage] = useState(0)
-  const [favorite, setFavorite] = useState(false)
   const [activeTab, setActiveTab] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -61,15 +56,6 @@ const ProductDetails = ({ product }: Props) => {
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-EN').format(price)
-  }
-
-  const addToCart = () => {
-    console.log('Added to cart:', product, 'Quantity:', quantity)
-  }
-
-  const buyNow = () => {
-    addToCart()
-    router.push('/cart')
   }
 
   const averageRating = calculateAverageRating(product.ratings)
@@ -198,39 +184,7 @@ const ProductDetails = ({ product }: Props) => {
                 )}
               </Box>
 
-              <Box className={s.actionButtons}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  startIcon={<ShoppingCart />}
-                  className={s.cartButton}
-                  onClick={addToCart}
-                >
-                  В корзину
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  className={s.buyButton}
-                  onClick={buyNow}
-                >
-                  Купить сейчас
-                </Button>
-                <Grid container spacing={2}>
-                  <IconButton
-                    className={s.favoriteButton}
-                    onClick={() => setFavorite(!favorite)}
-                  >
-                    {favorite ? <Favorite color="error" /> : <FavoriteBorder />}
-                  </IconButton>
-                  <IconButton className={s.actionButton}>
-                    <CompareArrows />
-                  </IconButton>
-                  <IconButton className={s.actionButton}>
-                    <Share />
-                  </IconButton>
-                </Grid>
-              </Box>
+              {product.id && <ActionsButtons productId={product.id} />}
 
               <Box className={s.quantitySection}>
                 <Typography variant="subtitle1">Количество:</Typography>
@@ -254,7 +208,7 @@ const ProductDetails = ({ product }: Props) => {
                       Бесплатная доставка
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      По Москве за 1-2 дня
+                      По Киеву за 1-2 дня
                     </Typography>
                   </Box>
                 </Box>

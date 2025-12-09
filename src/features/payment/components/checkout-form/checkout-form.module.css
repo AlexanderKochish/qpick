@@ -1,3 +1,19 @@
 .form {
   width: 100%;
 }
+
+.btnsGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (width < 600px) {
+  .btnsGroup {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+}

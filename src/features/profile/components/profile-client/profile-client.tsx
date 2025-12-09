@@ -141,13 +141,13 @@ export default function ProfileClient({ profileData }: Props) {
                   label={isSmall ? null : 'Отзывы и оценки'}
                 />
               </Tabs>
-              <Button
+              {/* <Button
                 startIcon={<EditIcon />}
                 onClick={() => setIsEditing(!isEditing)}
                 className={s.editButton}
               >
                 {isEditing ? 'Сохранить' : 'Редактировать'}
-              </Button>
+              </Button> */}
             </Box>
 
             <Box className={s.tabContent}>

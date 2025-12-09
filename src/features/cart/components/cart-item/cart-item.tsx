@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { Delete, Add, Remove } from '@mui/icons-material'
 import { CartItemType } from '../../types/types'
+import { removeCartItem } from '../../actions/actions'
 
 interface Props {
   quantity: number
@@ -42,6 +43,7 @@ const CartItem = ({ item, quantity }: Props) => {
   }
 
   const handleRemove = () => {
+    removeCartItem(item.productId)
     updateQuantity({
       itemId: item.productId,
       quantity: 0,
