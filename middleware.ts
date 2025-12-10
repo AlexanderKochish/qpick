@@ -3,12 +3,11 @@ import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
   const session =
-    request.cookies.get('__Secure-authjs.session-token') ||
-    request.cookies.get('authjs.session-token')
+    request.cookies.get('__Secure-authjs.session-token')?.value ||
+    request.cookies.get('authjs.session-token')?.value
+  const isAuthenticated = Boolean(session)
 
-  const isAuthenticated = !!session
-
-  const protectedRoutes = ['/profile', '/checkout', '/admin']
+  const protectedRoutes = ['/profile', '/checkout', '/admin', '/api']
 
   const isProtected = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
@@ -22,5 +21,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile/:path*', '/checkout/:path*', '/admin/:path*'],
+  matcher: [
+    '/profile/:path*',
+    '/checkout/:path*',
+    '/admin/:path*',
+    '/api/:path*',
+  ],
 }

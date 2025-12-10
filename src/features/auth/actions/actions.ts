@@ -12,7 +12,6 @@ type LoginFormState = {
     _errors?: string[]
   }
   success: boolean
-  loading?: boolean
 }
 
 export async function register(
@@ -31,7 +30,7 @@ export async function register(
       email: { _errors: treeified.properties?.email?.errors ?? [] },
       _errors: treeified.errors ?? [],
     }
-    return { errors: formatted, success: false, loading: false }
+    return { errors: formatted, success: false }
   }
 
   const { email, password, name } = validatedFields.data
@@ -51,7 +50,6 @@ export async function register(
           _errors: ['User already exists'],
         },
         success: false,
-        loading: false,
       }
     }
 
@@ -66,25 +64,25 @@ export async function register(
       },
     })
 
-    const result = await signIn('credentials', {
+    await signIn('credentials', {
       email: user.email,
       password: user.password!,
       redirect: false,
     })
 
-    if (result?.ok) {
+    const session = await auth()
+
+    if (session?.user) {
       return {
         errors: {
           _errors: [],
         },
         success: true,
-        loading: false,
       }
     } else {
       return {
         success: false,
         errors: { _errors: ['Failed to sign in after registration'] },
-        loading: false,
       }
     }
   } catch (error) {
@@ -94,7 +92,6 @@ export async function register(
         error instanceof Error
           ? { _errors: [error.message] }
           : { _errors: ['Something went wrong'] },
-      loading: false,
     }
   }
 }
@@ -114,23 +111,22 @@ export async function login(
       email: { _errors: treeified.properties?.email?.errors ?? [] },
       _errors: treeified.errors ?? [],
     }
-    return { errors: formatted, success: false, loading: false }
+    return { errors: formatted, success: false }
   }
 
   const { email, password } = validatedFields.data
 
   try {
-    const result = await signIn('credentials', {
+    await signIn('credentials', {
       email,
       password,
       redirect: false,
     })
-
-    if (!result?.ok) {
+    const session = await auth()
+    if (!session?.user) {
       return {
         success: false,
         errors: { _errors: ['Failed to sign in'] },
-        loading: false,
       }
     } else {
       return {
@@ -138,29 +134,7 @@ export async function login(
           _errors: [],
         },
         success: true,
-        loading: false,
       }
-    }
-  } catch (error) {
-    return {
-      success: false,
-      errors:
-        error instanceof Error
-          ? { _errors: [error.message] }
-          : { _errors: ['Something went wrong'] },
-    }
-  }
-}
-
-export const handleGoogleSignIn = async (): Promise<LoginFormState> => {
-  try {
-    await signIn('google', { callbackUrl: '/' })
-    return {
-      errors: {
-        _errors: [],
-      },
-      success: true,
-      loading: false,
     }
   } catch (error) {
     return {

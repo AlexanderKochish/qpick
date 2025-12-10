@@ -6,7 +6,6 @@ import {
   Paper,
   Typography,
   Avatar as MuiAvatar,
-  Button,
   Grid,
   Tab,
   Tabs,
@@ -62,7 +61,7 @@ export default function ProfileClient({ profileData }: Props) {
           <Paper className={s.sidebar}>
             <Box className={s.avatarSection}>
               <MuiAvatar
-                src={profileData.avatar?.url}
+                src={profileData.image || undefined}
                 sx={{ width: 120, height: 120 }}
                 className={s.avatar}
               >

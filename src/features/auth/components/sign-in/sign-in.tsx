@@ -1,6 +1,6 @@
 'use client'
 
-import { startTransition, useActionState, useState } from 'react'
+import { useActionState, useState } from 'react'
 import {
   Box,
   Typography,
@@ -18,8 +18,9 @@ import Link from 'next/link'
 import s from './sign-in.module.css'
 import AuthTitle from '@/features/auth/components/auth-title/auth-title'
 import AuthLayout from '@/features/auth/components/auth-layout/auth-layout'
-import { handleGoogleSignIn, login } from '@/features/auth/actions/actions'
+import { login } from '@/features/auth/actions/actions'
 import GoogleIcon from '@/shared/components/google-icon/google-icon'
+import { useGoogleAuth } from '../../hooks/useGoogleAuth'
 
 export default function SignIn() {
   const router = useRouter()
@@ -27,16 +28,11 @@ export default function SignIn() {
     errors: {},
     success: false,
   })
-  const [state, googleSignInAction, isGoogleSignInPending] = useActionState(
-    handleGoogleSignIn,
-    {
-      errors: {},
-      success: false,
-    }
-  )
+  const { handleGoogleSignIn: googleSignInAction, isLoading: isGoogleLoading } =
+    useGoogleAuth()
   const [showPassword, setShowPassword] = useState(false)
-  const isLoading = isPending || isGoogleSignInPending
-  if (success || state.success) {
+  const isLoading = isPending || isGoogleLoading
+  if (success) {
     router.push('/')
     router.refresh()
   }
@@ -149,7 +145,7 @@ export default function SignIn() {
         fullWidth
         variant="outlined"
         size="large"
-        onClick={() => startTransition(googleSignInAction)}
+        onClick={googleSignInAction}
         disabled={isLoading}
         className={s.googleButton}
         startIcon={<GoogleIcon />}
