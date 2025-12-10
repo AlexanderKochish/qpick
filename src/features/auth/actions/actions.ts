@@ -2,22 +2,39 @@
 
 import prisma from '@/shared/lib/prisma'
 import bcrypt from 'bcryptjs'
-import { auth } from '../../../../auth'
+import { auth, signIn } from '../../../../auth'
+import { signInSchema, signUpSchema } from '../lib/zod/auth.schema'
+import { z } from 'zod'
 
-type RegisterResult = {
+type LoginFormState = {
+  errors: {
+    email?: { _errors: string[] }
+    _errors?: string[]
+  }
   success: boolean
-  userId?: string
+  loading?: boolean
 }
 
-type RegisterError = {
-  success: false
-  error: string
-}
+export async function register(
+  _prevState: LoginFormState,
+  formData: FormData
+): Promise<LoginFormState> {
+  const validatedFields = signUpSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+    name: formData.get('name'),
+  })
 
-export async function register(formData: FormData): Promise<RegisterResult> {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  const name = formData.get('name') as string
+  if (!validatedFields.success) {
+    const treeified = z.treeifyError(validatedFields.error)
+    const formatted = {
+      email: { _errors: treeified.properties?.email?.errors ?? [] },
+      _errors: treeified.errors ?? [],
+    }
+    return { errors: formatted, success: false, loading: false }
+  }
+
+  const { email, password, name } = validatedFields.data
 
   if (!email || !password) {
     throw new Error('Email and password are required')
@@ -29,7 +46,13 @@ export async function register(formData: FormData): Promise<RegisterResult> {
     })
 
     if (existingUser) {
-      throw new Error('User already exists')
+      return {
+        errors: {
+          _errors: ['User already exists'],
+        },
+        success: false,
+        loading: false,
+      }
     }
 
     const hashedPassword = await bcrypt.hash(password, 12)
@@ -43,10 +66,110 @@ export async function register(formData: FormData): Promise<RegisterResult> {
       },
     })
 
-    return { success: true, userId: user.id }
+    const result = await signIn('credentials', {
+      email: user.email,
+      password: user.password!,
+      redirect: false,
+    })
+
+    if (result?.ok) {
+      return {
+        errors: {
+          _errors: [],
+        },
+        success: true,
+        loading: false,
+      }
+    } else {
+      return {
+        success: false,
+        errors: { _errors: ['Failed to sign in after registration'] },
+        loading: false,
+      }
+    }
   } catch (error) {
-    console.error('Registration error:', error)
-    throw error
+    return {
+      success: false,
+      errors:
+        error instanceof Error
+          ? { _errors: [error.message] }
+          : { _errors: ['Something went wrong'] },
+      loading: false,
+    }
+  }
+}
+
+export async function login(
+  _prevState: LoginFormState,
+  formData: FormData
+): Promise<LoginFormState> {
+  const validatedFields = signInSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+  })
+
+  if (!validatedFields.success) {
+    const treeified = z.treeifyError(validatedFields.error)
+    const formatted = {
+      email: { _errors: treeified.properties?.email?.errors ?? [] },
+      _errors: treeified.errors ?? [],
+    }
+    return { errors: formatted, success: false, loading: false }
+  }
+
+  const { email, password } = validatedFields.data
+
+  try {
+    const result = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    })
+
+    if (!result?.ok) {
+      return {
+        success: false,
+        errors: { _errors: ['Failed to sign in'] },
+        loading: false,
+      }
+    } else {
+      return {
+        errors: {
+          _errors: [],
+        },
+        success: true,
+        loading: false,
+      }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      errors:
+        error instanceof Error
+          ? { _errors: [error.message] }
+          : { _errors: ['Something went wrong'] },
+    }
+  }
+}
+
+export const handleGoogleSignIn = async (): Promise<LoginFormState> => {
+  try {
+    await signIn('google', { callbackUrl: '/' })
+    return {
+      errors: {
+        _errors: [],
+      },
+      success: true,
+      loading: false,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      errors:
+        error instanceof Error
+          ? { _errors: [error.message] }
+          : { _errors: ['Something went wrong'] },
+    }
   }
 }
 

@@ -1,6 +1,7 @@
+import React from 'react'
 import '../../(site)/globals.css'
 
-export default async function AuthLayout({
+export default async function AuthMainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -8,7 +9,7 @@ export default async function AuthLayout({
   return (
     <html lang="en">
       <body>
-        <div>{children}</div>
+        <main> {children} </main>
       </body>
     </html>
   )

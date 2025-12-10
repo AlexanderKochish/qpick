@@ -10,7 +10,7 @@ import {
   Rating,
   Typography,
 } from '@mui/material'
-import { CompareArrows, Share, ShoppingCart } from '@mui/icons-material'
+import { CompareArrows, ShoppingCart } from '@mui/icons-material'
 import Link from 'next/link'
 import { addToCart } from '@/features/cart/actions/actions'
 import { ProductCard as PropductType } from '../../types/types'

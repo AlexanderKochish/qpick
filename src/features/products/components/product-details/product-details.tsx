@@ -31,6 +31,7 @@ import ProductReview from '../product-review/product-review'
 import CreateReviewModal from '@/features/reviews/components/create-review-modal/create-review-modal'
 import { Rating as RatingType } from '@prisma/client'
 import ActionsButtons from '../actions-buttons/actions-buttons'
+import BreadcrumbNav from '@/widgets/breadcrumbs-nav/breadcrumbs-nav'
 
 interface Props {
   product: ProductWithRelations | null
@@ -70,20 +71,17 @@ const ProductDetails = ({ product }: Props) => {
   return (
     <Box className={s.container}>
       <Container maxWidth="xl">
-        <Breadcrumbs className={s.breadcrumbs}>
-          <Link href="/" className={s.breadcrumbLink}>
-            Главная
-          </Link>
-          <Link
-            href={`/category/${product.category.name}/${product.categoryId}`}
-            className={s.breadcrumbLink}
-          >
-            {product.category.name}
-          </Link>
-          <Typography color="text.primary">{product.name}</Typography>
-        </Breadcrumbs>
+        <BreadcrumbNav
+          items={[
+            { label: 'Главная', href: '/' },
+            {
+              label: product.category.name,
+              href: `/category/${product.category.name}/${product.categoryId}`,
+            },
+            { label: product.name },
+          ]}
+        />
       </Container>
-
       <Container maxWidth="xl" className={s.content}>
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, lg: 6 }}>

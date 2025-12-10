@@ -1,0 +1,26 @@
+.breadcrumbs {
+  margin-bottom: 24px;
+  padding: 8px 0;
+}
+
+.breadcrumbLink {
+  color: var(--mui-palette-text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.breadcrumbLink:hover {
+  color: var(--mui-palette-primary-main);
+  text-decoration: underline;
+}
+
+.currentPage {
+  color: var(--mui-palette-text-primary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

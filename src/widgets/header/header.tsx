@@ -108,8 +108,18 @@ export default function Header({ initCartCount, isLogged }: Props) {
         <ListItem onClick={() => router.push('/about')}>
           <ListItemText primary="О нас" />
         </ListItem>
-        <ListItem onClick={() => router.push('/contact')}>
+        <ListItem onClick={() => router.push('/contacts')}>
           <ListItemText primary="Контакты" />
+        </ListItem>
+        <Divider sx={{ my: 3 }} />
+        <ListItem onClick={() => router.push('/')}>
+          <ListItemText primary="Акции" />
+        </ListItem>
+        <ListItem onClick={() => router.push('/delivery')}>
+          <ListItemText primary="Доставка" />
+        </ListItem>
+        <ListItem onClick={() => router.push('/guarantee')}>
+          <ListItemText primary="Гарантия" />
         </ListItem>
       </List>
     </Box>
@@ -136,8 +146,12 @@ export default function Header({ initCartCount, isLogged }: Props) {
             </Box>
             <Box className={s.topBarActions}>
               <Button className={s.topBarButton}>Акции</Button>
-              <Button className={s.topBarButton}>Доставка</Button>
-              <Button className={s.topBarButton}>Гарантия</Button>
+              <Button className={s.topBarButton}>
+                <Link href="/delivery">Доставка</Link>
+              </Button>
+              <Button className={s.topBarButton}>
+                <Link href="/guarantee">Гарантия</Link>
+              </Button>
             </Box>
           </Box>
         </Container>
