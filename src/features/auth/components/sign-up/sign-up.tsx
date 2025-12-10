@@ -1,5 +1,5 @@
 'use client'
-import { useActionState, useState } from 'react'
+import { startTransition, useActionState, useState } from 'react'
 import s from './sign-up.module.css'
 import {
   Alert,
@@ -227,7 +227,7 @@ const SignUp = () => {
         fullWidth
         variant="outlined"
         size="large"
-        onClick={googleSignInAction}
+        onClick={() => startTransition(googleSignInAction)}
         disabled={isLoading}
         className={s.googleButton}
         startIcon={<GoogleIcon />}
