@@ -248,7 +248,8 @@ export default function Header({ initCartCount, isLogged }: Props) {
                   {category.name === 'smartphones' && <Smartphone />}
                   {category.name === 'laptops' && <Laptop />}
                   <Typography className={s.categoryName}>
-                    {category.name}
+                    {category.name.charAt(0).toUpperCase() +
+                      category.name.slice(1)}
                   </Typography>
                 </Box>
               </Link>

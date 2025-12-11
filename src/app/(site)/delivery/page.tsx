@@ -34,14 +34,11 @@ import {
   CheckCircle,
   AccessTime,
   Payment,
-  Security,
   Phone,
   Email,
-  Language,
   Map,
   Inventory,
   DoneAll,
-  Warning,
 } from '@mui/icons-material'
 import Link from 'next/link'
 
@@ -58,8 +55,8 @@ export default function DeliveryPage() {
         <Typography variant="h2" component="h1" fontWeight={700} gutterBottom>
           Доставка и самовывоз
         </Typography>
-        <Typography variant="h5" color="text.secondary" paragraph>
-          Быстрая и надежная доставка гаджетов по всей России
+        <Typography variant="h5" color="text.secondary" component="p">
+          Быстрая и надежная доставка гаджетов по всей Украине
         </Typography>
       </Box>
 
@@ -71,9 +68,9 @@ export default function DeliveryPage() {
           '& .MuiAlert-icon': { alignItems: 'center' },
         }}
       >
-        <Typography fontWeight={600}>
-          🚚 Бесплатная доставка при заказе от 10 000 ₽
-          <br />⚡ Экспресс-доставка в день заказа по Москве и СПб
+        <Typography fontWeight={600} component="p">
+          🚚 Бесплатная доставка при заказе от 10 000 грн
+          <br />⚡ Экспресс-доставка в день заказа по Киеву и СПб
         </Typography>
       </Alert>
 
@@ -89,7 +86,7 @@ export default function DeliveryPage() {
                 <Typography variant="h5" gutterBottom fontWeight={600}>
                   Курьерская доставка
                 </Typography>
-                <Typography color="text.secondary" paragraph>
+                <Typography color="text.secondary" component="p">
                   Доставка до двери в удобное для вас время
                 </Typography>
                 <Chip
@@ -129,7 +126,7 @@ export default function DeliveryPage() {
                 <Typography variant="h5" gutterBottom fontWeight={600}>
                   Экспресс доставка
                 </Typography>
-                <Typography color="text.secondary" paragraph>
+                <Typography color="text.secondary" component="p">
                   Доставка в день заказа в пределах города
                 </Typography>
                 <Chip
@@ -162,7 +159,6 @@ export default function DeliveryPage() {
             </Card>
           </Grid>
 
-          {/* Самовывоз */}
           <Grid size={{ xs: 12, md: 4 }}>
             <Card sx={{ height: '100%', borderTop: '4px solid #2e7d32' }}>
               <CardContent sx={{ textAlign: 'center', p: 3 }}>
@@ -170,7 +166,7 @@ export default function DeliveryPage() {
                 <Typography variant="h5" gutterBottom fontWeight={600}>
                   Самовывоз
                 </Typography>
-                <Typography color="text.secondary" paragraph>
+                <Typography color="text.secondary" component="p">
                   Заберите заказ из нашего магазина
                 </Typography>
                 <Chip
@@ -205,7 +201,6 @@ export default function DeliveryPage() {
         </Grid>
       </Box>
 
-      {/* Таблица стоимости доставки */}
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600} mb={3}>
           Стоимость доставки
@@ -230,27 +225,27 @@ export default function DeliveryPage() {
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Москва</TableCell>
+                <TableCell>Киев</TableCell>
                 <TableCell>Бесплатно*</TableCell>
-                <TableCell>500 ₽</TableCell>
+                <TableCell>300 грн</TableCell>
                 <TableCell>1-2 дня / 2-5 часов</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Санкт-Петербург</TableCell>
+                <TableCell>Киев</TableCell>
                 <TableCell>Бесплатно*</TableCell>
-                <TableCell>600 ₽</TableCell>
+                <TableCell>400 грн</TableCell>
                 <TableCell>1-3 дня / 3-6 часов</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Города-миллионники</TableCell>
-                <TableCell>350 ₽</TableCell>
-                <TableCell>800 ₽</TableCell>
+                <TableCell>150 грн</TableCell>
+                <TableCell>200 грн</TableCell>
                 <TableCell>2-4 дня</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Другие города</TableCell>
-                <TableCell>500 ₽</TableCell>
-                <TableCell>1 200 ₽</TableCell>
+                <TableCell>100 грн</TableCell>
+                <TableCell>200 грн</TableCell>
                 <TableCell>3-7 дней</TableCell>
               </TableRow>
             </TableBody>
@@ -261,7 +256,7 @@ export default function DeliveryPage() {
           color="text.secondary"
           sx={{ mt: 1, display: 'block' }}
         >
-          * Бесплатная доставка при заказе от 10 000 ₽
+          * Бесплатная доставка при заказе от 10 000 грн
         </Typography>
       </Box>
 
@@ -276,7 +271,7 @@ export default function DeliveryPage() {
                 Пункты самовывоза
               </Typography>
               <Typography color="text.secondary">
-                150+ пунктов выдачи по всей России
+                150+ пунктов выдачи по всей Украине
               </Typography>
             </Grid>
           </Grid>
@@ -284,7 +279,7 @@ export default function DeliveryPage() {
           <Grid container spacing={4}>
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography variant="h6" gutterBottom fontWeight={600}>
-                Москва
+                Киев
               </Typography>
               <List>
                 <ListItem>
@@ -292,7 +287,7 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary="ул. Тверская, д. 10"
+                    primary="ул. Шевченко, д. 10"
                     secondary="Ежедневно 10:00-22:00"
                   />
                 </ListItem>
@@ -301,7 +296,7 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary="Арбат, д. 25"
+                    primary="Шевченко пр., д. 25"
                     secondary="Ежедневно 9:00-21:00"
                   />
                 </ListItem>
@@ -310,7 +305,7 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary='ТРЦ "Авиапарк"'
+                    primary='ТРЦ "Гулливер"'
                     secondary="10:00-23:00, без выходных"
                   />
                 </ListItem>
@@ -327,7 +322,7 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary="Невский пр., д. 60"
+                    primary="Шевченко пр., д. 60"
                     secondary="Ежедневно 10:00-22:00"
                   />
                 </ListItem>
@@ -336,7 +331,7 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary='ТРК "Питерлэнд"'
+                    primary='ТРК "Гулливер"'
                     secondary="10:00-23:00, без выходных"
                   />
                 </ListItem>
@@ -345,7 +340,7 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary="ул. Савушкина, д. 12"
+                    primary="ул. Шевченко, д. 12"
                     secondary="Пн-Пт 9:00-21:00, Сб-Вс 10:00-20:00"
                   />
                 </ListItem>

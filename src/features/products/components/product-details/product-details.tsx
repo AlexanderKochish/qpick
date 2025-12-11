@@ -6,12 +6,9 @@ import {
   Container,
   Grid,
   Typography,
-  Button,
   Chip,
   Rating,
   IconButton,
-  Breadcrumbs,
-  Link,
 } from '@mui/material'
 import {
   ArrowBack,
@@ -40,7 +37,6 @@ const ProductDetails = ({ product }: Props) => {
   const router = useRouter()
   const [selectedImage, setSelectedImage] = useState(0)
   const [activeTab, setActiveTab] = useState(0)
-  const [quantity, setQuantity] = useState(1)
   const [dialogOpen, setDialogOpen] = useState(false)
 
   if (!product) return null
@@ -183,20 +179,6 @@ const ProductDetails = ({ product }: Props) => {
               </Box>
 
               {product.id && <ActionsButtons productId={product.id} />}
-
-              <Box className={s.quantitySection}>
-                <Typography variant="subtitle1">Количество:</Typography>
-                <Box className={s.quantityControls}>
-                  <Button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    disabled={quantity <= 1}
-                  >
-                    -
-                  </Button>
-                  <Typography className={s.quantity}>{quantity}</Typography>
-                  <Button onClick={() => setQuantity(quantity + 1)}>+</Button>
-                </Box>
-              </Box>
 
               <Box className={s.features}>
                 <Box className={s.feature}>

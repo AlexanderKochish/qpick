@@ -36,7 +36,6 @@ import Link from 'next/link'
 export default function GuaranteePage() {
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 } }}>
-      {/* Заголовок */}
       <Box textAlign="center" mb={6}>
         <Chip
           icon={<VerifiedUser />}
@@ -52,7 +51,6 @@ export default function GuaranteePage() {
         </Typography>
       </Box>
 
-      {/* Основная информация о гарантии */}
       <Grid container spacing={4} mb={6}>
         <Grid size={{ xs: 12, md: 4 }}>
           <Card sx={{ height: '100%', borderTop: '4px solid #1976d2' }}>
@@ -100,7 +98,6 @@ export default function GuaranteePage() {
         </Grid>
       </Grid>
 
-      {/* Важная информация */}
       <Alert severity="info" sx={{ mb: 4, borderRadius: 2 }}>
         <Typography fontWeight={600}>
           Гарантия активируется автоматически при покупке товара. Сохраняйте чек
@@ -108,7 +105,6 @@ export default function GuaranteePage() {
         </Typography>
       </Alert>
 
-      {/* Что покрывает гарантия */}
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600}>
           Что покрывает гарантия?
@@ -190,7 +186,6 @@ export default function GuaranteePage() {
         </Grid>
       </Box>
 
-      {/* FAQ */}
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600} mb={3}>
           Часто задаваемые вопросы
@@ -260,7 +255,6 @@ export default function GuaranteePage() {
         </Accordion>
       </Box>
 
-      {/* Процесс ремонта */}
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600}>
           Процесс гарантийного ремонта
@@ -293,14 +287,14 @@ export default function GuaranteePage() {
                 sx={{
                   textAlign: 'center',
                   p: 3,
-                  height: '100%',
+                  minHeight: '100%',
                   position: 'relative',
                 }}
               >
                 <Box
                   sx={{
                     position: 'absolute',
-                    top: -20,
+                    top: 15,
                     left: '50%',
                     transform: 'translateX(-50%)',
                     width: 40,
@@ -317,7 +311,7 @@ export default function GuaranteePage() {
                 >
                   {item.step}
                 </Box>
-                <Typography variant="h6" mt={3} mb={2} fontWeight={600}>
+                <Typography variant="h6" mt={5} mb={2} fontWeight={600}>
                   {item.title}
                 </Typography>
                 <Typography color="text.secondary">
@@ -329,7 +323,6 @@ export default function GuaranteePage() {
         </Grid>
       </Box>
 
-      {/* Контакты сервисного центра */}
       <Card
         sx={{ mb: 6, bgcolor: 'primary.light', color: 'primary.contrastText' }}
       >
@@ -352,7 +345,7 @@ export default function GuaranteePage() {
                 <Email sx={{ mr: 2 }} />
                 <div>
                   <Typography variant="body2">Email</Typography>
-                  <Typography variant="h6">service@gadget-store.ru</Typography>
+                  <Typography variant="h6">service@gadget-store.ua</Typography>
                 </div>
               </Box>
             </Grid>
@@ -369,7 +362,6 @@ export default function GuaranteePage() {
         </CardContent>
       </Card>
 
-      {/* CTA кнопки */}
       <Box
         display="flex"
         flexDirection={{ xs: 'column', sm: 'row' }}
@@ -398,7 +390,6 @@ export default function GuaranteePage() {
         </Button>
       </Box>
 
-      {/* Юридическая информация */}
       <Box mt={6} pt={4} borderTop={1} borderColor="divider">
         <Typography variant="body2" color="text.secondary" align="center">
           * Гарантийные условия могут отличаться для разных производителей.
@@ -406,7 +397,7 @@ export default function GuaranteePage() {
           <br />
           ** Сроки ремонта указаны ориентировочно и могут меняться в зависимости
           от сложности случая и наличия запчастей.
-          <br />© {new Date().getFullYear()} GadgetStore. Все права защищены.
+          <br />© {new Date().getFullYear()} TechDevices. Все права защищены.
         </Typography>
       </Box>
     </Container>

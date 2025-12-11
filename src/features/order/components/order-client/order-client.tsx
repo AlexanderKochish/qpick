@@ -28,9 +28,7 @@ export default function OrderClient({ activeStap }: Props) {
     initialState
   )
 
-  const { data: cart, totalPrice, discount } = useCart()
-  const discountPrice =
-    totalPrice && discount ? totalPrice - discount : totalPrice
+  const { data: cart, total, totalDiscount, totalPrice } = useCart()
 
   useEffect(() => {
     if (state?.redirectTo) {
@@ -40,7 +38,7 @@ export default function OrderClient({ activeStap }: Props) {
 
   return (
     <section className={s.orderSection}>
-      <Box sx={{ mb: 4 }}>
+      <Box>
         <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
           Оформление заказа
         </Typography>
@@ -57,7 +55,7 @@ export default function OrderClient({ activeStap }: Props) {
               <OrderPhone state={state} />
               <Divider sx={{ my: 3 }} />
               <OrderRadioGrop />
-              <input name="totalPrice" type="hidden" value={discountPrice} />
+              <input name="totalPrice" type="hidden" value={totalPrice} />
 
               <Button
                 type="submit"
@@ -79,9 +77,9 @@ export default function OrderClient({ activeStap }: Props) {
         </Grid>
 
         <OrderTotal
-          discount={Number(discount)}
+          discount={Number(totalDiscount)}
           cart={cart}
-          total={Number(totalPrice)}
+          total={Number(total)}
         />
       </div>
     </section>

@@ -20,11 +20,17 @@ interface Props {
 }
 
 export default function CartPage({ initialData }: Props) {
-  const { data: cart, totalPrice: subtotal } = useCart({ initialData })
+  const {
+    data: cart,
+    total,
+    setAppliedPromo,
+    appliedPromo,
+    promoDiscount,
+    totalDiscount,
+  } = useCart({ initialData })
   const [promoCode, setPromoCode] = useState('')
-  const [appliedPromo, setAppliedPromo] = useState('')
 
-  if (cart?.items.length === 0 || !subtotal) {
+  if (cart?.items.length === 0 || !total) {
     return (
       <EmptyState
         img={emptyCart}
@@ -33,16 +39,6 @@ export default function CartPage({ initialData }: Props) {
       />
     )
   }
-
-  const totalDiscount = cart?.items.reduce(
-    (sum, item) =>
-      sum +
-      ((Number(item.product.price) * Number(item.product.discount)) / 100) *
-        item.quantity,
-    0
-  )
-  const promoDiscount = appliedPromo ? subtotal * 0.1 : 0
-  const total = subtotal - totalDiscount! - promoDiscount
 
   const applyPromoCode = () => {
     if (promoCode.trim() && !appliedPromo) {
@@ -82,7 +78,7 @@ export default function CartPage({ initialData }: Props) {
           promoCode={promoCode}
           applyPromoCode={applyPromoCode}
           promoDiscount={promoDiscount}
-          subtotal={subtotal}
+          subtotal={total}
           total={total}
           setPromoCode={setPromoCode}
           removePromoCode={removePromoCode}

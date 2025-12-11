@@ -1,9 +1,11 @@
 'use client'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
-import { useEffect, useState } from 'react'
 import { CheckoutForm } from '@/features/payment/components/checkout-form/checkout-form'
 import { useOrder } from '@/features/order/hooks/useOrder'
+import CheckoutFormSkeleton from '../checkout-form-skeleton/checkout-form-skeleton'
+import { usePaymentIntent } from '../../hooks/use-payment-intent'
+import { useRouter } from 'next/navigation'
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -15,43 +17,25 @@ interface Props {
 }
 
 export default function PaymentForm({ id, step }: Props) {
-  const [clientSecret, setClientSecret] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
+  const router = useRouter()
   const { isLoading: orderLoading, error: orderError } = useOrder(id)
+  const { data, isLoading, error } = usePaymentIntent({ orderId: id })
 
-  useEffect(() => {
-    if (!id) return
+  if (!data?.clientSecret) {
+    router.replace('/cart')
+  }
 
-    async function loadPI() {
-      try {
-        const res = await fetch('/api/create-payment-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ orderId: id }),
-        })
-
-        const data = await res.json()
-        setClientSecret(data.clientSecret)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadPI()
-  }, [id])
-
-  if (orderLoading || isLoading) return <div>Loading payment...</div>
+  if (orderLoading || isLoading) return <CheckoutFormSkeleton />
   if (orderError) return <div>Error loading order: {orderError.message}</div>
-  if (error) return <div>Payment error: {error}</div>
+  if (error) return <div>Payment error</div>
 
   return (
     <div>
-      {clientSecret && (
+      {data?.clientSecret && (
         <Elements
           stripe={stripePromise}
           options={{
-            clientSecret,
+            clientSecret: data.clientSecret,
             appearance: {
               theme: 'stripe',
               variables: {

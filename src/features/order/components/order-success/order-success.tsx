@@ -1,0 +1,56 @@
+'use client'
+import { confirmPayment } from '@/features/payment/actions/actions'
+import BaseCard from '@/shared/components/base-card/base-card'
+
+import React, { useEffect } from 'react'
+import s from './order-success.module.css'
+import { useRouter } from 'next/navigation'
+
+interface Props {
+  id: string
+}
+
+const OrderSuccess = ({ id }: Props) => {
+  const router = useRouter()
+  useEffect(() => {
+    window.history.pushState(null, '', window.location.href)
+
+    const handleBackButton = (e: PopStateEvent) => {
+      window.history.pushState(null, '', window.location.href)
+      router.replace('/')
+    }
+
+    window.addEventListener('popstate', handleBackButton)
+
+    const confirmDevPayment = async () => {
+      try {
+        await confirmPayment(id)
+        console.log('Payment manually confirmed')
+      } catch (error) {
+        console.log('Manual confirmation failed (maybe already confirmed)')
+      }
+    }
+
+    confirmDevPayment()
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton)
+    }
+  }, [id, router])
+
+  return (
+    <div className={s.successSection}>
+      <BaseCard>
+        <div className={s.content}>
+          <h1 className={s.title}>Payment Successful!</h1>
+          <p>
+            Your order id is <strong>№ {id}</strong>, our manager will contact
+            you.
+          </p>
+        </div>
+      </BaseCard>
+    </div>
+  )
+}
+
+export default OrderSuccess

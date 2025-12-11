@@ -22,7 +22,7 @@ export function CheckoutForm({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const { data: totalPrice } = useOrder(orderId)
-  const { data: cart } = useCart()
+  const { data: cart, total } = useCart()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -109,7 +109,7 @@ export function CheckoutForm({
             </div>
           </form>
         </Grid>
-        <OrderTotal cart={cart} total={Number(totalPrice)} />
+        <OrderTotal cart={cart} total={Number(total)} />
       </Grid>
     </Container>
   )

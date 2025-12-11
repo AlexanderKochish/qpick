@@ -49,3 +49,13 @@ export type ProductCard = Prisma.ProductGetPayload<{
     }
   }
 }>
+
+export interface UseQuantityProps {
+  initialQuantity: number
+  itemId: string
+  onQuantityChange: (params: { itemId: string; quantity: number }) => void
+  onRemove?: (itemId: string) => void
+  debounceDelay?: number
+  minQuantity?: number
+  maxQuantity?: number
+}

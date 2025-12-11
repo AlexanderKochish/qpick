@@ -349,11 +349,13 @@
     display: none;
   }
 
-  .searchSection {
-    display: none;
-  }
-
   .toolbar {
     grid-template-columns: auto 1fr auto;
+  }
+}
+
+@media (width < 360px) {
+  .searchSection {
+    display: none;
   }
 }

@@ -1,35 +1,45 @@
-.contacts {
-  display: flex;
-  justify-content: space-around;
-  padding: 17px 0 27px 0;
-  gap: 1rem;
+/* app/contacts/page.module.css */
+.container {
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  min-height: 100vh;
 }
 
-.contact {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.contactCard {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.contactMap {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.contactCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
-.phone {
+.iconCircle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e3f2fd;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  color: #1976d2;
 }
 
-.contactsSocial {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.socialButton {
+  transition: transform 0.3s ease;
+}
 
-  & li {
-    display: grid;
-    place-items: center;
+.socialButton:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 600px) {
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+
+  .contactCard {
+    margin-bottom: 16px;
   }
 }

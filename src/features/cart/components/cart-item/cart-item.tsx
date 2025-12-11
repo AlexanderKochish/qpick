@@ -1,8 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useCart } from '../../hooks/useCart'
-import { useDebounce } from '@/shared/hooks/useDebounce'
 import {
   Grid,
   Card,
@@ -11,10 +8,12 @@ import {
   Box,
   IconButton,
   Chip,
+  Button,
 } from '@mui/material'
-import { Delete, Add, Remove } from '@mui/icons-material'
+import { Delete } from '@mui/icons-material'
 import { CartItemType } from '../../types/types'
-import { removeCartItem } from '../../actions/actions'
+import { useQuantity } from '@/features/products/hooks/use-quantity'
+import s from './cart-item.module.css'
 
 interface Props {
   quantity: number
@@ -22,37 +21,14 @@ interface Props {
 }
 
 const CartItem = ({ item, quantity }: Props) => {
-  const [qtity, setQtity] = useState(quantity)
-  const { updateQuantity } = useCart()
-
-  const debouncedQty = useDebounce(qtity, 400)
-
-  useEffect(() => {
-    updateQuantity({
-      itemId: item.productId,
-      quantity: +debouncedQty,
-    })
-  }, [debouncedQty, item.productId, updateQuantity])
-
-  const handleDecrease = () => {
-    setQtity((prev) => Math.max(1, prev - 1))
-  }
-
-  const handleIncrease = () => {
-    setQtity((prev) => prev + 1)
-  }
-
-  const handleRemove = () => {
-    removeCartItem(item.productId)
-    updateQuantity({
-      itemId: item.productId,
-      quantity: 0,
-    })
-  }
+  const { handleDecrease, handleIncrease, qtity, handleRemove } = useQuantity({
+    initialQuantity: quantity,
+    productId: item.productId,
+  })
 
   const price = Number(item.product.price)
   const discount = Number(item.product.discount)
-  const finalPrice = Math.round(price * (1 - discount / 100))
+  const finalPrice = price * (1 - discount / 100)
   const total = finalPrice * qtity
 
   return (
@@ -99,25 +75,14 @@ const CartItem = ({ item, quantity }: Props) => {
           </Grid>
 
           <Grid size={{ lg: 3, md: 12, xs: 14 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <IconButton
-                size="small"
-                onClick={handleDecrease}
-                disabled={qtity <= 1}
-              >
-                <Remove />
-              </IconButton>
-
-              <Typography
-                variant="h6"
-                sx={{ minWidth: 40, textAlign: 'center' }}
-              >
-                {qtity}
-              </Typography>
-
-              <IconButton size="small" onClick={handleIncrease}>
-                <Add />
-              </IconButton>
+            <Box className={s.quantitySection}>
+              <Box className={s.quantityControls}>
+                <Button onClick={handleDecrease} disabled={qtity <= 1}>
+                  -
+                </Button>
+                <Typography className={s.quantity}>{qtity}</Typography>
+                <Button onClick={handleIncrease}>+</Button>
+              </Box>
             </Box>
           </Grid>
 

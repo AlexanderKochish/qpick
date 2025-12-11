@@ -22,7 +22,9 @@ const OrderTotal = ({ cart, total, discount }: Props) => {
               Товары (
               {cart?.items.reduce((acc, curr) => acc + curr.quantity, 0)})
             </Typography>
-            <Typography variant="body2">{total} €</Typography>
+            <Typography variant="body2">
+              {discount ? total + discount : total} €
+            </Typography>
           </Box>
 
           {discount && (
@@ -54,7 +56,7 @@ const OrderTotal = ({ cart, total, discount }: Props) => {
               Итого
             </Typography>
             <Typography variant="h5" fontWeight="600" color="primary">
-              {total && discount ? total - discount : total} €
+              {total} €
             </Typography>
           </Box>
         </Box>

@@ -5,6 +5,7 @@ import {
   getOrCreateCart,
   updateCartItemQuantity,
 } from '../actions/actions'
+import { useState } from 'react'
 
 interface Props {
   initialData?: {
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const useCart = (props?: Props) => {
+  const [appliedPromo, setAppliedPromo] = useState('')
   const queryClient = useQueryClient()
   const { data, ...rest } = useQuery({
     queryKey: ['cart'],
@@ -44,12 +46,27 @@ export const useCart = (props?: Props) => {
     0
   )
 
+  const totalDiscount = data?.items.reduce(
+    (sum, item) =>
+      sum +
+      ((Number(item.product.price) * Number(item.product.discount)) / 100) *
+        item.quantity,
+    0
+  )
+  const promoDiscount = appliedPromo ? totalPrice! * 0.1 : 0
+  const total = totalPrice! - totalDiscount! - promoDiscount
+
   return {
     data,
     discount,
     updateQuantity,
-    totalPrice,
     isPendingUpdateQuantity,
+    total,
+    promoDiscount,
+    totalPrice,
+    totalDiscount,
+    appliedPromo,
+    setAppliedPromo,
     ...rest,
   }
 }

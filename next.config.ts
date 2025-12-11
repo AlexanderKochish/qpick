@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  experimental: {
+    authInterrupts: true,
+  },
   images: {
     qualities: [75, 85],
     remotePatterns: [

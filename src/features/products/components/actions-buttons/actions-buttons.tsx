@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { addToCart } from '@/features/cart/actions/actions'
 import FavoriteToggle from '../favorite-toggle/favorite-toggle'
 import ShareButton from '@/shared/components/share-button/share-button'
+import { useCart } from '@/features/cart/hooks/useCart'
 
 interface Props {
   productId: string
@@ -17,6 +18,9 @@ const ActionsButtons = ({ productId }: Props) => {
     addToCart(id)
     router.push('/cart')
   }
+  const { data } = useCart()
+
+  const isAddedToCart = data?.items.some((item) => item.productId === productId)
 
   return (
     <Box className={s.actionButtons}>
@@ -26,8 +30,9 @@ const ActionsButtons = ({ productId }: Props) => {
         startIcon={<ShoppingCart />}
         className={s.cartButton}
         onClick={() => addToCart(productId)}
+        disabled={isAddedToCart}
       >
-        В корзину
+        {isAddedToCart ? 'В корзине' : 'В корзину'}
       </Button>
       <Button
         variant="outlined"
@@ -42,7 +47,7 @@ const ActionsButtons = ({ productId }: Props) => {
         <IconButton className={s.actionButton}>
           <CompareArrows />
         </IconButton>
-        <ShareButton />
+        <ShareButton link={`/product/${productId}`} />
       </Grid>
     </Box>
   )
