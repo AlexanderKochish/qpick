@@ -63,4 +63,5 @@ export default defineConfig({
       '@/features': path.resolve(__dirname, './src/features'),
     },
   },
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'],
 })
