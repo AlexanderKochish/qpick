@@ -2,7 +2,7 @@
 
 import { ProductRepository } from '../repository/product.repository'
 
-export const repo = new ProductRepository()
+const repo = new ProductRepository()
 
 export async function createProduct(formData: FormData) {
   let imageUrls: string[] = []
