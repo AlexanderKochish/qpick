@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
-    "postinstall": "npx dotenv -e .env -- prisma generate",
+    "postinstall": "dotenv -e .env -- prisma generate",
     "migrate": "dotenv -e .env -- prisma migrate dev",
     "studio": "dotenv -e .env -- prisma studio",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
