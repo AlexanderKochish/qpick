@@ -2,10 +2,17 @@
 
 import { ProductRepository } from '../repository/product.repository'
 
-const repo = new ProductRepository()
+export const repo = new ProductRepository()
 
 export async function createProduct(formData: FormData) {
-  const imageUrls = JSON.parse((formData.get('imageUrls') as string) || '[]')
+  let imageUrls: string[] = []
+
+  try {
+    const raw = formData.get('imageUrls') as string
+    imageUrls = raw ? JSON.parse(raw) : []
+  } catch {
+    imageUrls = []
+  }
 
   const name = formData.get('name') as string
   const description = formData.get('description') as string
