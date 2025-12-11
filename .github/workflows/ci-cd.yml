@@ -39,8 +39,14 @@ jobs:
         run: npm run build
 
       - name: Deploy to Vercel
+        run: |
+          if [ -z "${VERCEL_ORG_ID}" ]; then
+            echo "❌ ERROR: VERCEL_ORG_ID is EMPTY"
+          else
+            echo "✅ VERCEL_ORG_ID exists"
+          fi
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: npx vercel --prod --yes
+        # run: npx vercel --prod --yes
