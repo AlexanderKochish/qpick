@@ -1,10 +1,7 @@
 import { defineConfig } from 'vitest/config'
-import react from '@vitejs/plugin-react'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
@@ -14,6 +11,7 @@ export default defineConfig({
       '**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
       '**/__tests__/**/*.{js,ts,jsx,tsx}',
     ],
+
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
@@ -51,17 +49,14 @@ export default defineConfig({
 
     mockReset: true,
     restoreMocks: true,
-
     ui: false,
   },
+
   resolve: {
     alias: {
-      '@/*': path.resolve(__dirname, './*'),
       '@': path.resolve(__dirname, './src'),
-
       '@/shared': path.resolve(__dirname, './src/shared'),
       '@/features': path.resolve(__dirname, './src/features'),
     },
   },
-  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'],
 })
