@@ -13,7 +13,7 @@
     "prisma:validate": "dotenv -e .env -- prisma validate",
     "prisma:migrate": "dotenv -e .env -- prisma migrate dev --name init",
     "prisma:generate": "dotenv -e .env -- prisma generate",
-    "test": "npx vitest",
+    "test": "vitest",
     "build": "next build"
   },
   "dependencies": {
