@@ -65,6 +65,12 @@ jobs:
           node-version: "23.x"
       - name: Install dependencies
         run: npm install
+      - name: Link Vercel Project
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          rm -rf .vercel
+          npx vercel link --yes --token $VERCEL_TOKEN
       - name: Deploy to Vercel
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
