@@ -1,6 +1,6 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState, useTransition } from 'react'
-import { useDebounce } from './useDebounce'
+import { useDebounce } from './use-debounce'
 
 export const useSearch = () => {
   const router = useRouter()

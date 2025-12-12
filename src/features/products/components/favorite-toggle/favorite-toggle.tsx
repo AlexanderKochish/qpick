@@ -1,6 +1,6 @@
 'use client'
 
-import { useFavorites } from '../../hooks/useFavorites'
+import { useFavorites } from '../../hooks/use-favorites'
 import { IconButton } from '@mui/material'
 import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import s from './favorite-toggle.module.css'

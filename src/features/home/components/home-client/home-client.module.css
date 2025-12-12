@@ -81,12 +81,6 @@
   padding: 20px 0;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-}
-
 .floatingButton {
   position: fixed !important;
   bottom: 24px;

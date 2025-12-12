@@ -39,7 +39,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import s from './header.module.css'
 import { useCategory } from '@/features/category/hooks/useCategory'
-import { useSearch } from '@/shared/hooks/useSearch'
+import { useSearch } from '@/shared/hooks/use-search'
 import { logout } from '@/features/profile/actions/actions'
 
 interface Props {

@@ -129,7 +129,7 @@ model Avatar {
 
 model Category {
   id        String    @id @default(cuid())
-  name      String
+  name      String    @unique
   products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -139,7 +139,7 @@ model Category {
 
 model Brand {
   id        String     @id @default(cuid())
-  name      String
+  name      String     @unique
   products  Product[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -149,7 +149,7 @@ model Brand {
 
 model Product {
   id             String        @id @default(cuid())
-  name           String
+  name           String        @unique
   description    String
   price          Int
   discount       Int?          @default(0)
@@ -178,7 +178,7 @@ model Image {
   id        String   @id @default(cuid())
   url       String
   productId String
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

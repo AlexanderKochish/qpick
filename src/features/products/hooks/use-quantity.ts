@@ -1,6 +1,6 @@
 import { removeCartItem } from '@/features/cart/actions/actions'
 import { useCart } from '@/features/cart/hooks/useCart'
-import { useDebounce } from '@/shared/hooks/useDebounce'
+import { useDebounce } from '@/shared/hooks/use-debounce'
 import { useState, useEffect, useCallback } from 'react'
 
 interface Props {

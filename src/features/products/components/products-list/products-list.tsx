@@ -1,12 +1,12 @@
 'use client'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import s from './products-list.module.css'
 import { ProductCard as ProductCardType } from '../../types/types'
 import ProductCard from '../card/card'
-import { Rating } from '@prisma/client'
+import { calculateFinalPrice } from '@/shared/utils/price'
 
 interface Props {
-  products: ProductCardType[] | undefined
+  products?: ProductCardType[]
 }
 
 const ProductsList = ({ products }: Props) => {
@@ -23,16 +23,6 @@ const ProductsList = ({ products }: Props) => {
       </Box>
     )
   }
-  const calculateFinalPrice = (price: number, discount?: number) => {
-    if (!discount) return price
-    return price * (1 - discount / 100)
-  }
-
-  const calculateAverageRating = (ratings: Rating[]) => {
-    if (ratings.length === 0) return 0
-    const sum = ratings.reduce((acc, rating) => acc + Number(rating.rating), 0)
-    return sum / ratings.length
-  }
 
   return (
     <div className={s.productsGrid}>
@@ -41,13 +31,11 @@ const ProductsList = ({ products }: Props) => {
           Number(product.price),
           Number(product.discount)
         )
-        const averageRating = calculateAverageRating(product.ratings)
 
         return (
           <ProductCard
             key={product.id}
             finalPrice={finalPrice}
-            averageRating={averageRating}
             product={product}
           />
         )

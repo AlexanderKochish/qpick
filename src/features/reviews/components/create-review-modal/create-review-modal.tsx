@@ -8,9 +8,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { SendIcon } from 'lucide-react'
 import s from './create-review-modal.module.css'
 import { createReview } from '../../actions/actions'
+import { Send } from '@mui/icons-material'
 
 interface Props {
   setIsOpen: (open: boolean) => void
@@ -90,7 +90,7 @@ const CreateReviewModal = ({
           form="review-modal"
           color="primary"
           variant="contained"
-          startIcon={<SendIcon />}
+          startIcon={<Send />}
           // disabled={!ratingCount}
         >
           Опубликовать отзыв

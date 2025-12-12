@@ -1,7 +1,6 @@
-import React from 'react'
 import s from './footer.module.css'
-import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
 import Link from 'next/link'
+import { Facebook, Instagram, LinkedIn, Twitter } from '@mui/icons-material'
 
 const Footer = () => {
   return (
@@ -51,7 +50,7 @@ const Footer = () => {
         <li>
           <Link href={'/'}>
             {' '}
-            <Linkedin />
+            <LinkedIn />
           </Link>
         </li>
       </ul>

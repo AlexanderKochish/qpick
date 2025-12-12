@@ -26,9 +26,10 @@ import ProductDescription from '../product-description/product-description'
 import ProductSpecifications from '../product-specifications/product-specifications'
 import ProductReview from '../product-review/product-review'
 import CreateReviewModal from '@/features/reviews/components/create-review-modal/create-review-modal'
-import { Rating as RatingType } from '@prisma/client'
 import ActionsButtons from '../actions-buttons/actions-buttons'
 import BreadcrumbNav from '@/widgets/breadcrumbs-nav/breadcrumbs-nav'
+import { calculateAverageRating } from '@/shared/utils/rating'
+import { calculateFinalPrice, formatPrice } from '@/shared/utils/price'
 
 interface Props {
   product: ProductWithRelations | null
@@ -40,20 +41,6 @@ const ProductDetails = ({ product }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   if (!product) return null
-  const calculateAverageRating = (ratings: RatingType[]) => {
-    if (ratings.length === 0) return 0
-    const sum = ratings.reduce((acc, rating) => acc + Number(rating.rating), 0)
-    return sum / ratings.length
-  }
-
-  const calculateFinalPrice = (price: number, discount?: number) => {
-    if (!discount) return price
-    return price * (1 - discount / 100)
-  }
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-EN').format(price)
-  }
 
   const averageRating = calculateAverageRating(product.ratings)
   const finalPrice = calculateFinalPrice(
@@ -85,11 +72,18 @@ const ProductDetails = ({ product }: Props) => {
               <Box
                 className={s.mainImage}
                 onClick={() =>
-                  window.open(product.images[selectedImage].url, '_blank')
+                  window.open(
+                    product.images[selectedImage]?.url ??
+                      '/api/placeholder/200/350',
+                    '_blank'
+                  )
                 }
               >
                 <Image
-                  src={product.images[selectedImage].url}
+                  src={
+                    product.images[selectedImage]?.url ??
+                    '/api/placeholder/200/350'
+                  }
                   alt={product.name}
                   className={s.image}
                   width={200}
@@ -112,7 +106,7 @@ const ProductDetails = ({ product }: Props) => {
                     onClick={() => setSelectedImage(index)}
                   >
                     <Image
-                      src={image.url}
+                      src={image.url ?? '/api/placeholder/50/50'}
                       alt={`${product.name} ${index + 1}`}
                       className={s.thumbnailImage}
                       width={50}

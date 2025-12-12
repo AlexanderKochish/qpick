@@ -17,23 +17,14 @@ import { ProductCard as PropductType } from '../../types/types'
 import { Rating as RatingType } from '@/features/profile/types/types'
 import FavoriteToggle from '../favorite-toggle/favorite-toggle'
 import ShareButton from '@/shared/components/share-button/share-button'
+import { calculateAverageRating } from '@/shared/utils/rating'
+import { formatPrice } from '@/shared/utils/price'
 interface Props {
   product: PropductType
   finalPrice?: number
-  averageRating?: number
 }
 
 const ProductCard = ({ product, finalPrice }: Props) => {
-  const calculateAverageRating = (ratings: RatingType[]) => {
-    if (ratings.length === 0) return 0
-    const sum = ratings.reduce((acc, rating) => acc + Number(rating.rating), 0)
-    return sum / ratings.length
-  }
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-EN').format(price)
-  }
-
   return (
     <Card className={s.productCard} key={product.id}>
       {product.discount && product.discount > 0 ? (
@@ -57,7 +48,7 @@ const ProductCard = ({ product, finalPrice }: Props) => {
             component="img"
             width={150}
             height={200}
-            image={product.images[0].url || '/api/placeholder/400/400'}
+            image={product.images[0]?.url ?? '/api/placeholder/400/400'}
             alt={product.name}
             className={s.productImage}
           />
@@ -86,7 +77,7 @@ const ProductCard = ({ product, finalPrice }: Props) => {
 
         <Box className={s.ratingSection}>
           <Rating
-            value={calculateAverageRating(product.ratings as RatingType[])}
+            value={calculateAverageRating(product?.ratings as RatingType[])}
             readOnly
             size="small"
           />

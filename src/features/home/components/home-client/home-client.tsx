@@ -1,22 +1,16 @@
 'use client'
-import React, { useState } from 'react'
 import s from './home-client.module.css'
-import {
-  Box,
-  Button,
-  Container,
-  Fab,
-  Pagination,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Container, Fab, Typography } from '@mui/material'
 import FilterPanel from '@/widgets/filter-panel/filter-panel'
 import ProductsList from '@/features/products/components/products-list/products-list'
 import { Sort } from '@mui/icons-material'
-import { useProducts } from '@/features/products/hooks/useProducts'
+import { useProducts } from '@/features/products/hooks/use-products'
 import { ProductCard } from '@/features/products/types/types'
 import { useRouter } from 'next/navigation'
-import { useSort } from '@/shared/hooks/useSort'
+import { useSort } from '@/shared/hooks/use-sort'
 import { SortBy } from '@/shared/types/types'
+import { usePagination } from '@/shared/hooks/use-pagination'
+import SitePagination from '@/shared/components/site-pagination/site-pagination'
 
 interface Props {
   initialData: ProductCard[]
@@ -26,17 +20,11 @@ interface Props {
 
 const HomeClient = ({ initialData, search, sort }: Props) => {
   const router = useRouter()
-  const [currentPage, setCurrentPage] = useState(1)
-
   const { setSortBy, sortBy } = useSort()
   const { data: products } = useProducts(sort, initialData, search)
-  const itemsPerPage = 12
+  const { currentPage, setCurrentPage, currentProducts, totalPages } =
+    usePagination({ items: products || [] })
 
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentProducts = products?.slice(startIndex, startIndex + itemsPerPage)
-  const totalPages = products?.length
-    ? Math.ceil(products.length / itemsPerPage)
-    : 0
   if (products?.length === 0) {
     return <p>Products not found.Try again letter</p>
   }
@@ -73,17 +61,11 @@ const HomeClient = ({ initialData, search, sort }: Props) => {
         {/* {isLoading && <Spinner />} */}
         <ProductsList products={currentProducts} />
 
-        {totalPages && totalPages > 1 && (
-          <Box className={s.pagination}>
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={(_, value) => setCurrentPage(value)}
-              color="primary"
-              size="large"
-            />
-          </Box>
-        )}
+        <SitePagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
       </Container>
 
       <Fab

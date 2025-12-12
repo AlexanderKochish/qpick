@@ -18,7 +18,7 @@ import { Favorite, ShoppingCart } from '@mui/icons-material'
 import Link from 'next/link'
 import { addToCart } from '@/features/cart/actions/actions'
 import { FavoriteCardType } from '../../types/types'
-import { useFavorites } from '@/features/products/hooks/useFavorites'
+import { useFavorites } from '@/features/products/hooks/use-favorites'
 
 interface Props {
   product: FavoriteCardType
