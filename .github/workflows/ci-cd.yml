@@ -66,7 +66,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Install Vercel CLI
-        run: npm install -g vercel@50.0.4
+        run: npm install -g vercel@latest
       - name: Deploy to Vercel
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
