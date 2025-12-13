@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
     request.cookies.get('authjs.session-token')?.value
   const isAuthenticated = Boolean(session)
 
-  const protectedRoutes = ['/profile', '/checkout', '/admin', '/api']
+  const protectedRoutes = ['/profile', '/checkout', '/order', '/admin']
 
   const isProtected = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
@@ -24,7 +24,7 @@ export const config = {
   matcher: [
     '/profile/:path*',
     '/checkout/:path*',
+    '/order/:path*',
     '/admin/:path*',
-    '/api/:path*',
   ],
 }
