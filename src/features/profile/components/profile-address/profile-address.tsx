@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material'
-import { LocationEditIcon } from 'lucide-react'
 import s from './profile-address.module.css'
 import { Address } from '@prisma/client'
+import { LocationCity } from '@mui/icons-material'
 
 function AddressSection({ addresses }: { addresses: Address[] }) {
   return (
@@ -13,7 +13,7 @@ function AddressSection({ addresses }: { addresses: Address[] }) {
         <Card key={address.id} className={s.addressCard}>
           <CardContent>
             <Box className={s.addressHeader}>
-              <LocationEditIcon color="primary" />
+              <LocationCity color="primary" />
               <Typography variant="subtitle1" className={s.addressTitle}>
                 Основной адрес
               </Typography>
