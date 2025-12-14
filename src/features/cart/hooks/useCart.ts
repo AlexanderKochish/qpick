@@ -1,6 +1,7 @@
 import { Cart } from '../types/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
+  addToCart,
   getCartTotalPrice,
   getOrCreateCart,
   updateCartItemQuantity,
@@ -41,6 +42,14 @@ export const useCart = (props?: Props) => {
       },
     })
 
+  const { mutate: addProduct, isPending: isPendingAddProduct } = useMutation({
+    mutationKey: ['cart'],
+    mutationFn: (id: string) => addToCart(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+    },
+  })
+
   const discount = data?.items.reduce(
     (acc, curr) => acc + Number(curr.product.discount),
     0
@@ -67,6 +76,8 @@ export const useCart = (props?: Props) => {
     totalDiscount,
     appliedPromo,
     setAppliedPromo,
+    addProduct,
+    isPendingAddProduct,
     ...rest,
   }
 }

@@ -1,6 +1,10 @@
-.favoriteButton {
+.actionButton {
   border: 1px solid #e0e0e0 !important;
   border-radius: 8px !important;
   width: 48px !important;
   height: 48px !important;
+}
+
+.actionButton:hover {
+  background: #f0f0f0 !important;
 }

@@ -1,16 +1,6 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Rating,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Dialog, DialogTitle } from '@mui/material'
 import s from './create-review-modal.module.css'
-import { createReview } from '../../actions/actions'
-import { Send } from '@mui/icons-material'
+import ReviewForm from '../review-form/review-form'
 
 interface Props {
   setIsOpen: (open: boolean) => void
@@ -19,12 +9,7 @@ interface Props {
   productId: string
 }
 
-const CreateReviewModal = ({
-  setIsOpen,
-  isOpen,
-  ratingCount,
-  productId,
-}: Props) => {
+const CreateReviewModal = ({ setIsOpen, isOpen, productId }: Props) => {
   return (
     <Dialog
       open={isOpen}
@@ -36,66 +21,7 @@ const CreateReviewModal = ({
       <DialogTitle className={s.dialogTitle}>
         Оставить отзыв о товаре
       </DialogTitle>
-
-      <DialogContent className={s.content}>
-        <form id="review-modal" action={createReview} className={s.form}>
-          <input type="hidden" name="productId" value={productId} />
-
-          <div className={s.ratingSection}>
-            <Typography component="legend">Ваша оценка</Typography>
-            <Rating
-              name="rating"
-              // value={ratingValue}
-              // onChange={(event, newValue) => setRatingValue(newValue)}
-              size="large"
-              precision={0.5}
-            />
-          </div>
-          <TextField
-            name="review"
-            label="Ваш отзыв"
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={4}
-            margin="normal"
-            required
-          />
-
-          {/* <div className={s.prosCons}>
-            <TextField
-              name="pros"
-              label="Достоинства"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              name="cons"
-              label="Недостатки"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
-          </div> */}
-        </form>
-      </DialogContent>
-
-      <DialogActions className={s.actions}>
-        <Button onClick={() => setIsOpen(false)} variant="outlined">
-          Отмена
-        </Button>
-        <Button
-          type="submit"
-          form="review-modal"
-          color="primary"
-          variant="contained"
-          startIcon={<Send />}
-          // disabled={!ratingCount}
-        >
-          Опубликовать отзыв
-        </Button>
-      </DialogActions>
+      <ReviewForm productId={productId} setIsOpen={setIsOpen} />
     </Dialog>
   )
 }

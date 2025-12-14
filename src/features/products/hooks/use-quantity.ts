@@ -28,6 +28,7 @@ export function useQuantity({ initialQuantity, productId }: Props) {
   const handleIncrease = useCallback(() => {
     setQtity((prev) => prev + 1)
   }, [])
+
   const handleRemove = () => {
     removeCartItem(productId)
     updateQuantity({

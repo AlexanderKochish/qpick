@@ -27,11 +27,7 @@ export class FavoriteRepository {
     return await this.db.favorite.findMany({
       where: { userId },
       include: {
-        items: {
-          select: {
-            productId: true,
-          },
-        },
+        items: true,
       },
     })
   }

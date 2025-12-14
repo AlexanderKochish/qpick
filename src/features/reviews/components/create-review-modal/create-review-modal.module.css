@@ -12,45 +12,12 @@
   padding: 0 24px;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.ratingSection {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-.ratingSection legend {
-  margin-bottom: 8px;
-  font-weight: 500;
-}
-
-.prosCons {
-  display: flex;
-  gap: 16px;
-  margin-top: 8px;
-}
-
-.prosCons > * {
-  flex: 1;
-}
-
 .actions {
   padding: 16px 24px;
   gap: 12px;
 }
 
 @media (max-width: 600px) {
-  .prosCons {
-    flex-direction: column;
-    gap: 0;
-  }
-
   .dialogContent {
     padding: 0 16px;
   }

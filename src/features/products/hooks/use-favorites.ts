@@ -6,24 +6,45 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useFavorites = () => {
   const queryClient = useQueryClient()
-  const { mutate, isPending } = useMutation({
-    mutationKey: ['favorite'],
-    mutationFn: (id: string) => toggleFavorite(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['favorite'] })
-      queryClient.invalidateQueries({ queryKey: ['counters'] })
-    },
-  })
 
   const { data } = useQuery({
     queryKey: ['favorite'],
     queryFn: isProductInFavorites,
   })
+  const { mutate, isPending } = useMutation({
+    mutationFn: (id: string) => toggleFavorite(id),
 
-  const isFavorite = data && data[0]?.items.map((item) => item.productId)
+    onMutate: async (productId) => {
+      await queryClient.cancelQueries({ queryKey: ['favorite'] })
+
+      const prevFavorite = queryClient.getQueryData<string[]>(['favorite'])
+
+      queryClient.setQueryData<string[]>(['favorite'], (old = []) =>
+        old.includes(productId)
+          ? old.filter((id) => id !== productId)
+          : [...old, productId]
+      )
+
+      return { prevFavorite }
+    },
+
+    onError: (_err, _id, context) => {
+      if (context?.prevFavorite) {
+        queryClient.setQueryData(['favorite'], context.prevFavorite)
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['favorite'] })
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['counters'] })
+    },
+  })
 
   return {
-    isFavorite,
+    isFavorite: data,
     mutate,
     isPending,
   }

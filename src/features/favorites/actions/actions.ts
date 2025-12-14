@@ -26,5 +26,7 @@ export async function toggleFavorite(productId: string) {
 export async function isProductInFavorites() {
   const session = await getCurrentSession()
   if (!session) return null
-  return await repo.isFavorites(session?.user.id as string)
+  const [favorite] = await repo.isFavorites(session?.user.id as string)
+
+  return favorite?.items.map((i) => i.productId) ?? []
 }

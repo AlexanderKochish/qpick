@@ -12,6 +12,7 @@ import Footer from '@/widgets/footer/footer'
 import { getCounters } from '@/features/counters/actions/actions'
 import { getCurrentSession } from '@/features/auth/actions/actions'
 import NextTopLoader from 'nextjs-toploader'
+import { ToastProvider } from '@/providers/toast-provider'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -50,7 +51,9 @@ export default async function RootLayout({
                   initCartCount={initialCounters.cartItemsCount}
                   isLogged={!!session?.user.id}
                 />
-                <div className="main">{children}</div>
+                <ToastProvider position="top-right" maxToasts={3}>
+                  <div className="main">{children}</div>
+                </ToastProvider>
                 <Footer />
               </div>
             </div>
