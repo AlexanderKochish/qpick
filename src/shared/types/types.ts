@@ -45,3 +45,8 @@ export interface ToastItemProps {
   toast: Toast
   onClose: () => void
 }
+
+export interface CountersData {
+  favoritesCount: number
+  cartItemsCount: number
+}

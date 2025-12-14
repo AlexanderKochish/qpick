@@ -41,13 +41,14 @@ import s from './header.module.css'
 import { useCategory } from '@/features/category/hooks/useCategory'
 import { useSearch } from '@/shared/hooks/use-search'
 import { logout } from '@/features/profile/actions/actions'
+import { useCart } from '@/features/cart/hooks/useCart'
 
 interface Props {
-  initCartCount: number
   isLogged: boolean
 }
 
-export default function Header({ initCartCount, isLogged }: Props) {
+export default function Header({ isLogged }: Props) {
+  const { cartCount } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null)
   const [categoriesAnchor, setCategoriesAnchor] = useState<null | HTMLElement>(
@@ -199,7 +200,7 @@ export default function Header({ initCartCount, isLogged }: Props) {
                 className={s.actionButton}
                 onClick={() => router.push('/cart')}
               >
-                <Badge badgeContent={initCartCount} color="error">
+                <Badge badgeContent={cartCount} color="error">
                   <ShoppingCart className={s.actionIcon} />
                 </Badge>
               </IconButton>

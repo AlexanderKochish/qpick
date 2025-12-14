@@ -59,7 +59,7 @@ export class CartRepository {
     return cart
   }
 
-  async addToCart(productId: string, quantity = 1) {
+  async addToCart(productId: string, quantity = 1): Promise<Cart> {
     try {
       const cart = await this.getOrCreateCart()
 

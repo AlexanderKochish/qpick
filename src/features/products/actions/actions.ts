@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { ProductRepository } from '../repository/product.repository'
 
 const repo = new ProductRepository()

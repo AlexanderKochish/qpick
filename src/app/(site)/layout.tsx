@@ -9,7 +9,6 @@ import {
 } from '@tanstack/react-query'
 import Header from '@/widgets/header/header'
 import Footer from '@/widgets/footer/footer'
-import { getCounters } from '@/features/counters/actions/actions'
 import { getCurrentSession } from '@/features/auth/actions/actions'
 import NextTopLoader from 'nextjs-toploader'
 import { ToastProvider } from '@/providers/toast-provider'
@@ -36,7 +35,6 @@ export default async function RootLayout({
 }>) {
   const queryClient = new QueryClient()
 
-  const initialCounters = await getCounters()
   const session = await getCurrentSession()
 
   return (
@@ -47,10 +45,7 @@ export default async function RootLayout({
             <NextTopLoader />
             <div className="container">
               <div className="layout">
-                <Header
-                  initCartCount={initialCounters.cartItemsCount}
-                  isLogged={!!session?.user.id}
-                />
+                <Header isLogged={!!session?.user.id} />
                 <ToastProvider position="top-right" maxToasts={3}>
                   <div className="main">{children}</div>
                 </ToastProvider>

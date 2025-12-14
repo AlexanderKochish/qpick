@@ -88,6 +88,9 @@ export class ProductRepository {
       include: {
         images: true,
         reviews: {
+          where: {
+            status: 'APPROVED',
+          },
           include: {
             author: {
               include: {

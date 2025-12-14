@@ -1,4 +1,4 @@
-import { Cart } from '../types/types'
+import { Cart, CartItem } from '../types/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   addToCart,
@@ -6,7 +6,7 @@ import {
   getOrCreateCart,
   updateCartItemQuantity,
 } from '../actions/actions'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 interface Props {
   initialData?: {
@@ -42,13 +42,67 @@ export const useCart = (props?: Props) => {
       },
     })
 
-  const { mutate: addProduct, isPending: isPendingAddProduct } = useMutation({
-    mutationKey: ['cart'],
-    mutationFn: (id: string) => addToCart(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] })
-    },
-  })
+  const { mutate: addProductToCart, isPending: isPendingAddProduct } =
+    useMutation({
+      mutationKey: ['cart'],
+      mutationFn: (productId: string) => addToCart(productId),
+
+      onMutate: async (productId) => {
+        await queryClient.cancelQueries({ queryKey: ['cart'] })
+
+        const prevCart = queryClient.getQueryData<Cart>(['cart'])
+
+        queryClient.setQueryData<Cart>(['cart'], (old) => {
+          if (!old) return old
+
+          const existing = old.items.find(
+            (item) => item.productId === productId
+          )
+
+          let newItems: CartItem[]
+
+          if (existing) {
+            newItems = old.items.map((item) =>
+              item.productId === productId
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            ) as CartItem[]
+          } else {
+            newItems = [
+              ...old.items,
+              {
+                id: `optimistic-${productId}`,
+                productId,
+                quantity: 1,
+                product: {},
+                cartId: old.id,
+              },
+            ] as CartItem[]
+          }
+
+          return {
+            ...old,
+            items: newItems,
+          }
+        })
+
+        return { prevCart }
+      },
+
+      onError: (_err, _productId, context) => {
+        if (context?.prevCart) {
+          queryClient.setQueryData(['cart'], context.prevCart)
+        }
+      },
+
+      onSettled: () => {
+        queryClient.invalidateQueries({ queryKey: ['cart'] })
+      },
+    })
+
+  const cartCount = useMemo(() => {
+    return data?.items.reduce((acc, curr) => acc + curr.quantity, 0) ?? 0
+  }, [data?.items])
 
   const discount = data?.items.reduce(
     (acc, curr) => acc + Number(curr.product.discount),
@@ -76,8 +130,9 @@ export const useCart = (props?: Props) => {
     totalDiscount,
     appliedPromo,
     setAppliedPromo,
-    addProduct,
+    addProductToCart,
     isPendingAddProduct,
+    cartCount,
     ...rest,
   }
 }

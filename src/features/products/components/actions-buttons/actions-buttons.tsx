@@ -14,11 +14,11 @@ interface Props {
 
 const ActionsButtons = ({ productId }: Props) => {
   const router = useRouter()
+  const { data, addProductToCart, isPendingAddProduct } = useCart()
   const buyNow = (id: string) => {
     addToCart(id)
     router.push('/cart')
   }
-  const { data } = useCart()
 
   const isAddedToCart = data?.items.some((item) => item.productId === productId)
 
@@ -29,8 +29,8 @@ const ActionsButtons = ({ productId }: Props) => {
         size="large"
         startIcon={<ShoppingCart />}
         className={s.cartButton}
-        onClick={() => addToCart(productId)}
-        disabled={isAddedToCart}
+        onClick={() => addProductToCart(productId)}
+        disabled={isPendingAddProduct || isAddedToCart}
       >
         {isAddedToCart ? 'В корзине' : 'В корзину'}
       </Button>
