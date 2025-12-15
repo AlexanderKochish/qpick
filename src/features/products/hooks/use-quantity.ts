@@ -1,10 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useDebounce } from '@/shared/hooks/use-debounce'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import {
-  updateCartItemQuantity,
-  removeCartItem,
-} from '@/features/cart/actions/actions'
+import { updateCartItemQuantity } from '@/features/cart/actions/actions'
 import { Cart } from '@/features/cart/types/types'
 
 interface Props {
@@ -20,7 +17,7 @@ export function useQuantity({ initialQuantity, productId }: Props) {
   const mutation = useMutation({
     mutationFn: ({ quantity }: { quantity: number }) =>
       quantity === 0
-        ? removeCartItem(productId)
+        ? updateCartItemQuantity(productId, 0)
         : updateCartItemQuantity(productId, quantity),
 
     onMutate: async ({ quantity }) => {
@@ -33,9 +30,9 @@ export function useQuantity({ initialQuantity, productId }: Props) {
 
         const items =
           quantity === 0
-            ? old.items.filter((i) => i.productId !== productId)
+            ? old.items.filter((i) => i.id !== productId)
             : old.items.map((i) =>
-                i.productId === productId ? { ...i, quantity } : i
+                i.id === productId ? { ...i, quantity } : i
               )
 
         return { ...old, items }
@@ -52,12 +49,13 @@ export function useQuantity({ initialQuantity, productId }: Props) {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['cart'] })
+      queryClient.invalidateQueries({ queryKey: ['total-price'] })
       queryClient.invalidateQueries({ queryKey: ['counters'] })
     },
   })
 
   useEffect(() => {
-    if (quantity > 0 && quantity !== initialQuantity) {
+    if (quantity > 0) {
       mutation.mutate({ quantity })
     }
   }, [debouncedQty])

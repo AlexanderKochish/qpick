@@ -27,6 +27,7 @@ export default function CartPage({ initialData }: Props) {
     appliedPromo,
     promoDiscount,
     totalDiscount,
+    cartCount,
   } = useCart({ initialData })
   const [promoCode, setPromoCode] = useState('')
 
@@ -65,7 +66,7 @@ export default function CartPage({ initialData }: Props) {
       <Grid container spacing={4}>
         <Grid size={{ lg: 8, xs: 12 }}>
           <Typography variant="h6" fontWeight="600" gutterBottom>
-            Товары в корзине ({cart?.items.length})
+            Товары в корзине ({cartCount})
           </Typography>
 
           {cart?.items.map((item) => (

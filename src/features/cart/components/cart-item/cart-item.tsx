@@ -12,8 +12,8 @@ import {
 } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { CartItemType } from '../../types/types'
-import { useQuantity } from '@/features/products/hooks/use-quantity'
 import s from './cart-item.module.css'
+import { useQuantity } from '@/features/products/hooks/use-quantity'
 
 interface Props {
   quantity: number
@@ -23,18 +23,15 @@ interface Props {
 const CartItem = ({ item, quantity }: Props) => {
   const {
     handleDecrease,
-    handleIncrease,
-    quantity: cartQuantity,
     handleRemove,
-  } = useQuantity({
-    initialQuantity: quantity,
-    productId: item.id,
-  })
-
+    handleIncrease,
+    isPending,
+    quantity: currentQuantity,
+  } = useQuantity({ initialQuantity: quantity, productId: item.productId })
   const price = Number(item.product.price)
   const discount = Number(item.product.discount)
   const finalPrice = price * (1 - discount / 100)
-  const total = finalPrice * cartQuantity
+  const total = finalPrice * currentQuantity
 
   return (
     <Card sx={{ mb: 2, borderRadius: 2 }}>
@@ -82,11 +79,18 @@ const CartItem = ({ item, quantity }: Props) => {
           <Grid size={{ lg: 3, md: 12, xs: 14 }}>
             <Box className={s.quantitySection}>
               <Box className={s.quantityControls}>
-                <Button onClick={handleDecrease} disabled={cartQuantity <= 1}>
+                <Button
+                  onClick={handleDecrease}
+                  disabled={isPending || currentQuantity <= 1}
+                >
                   -
                 </Button>
-                <Typography className={s.quantity}>{cartQuantity}</Typography>
-                <Button onClick={handleIncrease}>+</Button>
+                <Typography className={s.quantity}>
+                  {currentQuantity}
+                </Typography>
+                <Button disabled={isPending} onClick={handleIncrease}>
+                  +
+                </Button>
               </Box>
             </Box>
           </Grid>
@@ -102,7 +106,11 @@ const CartItem = ({ item, quantity }: Props) => {
               <Typography variant="h6" fontWeight="600">
                 {total.toLocaleString()} €
               </Typography>
-              <IconButton onClick={handleRemove} color="error">
+              <IconButton
+                disabled={isPending}
+                onClick={handleRemove}
+                color="error"
+              >
                 <Delete />
               </IconButton>
             </Box>
