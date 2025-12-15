@@ -5,7 +5,7 @@
 
 .hero {
   background-image: url('../../../../../public/header.avif');
-  filter: brightness(100%) contrast(100%) saturate(200%) hue-rotate(319deg);
+  filter: brightness(100%) contrast(100%) saturate(200%) hue-rotate(308deg);
   background-size: cover;
   width: 100%;
   min-height: 300px;
@@ -95,9 +95,9 @@
 @media (max-width: 900px) {
   .hero {
     background-image: url('../../../../../public/header.avif');
-    filter: brightness(100%) contrast(100%) saturate(200%) hue-rotate(319deg);
+    filter: brightness(100%) contrast(100%) saturate(200%) hue-rotate(308deg);
     background-size: cover;
-    background-position: left;
+    background-position: center;
     width: 100%;
     min-height: 300px;
     color: white;
@@ -112,10 +112,6 @@
 }
 
 @media (max-width: 600px) {
-  .hero {
-    padding: 60px 0;
-  }
-
   .heroTitle {
     font-size: 2rem !important;
   }

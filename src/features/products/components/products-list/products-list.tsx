@@ -4,9 +4,10 @@ import s from './products-list.module.css'
 import { ProductCard as ProductCardType } from '../../types/types'
 import ProductCard from '../card/card'
 import { calculateFinalPrice } from '@/shared/utils/price'
+import { FavoriteCardType } from '@/features/favorites/types/types'
 
 interface Props {
-  products?: ProductCardType[]
+  products?: ProductCardType[] | FavoriteCardType[]
 }
 
 const ProductsList = ({ products }: Props) => {

@@ -13,15 +13,16 @@
 }
 
 .cardRowContent {
+  position: relative;
   display: flex;
   justify-content: space-between;
   height: 100%;
   width: 100%;
   gap: 16px;
+  padding: 0.5rem 1rem;
 }
 
 .imageSection {
-  position: relative;
   width: 120px;
   min-width: 120px;
   display: flex;
@@ -39,9 +40,9 @@
 }
 
 .actionButton {
-  position: absolute;
-  top: -50px;
-  right: -5px;
+  position: absolute !important;
+  top: 5px;
+  left: 5px;
   z-index: 2;
   background: rgba(255, 255, 255, 0.9) !important;
   backdrop-filter: blur(10px);

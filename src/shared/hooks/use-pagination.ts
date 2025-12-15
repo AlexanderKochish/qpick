@@ -1,8 +1,9 @@
+import { FavoriteCardType } from '@/features/favorites/types/types'
 import { ProductCard } from '@/features/products/types/types'
 import { useState } from 'react'
 
 interface Props {
-  items: ProductCard[]
+  items: ProductCard[] | FavoriteCardType[]
   itemsPerPage?: number
 }
 

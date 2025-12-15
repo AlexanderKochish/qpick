@@ -13,9 +13,10 @@ import { ProductCard as PropductType } from '../../types/types'
 import { Rating as RatingType } from '@/features/profile/types/types'
 import { calculateAverageRating } from '@/shared/utils/rating'
 import { formatPrice } from '@/shared/utils/price'
+import { FavoriteCardType } from '@/features/favorites/types/types'
 
 interface Props {
-  product: PropductType
+  product: PropductType | FavoriteCardType
   finalPrice?: number
 }
 
@@ -70,7 +71,7 @@ const ProductCard = ({ product, finalPrice }: Props) => {
 
           <Box className={s.ratingSection}>
             <Rating
-              value={calculateAverageRating(product?.ratings as RatingType[])}
+              value={calculateAverageRating(('ratings' in product ? product.ratings : []) as RatingType[])}
               readOnly
               size="small"
             />

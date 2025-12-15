@@ -1,7 +1,11 @@
-import { removeCartItem } from '@/features/cart/actions/actions'
-import { useCart } from '@/features/cart/hooks/useCart'
+import { useState, useCallback, useEffect } from 'react'
 import { useDebounce } from '@/shared/hooks/use-debounce'
-import { useState, useEffect, useCallback } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  updateCartItemQuantity,
+  removeCartItem,
+} from '@/features/cart/actions/actions'
+import { Cart } from '@/features/cart/types/types'
 
 interface Props {
   initialQuantity: number
@@ -9,38 +13,72 @@ interface Props {
 }
 
 export function useQuantity({ initialQuantity, productId }: Props) {
-  const [qtity, setQtity] = useState(initialQuantity)
-  const { updateQuantity } = useCart()
+  const queryClient = useQueryClient()
+  const [quantity, setQuantity] = useState(initialQuantity)
+  const debouncedQty = useDebounce(quantity, 400)
 
-  const debouncedQty = useDebounce(qtity, 400)
+  const mutation = useMutation({
+    mutationFn: ({ quantity }: { quantity: number }) =>
+      quantity === 0
+        ? removeCartItem(productId)
+        : updateCartItemQuantity(productId, quantity),
+
+    onMutate: async ({ quantity }) => {
+      await queryClient.cancelQueries({ queryKey: ['cart'] })
+
+      const prevCart = queryClient.getQueryData<Cart>(['cart'])
+
+      queryClient.setQueryData<Cart>(['cart'], (old) => {
+        if (!old) return old
+
+        const items =
+          quantity === 0
+            ? old.items.filter((i) => i.productId !== productId)
+            : old.items.map((i) =>
+                i.productId === productId ? { ...i, quantity } : i
+              )
+
+        return { ...old, items }
+      })
+
+      return { prevCart }
+    },
+
+    onError: (_err, _vars, ctx) => {
+      if (ctx?.prevCart) {
+        queryClient.setQueryData(['cart'], ctx.prevCart)
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+      queryClient.invalidateQueries({ queryKey: ['counters'] })
+    },
+  })
 
   useEffect(() => {
-    updateQuantity({
-      itemId: productId,
-      quantity: +debouncedQty,
-    })
-  }, [debouncedQty, productId, updateQuantity])
+    if (quantity > 0 && quantity !== initialQuantity) {
+      mutation.mutate({ quantity })
+    }
+  }, [debouncedQty])
 
   const handleDecrease = useCallback(() => {
-    setQtity((prev) => Math.max(1, prev - 1))
+    setQuantity((q) => Math.max(1, q - 1))
   }, [])
 
   const handleIncrease = useCallback(() => {
-    setQtity((prev) => prev + 1)
+    setQuantity((q) => q + 1)
   }, [])
 
   const handleRemove = () => {
-    removeCartItem(productId)
-    updateQuantity({
-      itemId: productId,
-      quantity: 0,
-    })
+    mutation.mutate({ quantity: 0 })
   }
 
   return {
-    qtity,
+    quantity,
     handleDecrease,
     handleIncrease,
     handleRemove,
+    isPending: mutation.isPending,
   }
 }

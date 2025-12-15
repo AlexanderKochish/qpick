@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 }
 .content {
   display: flex;
@@ -21,4 +22,11 @@
 .desc {
   font-size: 1rem;
   color: #838383;
+}
+
+@media (width < 500px) {
+  .img {
+    width: 280px;
+    height: 230px;
+  }
 }

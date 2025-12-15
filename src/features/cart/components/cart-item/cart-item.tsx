@@ -21,15 +21,20 @@ interface Props {
 }
 
 const CartItem = ({ item, quantity }: Props) => {
-  const { handleDecrease, handleIncrease, qtity, handleRemove } = useQuantity({
+  const {
+    handleDecrease,
+    handleIncrease,
+    quantity: cartQuantity,
+    handleRemove,
+  } = useQuantity({
     initialQuantity: quantity,
-    productId: item.productId,
+    productId: item.id,
   })
 
   const price = Number(item.product.price)
   const discount = Number(item.product.discount)
   const finalPrice = price * (1 - discount / 100)
-  const total = finalPrice * qtity
+  const total = finalPrice * cartQuantity
 
   return (
     <Card sx={{ mb: 2, borderRadius: 2 }}>
@@ -77,10 +82,10 @@ const CartItem = ({ item, quantity }: Props) => {
           <Grid size={{ lg: 3, md: 12, xs: 14 }}>
             <Box className={s.quantitySection}>
               <Box className={s.quantityControls}>
-                <Button onClick={handleDecrease} disabled={qtity <= 1}>
+                <Button onClick={handleDecrease} disabled={cartQuantity <= 1}>
                   -
                 </Button>
-                <Typography className={s.quantity}>{qtity}</Typography>
+                <Typography className={s.quantity}>{cartQuantity}</Typography>
                 <Button onClick={handleIncrease}>+</Button>
               </Box>
             </Box>

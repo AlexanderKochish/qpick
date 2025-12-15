@@ -113,9 +113,9 @@ export default function Header({ isLogged }: Props) {
           <ListItemText primary="Контакты" />
         </ListItem>
         <Divider sx={{ my: 3 }} />
-        <ListItem onClick={() => router.push('/')}>
+        {/* <ListItem onClick={() => router.push('/')}>
           <ListItemText primary="Акции" />
-        </ListItem>
+        </ListItem> */}
         <ListItem onClick={() => router.push('/delivery')}>
           <ListItemText primary="Доставка" />
         </ListItem>
@@ -275,15 +275,16 @@ export default function Header({ isLogged }: Props) {
         open={Boolean(userMenuAnchor)}
         onClose={handleUserMenuClose}
         className={s.userMenu}
+        disableScrollLock={true}
       >
         {isLogged
           ? [
               <MenuItem key="profile" onClick={handleUserMenuClose}>
                 <Link href={'/profile'}>Мой профиль</Link>
               </MenuItem>,
-              <MenuItem key="orders" onClick={handleUserMenuClose}>
-                Мои заказы
-              </MenuItem>,
+              // <MenuItem key="orders" onClick={handleUserMenuClose}>
+              //   Мои заказы
+              // </MenuItem>,
               <MenuItem key="favorites" onClick={handleUserMenuClose}>
                 <Link href={'/favorites'}> Избранное</Link>
               </MenuItem>,

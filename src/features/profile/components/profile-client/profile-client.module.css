@@ -4,7 +4,7 @@
 
 .title {
   font-weight: 700;
-  margin-bottom: 32px !important;
+  margin-bottom: 0.5rem !important;
   color: #2c3e50;
 }
 
@@ -72,17 +72,14 @@
 
 .tabs {
   min-height: 48px;
+  width: 100%;
 
   & .MuiTab-root {
     font-weight: 500;
     text-transform: none;
     min-height: 48px;
+    width: 40px !important;
   }
-}
-
-.editButton {
-  text-transform: none !important;
-  border-radius: 8px !important;
 }
 
 .tabContent {

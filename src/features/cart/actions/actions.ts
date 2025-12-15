@@ -3,7 +3,6 @@
 import { OrderRepository } from '@/features/order/repository/order.repository'
 import { CartRepository } from '../repository/cart.repository'
 import { Cart } from '../types/types'
-import { revalidatePath } from 'next/cache'
 
 const repo = new CartRepository()
 
@@ -22,15 +21,12 @@ export async function getCartTotalPrice() {
 }
 export async function addToCart(productId: string, quantity = 1) {
   await repo.addToCart(productId, quantity)
-  revalidatePath('/', 'layout')
 }
 export async function updateCartItemQuantity(itemId: string, quantity: number) {
   await repo.updateCartItemQuantity(itemId, quantity)
-  revalidatePath('/cart', 'layout')
 }
 export async function removeCartItem(itemId: string) {
   await repo.removeCartItem(itemId)
-  revalidatePath('/cart', 'layout')
 }
 
 export async function getCurrentCheckoutStep() {

@@ -5,7 +5,7 @@ import { Facebook, Instagram, LinkedIn, Twitter } from '@mui/icons-material'
 const Footer = () => {
   return (
     <footer className={s.footer}>
-      <h4>Qpick</h4>
+      <h4>TechDevices</h4>
       <ul className={s.footerContacts}>
         <li>
           <Link href={'/favorites'}>Избранное</Link>
@@ -18,16 +18,12 @@ const Footer = () => {
         </li>
       </ul>
 
-      <ul className={s.footerLang}>
-        <li>
+      <div className={s.footerLang}>
+        <span className={s.terms}>
+          {' '}
           <Link href={'/terms-of-service'}>Условия сервиса</Link>
-        </li>
-        <li>
-          <div>Каз</div>
-          <div>Укр</div>
-          <div>Eng</div>
-        </li>
-      </ul>
+        </span>
+      </div>
 
       <ul className={s.footerSocial}>
         <li>

@@ -20,7 +20,13 @@ const EmptyState = ({
     <div className={s.emptyState}>
       <div className={s.content}>
         {img && (
-          <Image src={img} width={width} height={height} alt="empty state" />
+          <Image
+            src={img}
+            width={width}
+            height={height}
+            alt="empty state"
+            className={s.img}
+          />
         )}
         {title && <div className={s.title}>{title}</div>}
         {description && <p className={s.desc}>{description}</p>}

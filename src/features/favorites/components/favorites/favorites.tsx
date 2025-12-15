@@ -1,8 +1,8 @@
 import { getAllFavorites } from '../../actions/actions'
 import { getCurrentSession } from '@/features/auth/actions/actions'
 import s from './favorites.module.css'
-import FavoriteCard from '../card/card'
 import BreadcrumbNav from '@/widgets/breadcrumbs-nav/breadcrumbs-nav'
+import FavoritesClient from '../favorites-client/favorites-client'
 
 const Favorites = async () => {
   const session = await getCurrentSession()
@@ -30,12 +30,9 @@ const Favorites = async () => {
           { label: 'Избранное', href: '/favorites' },
         ]}
       />
-      <div className={s.favoritesList}>
-        {favorites?.items &&
-          favorites.items.map(({ product }) => (
-            <FavoriteCard key={product.id} product={product} />
-          ))}
-      </div>
+      <FavoritesClient
+        favorites={favorites.items.map((item) => item.product)}
+      />
     </section>
   )
 }

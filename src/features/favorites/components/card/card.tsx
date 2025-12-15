@@ -8,7 +8,6 @@ import {
   CardContent,
   CardMedia,
   Chip,
-  Grid,
   IconButton,
   Typography,
   useMediaQuery,
@@ -16,9 +15,10 @@ import {
 } from '@mui/material'
 import { Favorite, ShoppingCart } from '@mui/icons-material'
 import Link from 'next/link'
-import { addToCart } from '@/features/cart/actions/actions'
 import { FavoriteCardType } from '../../types/types'
 import { useFavorites } from '@/features/products/hooks/use-favorites'
+import { calculateFinalPrice, formatPrice } from '@/shared/utils/price'
+import { useCart } from '@/features/cart/hooks/useCart'
 
 interface Props {
   product: FavoriteCardType
@@ -26,23 +26,11 @@ interface Props {
 
 const FavoriteCard = ({ product }: Props) => {
   const { mutate } = useFavorites()
+  const { addProductToCart } = useCart()
   const theme = useTheme()
 
   const isSmall = useMediaQuery(theme.breakpoints.down('md'))
 
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat('en-EN').format(price)
-
-  const calculateFinalPrice = (price: number, discount: number) => {
-    const numericPrice = Number(price) || 0
-    const numericDiscount = Number(discount) || 0
-
-    if (numericDiscount <= 0 || numericDiscount > 100) {
-      return numericPrice
-    }
-
-    return numericPrice - (numericPrice * numericDiscount) / 100
-  }
   const finalPrice = product.discount
     ? calculateFinalPrice(product.price, product.discount)
     : product.price
@@ -120,7 +108,7 @@ const FavoriteCard = ({ product }: Props) => {
           {isSmall ? (
             <IconButton
               className={s.addToCartButtonRow}
-              onClick={() => addToCart(product.id)}
+              onClick={() => addProductToCart(product.id)}
             >
               <ShoppingCart className={s.cartIcon} />
             </IconButton>
@@ -129,7 +117,7 @@ const FavoriteCard = ({ product }: Props) => {
               variant="contained"
               startIcon={<ShoppingCart />}
               className={s.addToCartButtonRow}
-              onClick={() => addToCart(product.id)}
+              onClick={() => addProductToCart(product.id)}
             >
               В корзину
             </Button>
