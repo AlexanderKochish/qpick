@@ -12,11 +12,6 @@
   padding: 0 24px;
 }
 
-.actions {
-  padding: 16px 24px;
-  gap: 12px;
-}
-
 @media (max-width: 600px) {
   .dialogContent {
     padding: 0 16px;

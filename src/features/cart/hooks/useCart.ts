@@ -7,6 +7,7 @@ import {
   updateCartItemQuantity,
 } from '../actions/actions'
 import { useMemo, useState } from 'react'
+import { useToast } from '@/shared/hooks/use-toast'
 
 interface Props {
   initialData?: {
@@ -17,6 +18,7 @@ interface Props {
 
 export const useCart = (props?: Props) => {
   const [appliedPromo, setAppliedPromo] = useState('')
+  const toast = useToast()
   const queryClient = useQueryClient()
   const { data, ...rest } = useQuery({
     queryKey: ['cart'],
@@ -78,6 +80,7 @@ export const useCart = (props?: Props) => {
                 cartId: old.id,
               },
             ] as CartItem[]
+            toast.success('Product added to cart')
           }
 
           return {

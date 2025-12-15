@@ -8,6 +8,8 @@ import {
   Rating,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material'
 import { useActionState, useEffect } from 'react'
 import s from './review-form.module.css'
@@ -23,6 +25,8 @@ interface Props {
 const ReviewForm = ({ productId, setIsOpen }: Props) => {
   const toast = useToast()
   const [state, formAction, isPending] = useActionState(createReview, null)
+  const theme = useTheme()
+  const isSmall = useMediaQuery(() => theme.breakpoints.down('sm'))
 
   useEffect(() => {
     if (!state) return
@@ -36,7 +40,7 @@ const ReviewForm = ({ productId, setIsOpen }: Props) => {
   }, [state])
 
   return (
-    <Box>
+    <Box sx={{ p: 1 }}>
       <DialogContent className={s.content}>
         {state?.errors._errors && state?.errors._errors.length > 0 && (
           <Alert sx={{ my: 1 }} severity="error">
@@ -73,7 +77,11 @@ const ReviewForm = ({ productId, setIsOpen }: Props) => {
       </DialogContent>
 
       <DialogActions className={s.actions}>
-        <Button onClick={() => setIsOpen(false)} variant="outlined">
+        <Button
+          fullWidth={isSmall}
+          onClick={() => setIsOpen(false)}
+          variant="outlined"
+        >
           Отмена
         </Button>
         <Button
@@ -81,6 +89,7 @@ const ReviewForm = ({ productId, setIsOpen }: Props) => {
           form="review-modal"
           color="primary"
           variant="contained"
+          fullWidth={isSmall}
           startIcon={<Send />}
           disabled={isPending}
         >

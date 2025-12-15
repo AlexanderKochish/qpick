@@ -134,11 +134,15 @@ export default function Header({ isLogged }: Props) {
             <Box className={s.contactInfo}>
               <Box className={s.contactItem}>
                 <Phone className={s.contactIcon} />
-                <Typography variant="body2">+38 (098) 111 11 11</Typography>
+                <Typography variant="body2">
+                  <a href="tel:+380981111111">+38 (098) 111 11 11</a>
+                </Typography>
               </Box>
               <Box className={s.contactItem}>
                 <Email className={s.contactIcon} />
-                <Typography variant="body2">info@techdevices.ua</Typography>
+                <Typography variant="body2">
+                  <a href="mailto:info@techdevices.ua">info@techdevices.ua</a>
+                </Typography>
               </Box>
               <Box className={s.contactItem}>
                 <LocationOn className={s.contactIcon} />
@@ -146,7 +150,7 @@ export default function Header({ isLogged }: Props) {
               </Box>
             </Box>
             <Box className={s.topBarActions}>
-              <Button className={s.topBarButton}>Акции</Button>
+              {/* <Button className={s.topBarButton}>Акции</Button> */}
               <Button className={s.topBarButton}>
                 <Link href="/delivery">Доставка</Link>
               </Button>

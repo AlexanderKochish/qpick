@@ -41,18 +41,18 @@ export default async function RootLayout({
     <QueryProviders>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <html lang="en">
-          <body className={`${geistSans.variable} ${geistMono.variable}`}>
-            <NextTopLoader />
-            <div className="container">
-              <div className="layout">
-                <Header isLogged={!!session?.user.id} />
-                <ToastProvider position="top-right" maxToasts={3}>
+          <ToastProvider position="top-right" maxToasts={3}>
+            <body className={`${geistSans.variable} ${geistMono.variable}`}>
+              <NextTopLoader />
+              <div className="container">
+                <div className="layout">
+                  <Header isLogged={!!session?.user.id} />
                   <div className="main">{children}</div>
-                </ToastProvider>
-                <Footer />
+                  <Footer />
+                </div>
               </div>
-            </div>
-          </body>
+            </body>
+          </ToastProvider>
         </html>
       </HydrationBoundary>
     </QueryProviders>
