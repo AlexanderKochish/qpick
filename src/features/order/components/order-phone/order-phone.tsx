@@ -1,6 +1,6 @@
 import { Person } from '@mui/icons-material'
 import { Box, Grid, TextField, Typography } from '@mui/material'
-import React from 'react'
+
 import { IInitialState } from '../../actions/actions'
 
 interface Props {
@@ -18,14 +18,14 @@ const OrderPhone = ({ state }: Props) => {
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <Person color="primary" />
-        Контактная информация
+        Contact information
       </Typography>
 
       <Grid container spacing={3}>
         <Grid size={{ lg: 4, xs: 12 }}>
           <TextField
             fullWidth
-            label="Телефон"
+            label="Phone number"
             name="phone"
             placeholder="+3 (980) 123 33 33"
             error={!!phoneError}

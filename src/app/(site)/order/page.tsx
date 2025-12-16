@@ -1,3 +1,4 @@
+import { getCurrentSession } from '@/features/auth/actions/actions'
 import {
   getCurrentCheckoutStep,
   getOrCreateCart,
@@ -8,12 +9,17 @@ import { redirect, RedirectType } from 'next/navigation'
 const OrderPage = async () => {
   const cart = await getOrCreateCart()
   const step = await getCurrentCheckoutStep()
-  console.log({ cart })
+  const session = await getCurrentSession()
+
+  if (!session) {
+    redirect('/auth/sign-in?redirect=/order', RedirectType.replace)
+  }
+
   if (cart.items.length === 0) {
     redirect('/cart', RedirectType.replace)
   }
 
-  return <OrderClient activeStap={step} />
+  return <OrderClient activeStep={step} />
 }
 
 export default OrderPage

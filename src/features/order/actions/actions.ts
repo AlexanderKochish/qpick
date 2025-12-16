@@ -21,6 +21,7 @@ export interface IInitialState {
   properties?: FormFields
   redirectTo?: string
   orderId?: string
+  success?: boolean
 }
 
 const repo = new OrderRepository()
@@ -31,13 +32,14 @@ export async function sendOrderForm(
 ): Promise<IInitialState> {
   const data = Object.fromEntries(formData.entries())
   const validatedFields = orderSchema.safeParse(data)
-  console.log({ data })
+
   if (!validatedFields.success) {
     const fieldErrors = z.treeifyError(validatedFields.error)
     return {
       message: 'Please correct the errors in the form.',
       errors: fieldErrors.errors,
       properties: fieldErrors.properties,
+      success: false,
     }
   }
 
@@ -50,12 +52,14 @@ export async function sendOrderForm(
       orderId: result.order.id,
       errors: undefined,
       properties: undefined,
+      success: true,
     }
   } catch (error) {
     return {
       message: error instanceof Error ? error.message : 'Order creation failed',
       errors: [],
       properties: undefined,
+      success: false,
     }
   }
 }

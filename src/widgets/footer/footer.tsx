@@ -8,20 +8,20 @@ const Footer = () => {
       <h4>TechDevices</h4>
       <ul className={s.footerContacts}>
         <li>
-          <Link href={'/favorites'}>Избранное</Link>
+          <Link href={'/favorites'}>Favorites</Link>
         </li>
         <li>
-          <Link href={'/cart'}>Корзина</Link>
+          <Link href={'/cart'}>Cart</Link>
         </li>
         <li>
-          <Link href={'/contacts'}>Контакты</Link>
+          <Link href={'/contacts'}>Contacts</Link>
         </li>
       </ul>
 
       <div className={s.footerLang}>
         <span className={s.terms}>
           {' '}
-          <Link href={'/terms-of-service'}>Условия сервиса</Link>
+          <Link href={'/terms-of-service'}>Terms of Service</Link>
         </span>
       </div>
 

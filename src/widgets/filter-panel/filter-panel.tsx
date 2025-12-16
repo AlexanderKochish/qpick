@@ -1,5 +1,4 @@
 'use client'
-import { Dispatch, SetStateAction } from 'react'
 import s from './filter-panel.module.css'
 import {
   AppBar,
@@ -23,7 +22,7 @@ const FilterPanel = ({ itemsLength, setSortBy, sortBy }: Props) => {
       <Toolbar className={s.filtersToolbar}>
         <Box className={s.filtersLeft}>
           <Typography variant="h6" className={s.productsCount}>
-            {itemsLength} товаров
+            {itemsLength} devices
           </Typography>
         </Box>
 
@@ -42,14 +41,14 @@ const FilterPanel = ({ itemsLength, setSortBy, sortBy }: Props) => {
               },
             }}
           >
-            <MenuItem value="newest">Сначала новинки</MenuItem>
-            <MenuItem value="price-low">Сначала дешевые</MenuItem>
-            <MenuItem value="price-high">Сначала дорогие</MenuItem>
-            <MenuItem value="ratings">По рейтингу</MenuItem>
+            <MenuItem value="newest">New items first</MenuItem>
+            <MenuItem value="price-low">Price low to high</MenuItem>
+            <MenuItem value="price-high">Price high to low</MenuItem>
+            <MenuItem value="ratings">Ratings</MenuItem>
           </TextField>
 
           {/* <Button startIcon={<FilterList />} className={s.filterButton}>
-            Фильтры
+              Filter
           </Button> */}
         </Box>
       </Toolbar>

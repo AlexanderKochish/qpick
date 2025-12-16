@@ -32,7 +32,7 @@ const ActionsButtons = ({ productId }: Props) => {
         onClick={() => addProductToCart(productId)}
         disabled={isPendingAddProduct || isAddedToCart}
       >
-        {isAddedToCart ? 'В корзине' : 'В корзину'}
+        {isAddedToCart ? 'In the basket' : 'Add to cart'}
       </Button>
       <Button
         variant="outlined"
@@ -40,7 +40,7 @@ const ActionsButtons = ({ productId }: Props) => {
         className={s.buyButton}
         onClick={() => buyNow(productId)}
       >
-        Купить сейчас
+        Buy Now
       </Button>
       <Grid container spacing={2}>
         <FavoriteToggle productId={productId} />

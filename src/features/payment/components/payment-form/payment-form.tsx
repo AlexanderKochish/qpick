@@ -6,6 +6,7 @@ import { useOrder } from '@/features/order/hooks/useOrder'
 import CheckoutFormSkeleton from '../checkout-form-skeleton/checkout-form-skeleton'
 import { usePaymentIntent } from '../../hooks/use-payment-intent'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -21,9 +22,11 @@ export default function PaymentForm({ id, step }: Props) {
   const { isLoading: orderLoading, error: orderError } = useOrder(id)
   const { data, isLoading, error } = usePaymentIntent({ orderId: id })
 
-  if (!data?.clientSecret) {
-    router.replace('/cart')
-  }
+  useEffect(() => {
+    if (!isLoading && !orderLoading && !data?.clientSecret) {
+      router.replace('/cart')
+    }
+  }, [data?.clientSecret, router])
 
   if (orderLoading || isLoading) return <CheckoutFormSkeleton />
   if (orderError) return <div>Error loading order: {orderError.message}</div>

@@ -26,22 +26,22 @@ const ProductDetailsTabs = ({ activeTab, setActiveTab }: Props) => {
         <Tab
           icon={<Description />}
           iconPosition="start"
-          label={isSmall ? null : 'Описание'}
+          label={isSmall ? null : 'Description'}
         />
         <Tab
           icon={<Build />}
           iconPosition="start"
-          label={isSmall ? null : 'Характеристики'}
+          label={isSmall ? null : 'Characteristics'}
         />
         <Tab
           icon={<Reviews />}
           iconPosition="start"
-          label={isSmall ? null : 'Отзывы и оценки'}
+          label={isSmall ? null : 'Reviews and ratings'}
         />
         <Tab
           icon={<QuestionAnswer />}
           iconPosition="start"
-          label={isSmall ? null : 'Вопросы и ответы'}
+          label={isSmall ? null : 'Frequently asked questions'}
         />
       </Tabs>
     </AppBar>

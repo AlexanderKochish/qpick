@@ -29,7 +29,7 @@ const ProductReview = ({ averageRating, product, setOpenDialog }: Props) => {
           </Typography>
           <Rating value={Number(averageRating)} readOnly size="large" />
           <Typography variant="body2" color="text.secondary">
-            На основе {product.ratings.length} оценок
+            Based on {product.ratings.length} ratings
           </Typography>
         </Box>
         <Button
@@ -37,7 +37,7 @@ const ProductReview = ({ averageRating, product, setOpenDialog }: Props) => {
           variant="outlined"
           startIcon={<Comment />}
         >
-          Написать отзыв
+          Write a Review
         </Button>
       </Box>
 

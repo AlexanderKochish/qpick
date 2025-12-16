@@ -6,22 +6,22 @@ const ProductSpecifications = () => {
   return (
     <Box className={s.specifications}>
       <Typography variant="h6" gutterBottom>
-        Технические характеристики
+        Technical specifications
       </Typography>
       {/* <Grid container spacing={2}>
-                  {product.specifications.map((spec, index) => (
-                    <Grid size={4} key={index}>
-                      <Box className={s.specItem}>
-                        <Typography variant="body2" color="text.secondary">
-                          {spec.name}
-                        </Typography>
-                        <Typography variant="body2" fontWeight="medium">
-                          {spec.value}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid> */}
+        {product.specifications.map((spec, index) => (
+          <Grid size={4} key={index}>
+            <Box className={s.specItem}>
+              <Typography variant="body2" color="text.secondary">
+                {spec.name}
+              </Typography>
+              <Typography variant="body2" fontWeight="medium">
+                {spec.value}
+              </Typography>
+            </Box>
+          </Grid>
+        ))}
+      </Grid> */}
     </Box>
   )
 }

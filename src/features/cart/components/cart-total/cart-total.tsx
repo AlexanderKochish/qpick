@@ -40,7 +40,7 @@ const CartTotal = ({
     <Grid size={{ lg: 4, xs: 12 }}>
       <Paper sx={{ p: 3, borderRadius: 2, position: 'sticky', top: 20 }}>
         <Typography variant="h6" fontWeight="600" gutterBottom>
-          Итоги заказа
+          Order results
         </Typography>
 
         <Box sx={{ mb: 3 }}>
@@ -49,7 +49,7 @@ const CartTotal = ({
               <TextField
                 fullWidth
                 size="small"
-                placeholder="Введите промокод"
+                placeholder="Enter promo code"
                 value={promoCode}
                 onChange={(e) => setPromoCode(e.target.value)}
               />
@@ -58,7 +58,7 @@ const CartTotal = ({
                 onClick={applyPromoCode}
                 disabled={!promoCode.trim()}
               >
-                Применить
+                Apply
               </Button>
             </Box>
           ) : (
@@ -70,7 +70,7 @@ const CartTotal = ({
               }}
             >
               <Chip
-                label={`Промокод: ${appliedPromo}`}
+                label={`Promo code: ${appliedPromo}`}
                 color="success"
                 onDelete={removePromoCode}
               />
@@ -86,7 +86,7 @@ const CartTotal = ({
         <Box sx={{ space: 2 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Промежуточный итог
+              Intermediate total
             </Typography>
             <Typography variant="body2">
               {subtotal.toLocaleString()} €
@@ -102,7 +102,7 @@ const CartTotal = ({
               }}
             >
               <Typography variant="body2" color="text.secondary">
-                Скидка на товары
+                Discount on products
               </Typography>
               <Typography variant="body2" color="success.main">
                 -{totalDiscount.toLocaleString()} €
@@ -119,7 +119,7 @@ const CartTotal = ({
               }}
             >
               <Typography variant="body2" color="text.secondary">
-                Скидка по промокоду
+                Promo code discount
               </Typography>
               <Typography variant="body2" color="success.main">
                 -{promoDiscount.toLocaleString()} €
@@ -129,10 +129,10 @@ const CartTotal = ({
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Доставка
+              Delivery
             </Typography>
             <Typography variant="body2" color="success.main">
-              Бесплатно
+              Free
             </Typography>
           </Box>
         </Box>
@@ -141,7 +141,7 @@ const CartTotal = ({
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
           <Typography variant="h6" fontWeight="600">
-            Итого
+            Total
           </Typography>
           <Typography variant="h5" fontWeight="600" color="primary">
             {total.toLocaleString()} €
@@ -158,8 +158,7 @@ const CartTotal = ({
             }}
           >
             <Typography variant="body2" color="success.dark" textAlign="center">
-              🎉 Вы экономите {(totalDiscount + promoDiscount).toLocaleString()}{' '}
-              €
+              🎉 You save {(totalDiscount + promoDiscount).toLocaleString()} €
             </Typography>
           </Box>
         )}
@@ -177,7 +176,7 @@ const CartTotal = ({
               fontSize: '1.1rem',
             }}
           >
-            Перейти к оформлению
+            Proceed to checkout
           </Button>
         </Link>
 
@@ -187,7 +186,7 @@ const CartTotal = ({
           textAlign="center"
           sx={{ mt: 2 }}
         >
-          Бесплатная доставка по всей Украине
+          Free delivery throughout Ukraine
         </Typography>
       </Paper>
     </Grid>

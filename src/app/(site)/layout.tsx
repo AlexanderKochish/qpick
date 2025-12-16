@@ -41,8 +41,8 @@ export default async function RootLayout({
     <QueryProviders>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <html lang="en">
-          <ToastProvider position="top-right" maxToasts={3}>
-            <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <body className={`${geistSans.variable} ${geistMono.variable}`}>
+            <ToastProvider position="top-right" maxToasts={3}>
               <NextTopLoader />
               <div className="container">
                 <div className="layout">
@@ -51,8 +51,8 @@ export default async function RootLayout({
                   <Footer />
                 </div>
               </div>
-            </body>
-          </ToastProvider>
+            </ToastProvider>
+          </body>
         </html>
       </HydrationBoundary>
     </QueryProviders>

@@ -1,8 +1,17 @@
 'use client'
 import { Box, Grid, TextField, Typography } from '@mui/material'
 import { Place } from '@mui/icons-material'
+import { IInitialState } from '../../actions/actions'
 
-const OrderAddress = () => {
+interface Props {
+  state: IInitialState
+}
+
+const OrderAddress = ({ state }: Props) => {
+  const cityError = state?.properties?.city?.errors?.[0]
+  const streetError = state?.properties?.street?.errors?.[0]
+  const buildingError = state?.properties?.building?.errors?.[0]
+  const postalCodeError = state?.properties?.postalCode?.errors?.[0]
   return (
     <Box sx={{ mb: 4 }}>
       <Typography
@@ -12,68 +21,77 @@ const OrderAddress = () => {
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <Place color="primary" />
-        Адрес доставки
+        Address information
       </Typography>
 
       <Grid container spacing={3}>
         <Grid size={{ md: 4, xs: 12 }}>
           <TextField
+            required
             fullWidth
-            label="Город"
+            label="City"
             name="city"
-            // {...register('city')}
-            // error={!!errors.city}
-            // helperText={errors.city?.message}
-            placeholder="Например: Москва"
+            placeholder="For example: Kyiv"
           />
+          {cityError && (
+            <Typography variant="body2" color="error" sx={{ mt: 0.5 }}>
+              {cityError}
+            </Typography>
+          )}
         </Grid>
 
         <Grid size={{ md: 4, xs: 12 }}>
           <TextField
+            required
             fullWidth
-            label="Улица"
+            label="Street"
             name="street"
-            // {...register('street')}
-            // error={!!errors.street}
-            // helperText={errors.street?.message}
-            placeholder="Например: Ленина"
+            placeholder="For example: Shevchenko St."
           />
+          {streetError && (
+            <Typography variant="body2" color="error" sx={{ mt: 0.5 }}>
+              {streetError}
+            </Typography>
+          )}
         </Grid>
 
         <Grid size={{ md: 4, xs: 12 }}>
           <TextField
+            required
             fullWidth
-            label="Дом"
+            label="House number"
             name="building"
-            // {...register('building')}
-            // error={!!errors.building}
-            // helperText={errors.building?.message}
-            placeholder="Например: 15"
+            placeholder="For example: 15"
           />
+          {buildingError && (
+            <Typography variant="body2" color="error" sx={{ mt: 0.5 }}>
+              {buildingError}
+            </Typography>
+          )}
         </Grid>
 
         <Grid size={{ md: 4, xs: 12 }}>
           <TextField
             fullWidth
-            label="Квартира (необязательно)"
+            label="Apartment (optional)"
             name="apartment"
-            // {...register('apartment')}
-            // error={!!errors.apartment}
-            // helperText={errors.apartment?.message}
-            placeholder="Например: 42"
+            placeholder="For example: 42"
           />
         </Grid>
 
         <Grid size={{ md: 4, xs: 12 }}>
           <TextField
+            required
             fullWidth
-            label="Почтовый индекс"
+            label="Zip Code"
             name="postalCode"
-            // {...register('postalCode')}
-            // error={!!errors.postalCode}
-            // helperText={errors.postalCode?.message}
             placeholder="12345"
           />
+          {postalCodeError && (
+            <Typography variant="body2" color="error" sx={{ mt: 0.5 }}>
+              {postalCodeError}
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Box>

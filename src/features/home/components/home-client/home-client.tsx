@@ -1,16 +1,16 @@
 'use client'
 import s from './home-client.module.css'
-import { Box, Button, Container, Fab, Typography } from '@mui/material'
+import { Box, Container, Fab } from '@mui/material'
 import FilterPanel from '@/widgets/filter-panel/filter-panel'
 import ProductsList from '@/features/products/components/products-list/products-list'
 import { Sort } from '@mui/icons-material'
 import { useProducts } from '@/features/products/hooks/use-products'
 import { ProductCard } from '@/features/products/types/types'
-import { useRouter } from 'next/navigation'
 import { useSort } from '@/shared/hooks/use-sort'
 import { SortBy } from '@/shared/types/types'
 import { usePagination } from '@/shared/hooks/use-pagination'
 import SitePagination from '@/shared/components/site-pagination/site-pagination'
+import Banner from '../banner/banner'
 
 interface Props {
   initialData: ProductCard[]
@@ -19,7 +19,6 @@ interface Props {
 }
 
 const HomeClient = ({ initialData, search, sort }: Props) => {
-  const router = useRouter()
   const { setSortBy, sortBy } = useSort()
   const { data: products } = useProducts(sort, initialData, search)
   const { currentPage, setCurrentPage, currentProducts, totalPages } =
@@ -31,26 +30,7 @@ const HomeClient = ({ initialData, search, sort }: Props) => {
 
   return (
     <Box className={s.container}>
-      <Box className={s.hero}>
-        <Container maxWidth="lg">
-          <Box className={s.heroContent}>
-            <Typography variant="h2" className={s.heroTitle}>
-              Новейшие гаджеты
-            </Typography>
-            <Typography variant="h5" className={s.heroSubtitle}>
-              Откройте для себя мир технологий с лучшими устройствами
-            </Typography>
-            <Button
-              variant="contained"
-              size="large"
-              className={s.heroButton}
-              onClick={() => router.push('/')}
-            >
-              Смотреть все товары
-            </Button>
-          </Box>
-        </Container>
-      </Box>
+      <Banner />
 
       <Container maxWidth="xl" className={s.mainContent}>
         <FilterPanel

@@ -25,7 +25,7 @@ const OrderRadioGrop = () => {
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <Payment color="primary" />
-        Способ оплаты
+        Payment method
       </Typography>
 
       <FormControl component="fieldset" fullWidth>
@@ -53,37 +53,9 @@ const OrderRadioGrop = () => {
                   control={<Radio />}
                   label={
                     <Box>
-                      <Typography fontWeight="600">Банковская карта</Typography>
+                      <Typography fontWeight="600">Bank card</Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Visa, MasterCard, Мир
-                      </Typography>
-                    </Box>
-                  }
-                />
-              </Paper>
-            </Grid>
-
-            <Grid size={{ md: 6, xs: 12 }}>
-              <Paper
-                variant={selectedPayment === 'CASH' ? 'elevation' : 'outlined'}
-                sx={{
-                  p: 2,
-                  border:
-                    selectedPayment === 'CASH' ? '2px solid' : '1px solid',
-                  borderColor:
-                    selectedPayment === 'CASH' ? 'primary.main' : 'divider',
-                  borderRadius: 2,
-                  cursor: 'pointer',
-                }}
-              >
-                <FormControlLabel
-                  value="CASH"
-                  control={<Radio />}
-                  label={
-                    <Box>
-                      <Typography fontWeight="600">Наличные</Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Оплата при получении
+                        Visa, MasterCard
                       </Typography>
                     </Box>
                   }
@@ -115,7 +87,7 @@ const OrderRadioGrop = () => {
                     <Box>
                       <Typography fontWeight="600">Apple Pay</Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Быстрая оплата
+                        Fast payment
                       </Typography>
                     </Box>
                   }
@@ -149,7 +121,7 @@ const OrderRadioGrop = () => {
                     <Box>
                       <Typography fontWeight="600">Google Pay</Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Быстрая оплата
+                        Fast payment
                       </Typography>
                     </Box>
                   }

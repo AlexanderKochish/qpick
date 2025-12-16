@@ -1,0 +1,51 @@
+.orderSection {
+  padding: 2rem 1rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.order {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .order {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+  }
+
+  .order > *:first-child {
+    order: 2;
+  }
+
+  .order > *:last-child {
+    order: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .orderSection {
+    padding: 1rem 0.75rem;
+  }
+
+  .order {
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+}
+
+@media print {
+  .orderSection {
+    padding: 0;
+  }
+
+  .order {
+    display: block;
+    margin-top: 1rem;
+  }
+}

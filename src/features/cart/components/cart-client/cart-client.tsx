@@ -31,12 +31,12 @@ export default function CartPage({ initialData }: Props) {
   } = useCart({ initialData })
   const [promoCode, setPromoCode] = useState('')
 
-  if (cart?.items.length === 0 || !total) {
+  if (cartCount === 0 || !total) {
     return (
       <EmptyState
         img={emptyCart}
-        title="Корзина пуста"
-        description="Но это никогда не поздно исправить :)"
+        title="The cart is empty"
+        description="But it's never too late to fix that :)"
       />
     )
   }
@@ -57,16 +57,16 @@ export default function CartPage({ initialData }: Props) {
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
           <LocalMall sx={{ mr: 2, verticalAlign: 'middle' }} />
-          Корзина покупок
+          Shopping Cart
         </Typography>
 
-        <CheckoutStepper activeStep={initialData.activeStep} />
+        <CheckoutStepper activeStep={1} />
       </Box>
 
       <Grid container spacing={4}>
         <Grid size={{ lg: 8, xs: 12 }}>
           <Typography variant="h6" fontWeight="600" gutterBottom>
-            Товары в корзине ({cartCount})
+            Products in the cart ({cartCount})
           </Typography>
 
           {cart?.items.map((item) => (

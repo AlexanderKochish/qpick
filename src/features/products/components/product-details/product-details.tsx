@@ -56,7 +56,7 @@ const ProductDetails = ({ product }: Props) => {
       <Container maxWidth="xl">
         <BreadcrumbNav
           items={[
-            { label: 'Главная', href: '/' },
+            { label: 'Home', href: '/' },
             {
               label: product.category.name,
               href: `/category/${product.category.name}/${product.categoryId}`,
@@ -127,10 +127,10 @@ const ProductDetails = ({ product }: Props) => {
               <Box className={s.ratingSection}>
                 <Rating value={averageRating} readOnly size="small" />
                 <Typography variant="body2" color="text.secondary">
-                  {averageRating.toFixed(1)} ({product._count?.ratings} оценок)
+                  {averageRating.toFixed(1)} ({product._count?.ratings} ratings)
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  • {product._count?.reviews} отзывов
+                  • {product._count?.reviews} reviews
                 </Typography>
               </Box>
 
@@ -158,7 +158,7 @@ const ProductDetails = ({ product }: Props) => {
                         {formatPrice(Number(product.price))} €
                       </Typography>
                       <Chip
-                        label={`Экономия ${formatPrice(savings)} €`}
+                        label={`Saving ${formatPrice(savings)} €`}
                         color="success"
                         size="small"
                         variant="outlined"
@@ -178,29 +178,27 @@ const ProductDetails = ({ product }: Props) => {
                 <Box className={s.feature}>
                   <LocalShipping className={s.featureIcon} />
                   <Box>
-                    <Typography variant="subtitle2">
-                      Бесплатная доставка
-                    </Typography>
+                    <Typography variant="subtitle2">Free shipping</Typography>
                     <Typography variant="body2" color="text.secondary">
-                      По Киеву за 1-2 дня
+                      For Kyiv within 1-2 days
                     </Typography>
                   </Box>
                 </Box>
                 <Box className={s.feature}>
                   <AssignmentReturn className={s.featureIcon} />
                   <Box>
-                    <Typography variant="subtitle2">Возврат 14 дней</Typography>
+                    <Typography variant="subtitle2">Return 14 days</Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Легкий возврат товара
+                      Easy product return
                     </Typography>
                   </Box>
                 </Box>
                 <Box className={s.feature}>
                   <Security className={s.featureIcon} />
                   <Box>
-                    <Typography variant="subtitle2">Гарантия 1 год</Typography>
+                    <Typography variant="subtitle2">1 year warranty</Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Официальная гарантия
+                      Official warranty
                     </Typography>
                   </Box>
                 </Box>
@@ -233,10 +231,10 @@ const ProductDetails = ({ product }: Props) => {
             {activeTab === 3 && (
               <Box className={s.faq}>
                 <Typography variant="h6" gutterBottom>
-                  Часто задаваемые вопросы
+                  Frequently asked questions
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
-                  Раздел вопросов и ответов находится в разработке...
+                  The questions and answers section is under development...
                 </Typography>
               </Box>
             )}

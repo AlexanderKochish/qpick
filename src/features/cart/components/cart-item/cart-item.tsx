@@ -106,11 +106,7 @@ const CartItem = ({ item, quantity }: Props) => {
               <Typography variant="h6" fontWeight="600">
                 {total.toLocaleString()} €
               </Typography>
-              <IconButton
-                disabled={isPending}
-                onClick={handleRemove}
-                color="error"
-              >
+              <IconButton onClick={handleRemove} color="error">
                 <Delete />
               </IconButton>
             </Box>

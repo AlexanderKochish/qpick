@@ -6,6 +6,7 @@ export const orderSchema = z.object({
     .string({
       error: 'Please provide a city',
     })
+
     .min(2, 'The city is too short')
     .max(30, 'The city is too long'),
 

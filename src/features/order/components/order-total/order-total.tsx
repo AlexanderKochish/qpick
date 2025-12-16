@@ -13,39 +13,37 @@ const OrderTotal = ({ cart, total, discount }: Props) => {
     <Grid size={{ lg: 4, xs: 12 }}>
       <Paper sx={{ p: 3, borderRadius: 3, position: 'sticky', top: 20 }}>
         <Typography variant="h6" fontWeight="600" gutterBottom>
-          Итоги заказа
+          Order results
         </Typography>
 
         <Box sx={{ space: 2, mb: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Товары (
-              {cart?.items.reduce((acc, curr) => acc + curr.quantity, 0)})
+              Devices (
+              {cart?.items.reduce((acc, curr) => acc + curr.quantity, 0) ?? 0} )
             </Typography>
-            <Typography variant="body2">
-              {discount ? total + discount : total} €
-            </Typography>
+            <Typography variant="body2">{total} €</Typography>
           </Box>
 
-          {discount && (
+          {discount ? (
             <Box
               sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}
             >
               <Typography variant="body2" color="text.secondary">
-                Скидка
+                Discount
               </Typography>
               <Typography variant="body2" color="success.main">
-                ({discount}) €
+                ({discount ?? 0}) €
               </Typography>
             </Box>
-          )}
+          ) : null}
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Доставка
+              Delivery
             </Typography>
             <Typography variant="body2" color="success.main">
-              Бесплатно
+              Free
             </Typography>
           </Box>
 
@@ -53,10 +51,10 @@ const OrderTotal = ({ cart, total, discount }: Props) => {
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h6" fontWeight="600">
-              Итого
+              Total
             </Typography>
             <Typography variant="h5" fontWeight="600" color="primary">
-              {total} €
+              {total ?? 0} €
             </Typography>
           </Box>
         </Box>
@@ -68,7 +66,7 @@ const OrderTotal = ({ cart, total, discount }: Props) => {
             sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
           >
             <LocalShipping fontSize="small" />
-            Бесплатная доставка за 1-2 дня
+            Free delivery throughout Ukraine
           </Typography>
         </Box>
       </Paper>

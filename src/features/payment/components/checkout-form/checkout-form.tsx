@@ -109,7 +109,7 @@ export function CheckoutForm({
             </div>
           </form>
         </Grid>
-        <OrderTotal cart={cart} total={Number(total)} />
+        <OrderTotal cart={cart} total={Number(totalPrice)} />
       </Grid>
     </Container>
   )

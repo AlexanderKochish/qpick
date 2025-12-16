@@ -10,17 +10,19 @@ import { useCart } from '@/features/cart/hooks/useCart'
 import CheckoutStepper from '@/shared/components/checkout-stepper/checkout-stepper'
 import OrderRadioGrop from '../order-radio-group/order-radio-grop'
 import s from './order-client.module.css'
+import OrderSkeleton from '../order-skeleton/order-skeleton'
 
 const initialState: IInitialState = {
   message: '',
   errors: [],
+  success: false,
 }
 
 interface Props {
-  activeStap: number
+  activeStep: number
 }
 
-export default function OrderClient({ activeStap }: Props) {
+export default function OrderClient({ activeStep }: Props) {
   const router = useRouter()
 
   const [state, formAction, pending] = useActionState(
@@ -28,7 +30,7 @@ export default function OrderClient({ activeStap }: Props) {
     initialState
   )
 
-  const { data: cart, total, totalDiscount, totalPrice } = useCart()
+  const { data: cart, total, totalDiscount, totalPrice, isPending } = useCart()
 
   useEffect(() => {
     if (state?.redirectTo) {
@@ -36,21 +38,25 @@ export default function OrderClient({ activeStap }: Props) {
     }
   }, [state, router])
 
+  if (isPending) {
+    return <OrderSkeleton />
+  }
+
   return (
     <section className={s.orderSection}>
       <Box>
         <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
-          Оформление заказа
+          Placing an order
         </Typography>
 
-        <CheckoutStepper activeStep={activeStap} />
+        <CheckoutStepper activeStep={activeStep} />
       </Box>
 
       <div className={s.order}>
         <Grid size={{ lg: 8, xs: 12 }}>
           <Paper sx={{ p: 4, borderRadius: 3 }}>
             <form action={formAction}>
-              <OrderAddress />
+              <OrderAddress state={state} />
               <Divider sx={{ my: 3 }} />
               <OrderPhone state={state} />
               <Divider sx={{ my: 3 }} />
@@ -70,7 +76,7 @@ export default function OrderClient({ activeStap }: Props) {
                   fontWeight: '600',
                 }}
               >
-                {pending ? 'Оформление...' : 'Подтвердить заказ'}
+                {pending ? 'Design...' : 'Confirm order'}
               </Button>
             </form>
           </Paper>

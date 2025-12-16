@@ -98,29 +98,29 @@ export default function Header({ isLogged }: Props) {
       <Divider />
       <List>
         <ListItem onClick={() => router.push('/')}>
-          <ListItemText primary="Главная" />
+          <ListItemText primary="Home" />
         </ListItem>
         <ListItem onClick={handleCategoriesOpen}>
-          <ListItemText primary="Категории" />
+          <ListItemText primary="Categories" />
         </ListItem>
         <ListItem onClick={() => router.push('/products')}>
-          <ListItemText primary="Все товары" />
+          <ListItemText primary="All products" />
         </ListItem>
         <ListItem onClick={() => router.push('/about')}>
-          <ListItemText primary="О нас" />
+          <ListItemText primary="About us" />
         </ListItem>
         <ListItem onClick={() => router.push('/contacts')}>
-          <ListItemText primary="Контакты" />
+          <ListItemText primary="Contacts" />
         </ListItem>
         <Divider sx={{ my: 3 }} />
         {/* <ListItem onClick={() => router.push('/')}>
           <ListItemText primary="Акции" />
         </ListItem> */}
         <ListItem onClick={() => router.push('/delivery')}>
-          <ListItemText primary="Доставка" />
+          <ListItemText primary="Delivery" />
         </ListItem>
         <ListItem onClick={() => router.push('/guarantee')}>
-          <ListItemText primary="Гарантия" />
+          <ListItemText primary="Guarantee" />
         </ListItem>
       </List>
     </Box>
@@ -146,16 +146,18 @@ export default function Header({ isLogged }: Props) {
               </Box>
               <Box className={s.contactItem}>
                 <LocationOn className={s.contactIcon} />
-                <Typography variant="body2">Киев, ул. Шевченка, 15</Typography>
+                <Typography variant="body2">
+                  Kyiv, st. Shevchenka, 15
+                </Typography>
               </Box>
             </Box>
             <Box className={s.topBarActions}>
               {/* <Button className={s.topBarButton}>Акции</Button> */}
               <Button className={s.topBarButton}>
-                <Link href="/delivery">Доставка</Link>
+                <Link href="/delivery">Delivery</Link>
               </Button>
               <Button className={s.topBarButton}>
-                <Link href="/guarantee">Гарантия</Link>
+                <Link href="/guarantee">Guarantee</Link>
               </Button>
             </Box>
           </Box>
@@ -183,7 +185,7 @@ export default function Header({ isLogged }: Props) {
                   onMouseEnter={handleCategoriesOpen}
                 >
                   <CategoryOutlined className={s.categoriesIcon} />
-                  {isSmall ? '' : 'Категории'}
+                  {isSmall ? '' : 'Categories'}
                 </Button>
               </Box>
 
@@ -193,7 +195,7 @@ export default function Header({ isLogged }: Props) {
                   <InputBase
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Поиск..."
+                    placeholder="Search..."
                     className={s.searchInput}
                   />
                 </Box>
@@ -269,7 +271,7 @@ export default function Header({ isLogged }: Props) {
         <Divider />
         <MenuItem onClick={handleCategoriesClose} className={s.allCategories}>
           <Link href={'/'}>
-            <Typography>Все категории</Typography>
+            <Typography>All categories</Typography>
           </Link>
         </MenuItem>
       </Menu>
@@ -284,17 +286,17 @@ export default function Header({ isLogged }: Props) {
         {isLogged
           ? [
               <MenuItem key="profile" onClick={handleUserMenuClose}>
-                <Link href={'/profile'}>Мой профиль</Link>
+                <Link href={'/profile'}>My profile</Link>
               </MenuItem>,
               // <MenuItem key="orders" onClick={handleUserMenuClose}>
               //   Мои заказы
               // </MenuItem>,
               <MenuItem key="favorites" onClick={handleUserMenuClose}>
-                <Link href={'/favorites'}> Избранное</Link>
+                <Link href={'/favorites'}>Favorites</Link>
               </MenuItem>,
               <Divider key="divider" />,
               <MenuItem key="logout" onClick={handleLogout}>
-                Выйти
+                Logout
               </MenuItem>,
             ]
           : [
@@ -302,13 +304,13 @@ export default function Header({ isLogged }: Props) {
                 key="login"
                 onClick={() => router.push('/auth/sign-in')}
               >
-                Войти
+                Login
               </MenuItem>,
               <MenuItem
                 key="register"
                 onClick={() => router.push('/auth/sign-up')}
               >
-                Зарегистрироваться
+                Register
               </MenuItem>,
             ]}
       </Menu>
