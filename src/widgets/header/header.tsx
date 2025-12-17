@@ -85,6 +85,11 @@ export default function Header({ isLogged }: Props) {
     setCategoriesAnchor(null)
   }
 
+  const handleRoute = (path: string) => {
+    router.push(path)
+    setMobileOpen(false)
+  }
+
   const drawer = (
     <Box className={s.drawer}>
       <Box className={s.drawerHeader}>
@@ -97,29 +102,29 @@ export default function Header({ isLogged }: Props) {
       </Box>
       <Divider />
       <List>
-        <ListItem onClick={() => router.push('/')}>
+        <ListItem onClick={() => handleRoute('/')}>
           <ListItemText primary="Home" />
         </ListItem>
         <ListItem onClick={handleCategoriesOpen}>
           <ListItemText primary="Categories" />
         </ListItem>
-        <ListItem onClick={() => router.push('/products')}>
+        <ListItem onClick={() => handleRoute('/products')}>
           <ListItemText primary="All products" />
         </ListItem>
-        <ListItem onClick={() => router.push('/about')}>
+        <ListItem onClick={() => handleRoute('/about')}>
           <ListItemText primary="About us" />
         </ListItem>
-        <ListItem onClick={() => router.push('/contacts')}>
+        <ListItem onClick={() => handleRoute('/contacts')}>
           <ListItemText primary="Contacts" />
         </ListItem>
         <Divider sx={{ my: 3 }} />
         {/* <ListItem onClick={() => router.push('/')}>
           <ListItemText primary="Акции" />
         </ListItem> */}
-        <ListItem onClick={() => router.push('/delivery')}>
+        <ListItem onClick={() => handleRoute('/delivery')}>
           <ListItemText primary="Delivery" />
         </ListItem>
-        <ListItem onClick={() => router.push('/guarantee')}>
+        <ListItem onClick={() => handleRoute('/guarantee')}>
           <ListItemText primary="Guarantee" />
         </ListItem>
       </List>
