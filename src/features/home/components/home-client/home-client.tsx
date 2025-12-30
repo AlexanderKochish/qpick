@@ -30,7 +30,7 @@ const HomeClient = ({ initialData, search, sort }: Props) => {
 
   return (
     <Box className={s.container}>
-      <Banner />
+      {!search && !sort && <Banner />}
 
       <Container maxWidth="xl" className={s.mainContent}>
         <FilterPanel

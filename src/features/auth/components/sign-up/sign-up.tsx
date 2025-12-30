@@ -1,5 +1,5 @@
 'use client'
-import { useActionState, useState } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import s from './sign-up.module.css'
 import {
   Alert,
@@ -21,7 +21,7 @@ import {
 } from '@mui/icons-material'
 import Link from 'next/link'
 import { register } from '../../actions/actions'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import AuthTitle from '../auth-title/auth-title'
 import AuthLayout from '../auth-layout/auth-layout'
 import GoogleIcon from '@/shared/components/google-icon/google-icon'
@@ -29,6 +29,8 @@ import { useGoogleAuth } from '../../hooks/useGoogleAuth'
 
 const SignUp = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/'
   const [{ errors, success }, formAction, isPending] = useActionState(
     register,
     {
@@ -36,14 +38,16 @@ const SignUp = () => {
       success: false,
     }
   )
-  const { handleGoogleSignIn: googleSignInAction, isLoading: isGoogleLoading } =
-    useGoogleAuth()
+  const googleAuth = useGoogleAuth()
   const [showPassword, setShowPassword] = useState(false)
-  const isLoading = isPending || isGoogleLoading
-  if (success) {
-    router.push('/')
-    router.refresh()
-  }
+  const isLoading = isPending || googleAuth.isPending
+  const isSuccess = success || googleAuth.isSuccess
+  useEffect(() => {
+    if (success) {
+      router.push(callbackUrl)
+      router.refresh()
+    }
+  }, [success, router, callbackUrl])
 
   return (
     <AuthLayout>
@@ -199,7 +203,7 @@ const SignUp = () => {
           fullWidth
           variant="contained"
           size="large"
-          disabled={isLoading}
+          disabled={isLoading || isSuccess}
           className={s.submitButton}
         >
           {isLoading ? (
@@ -223,8 +227,8 @@ const SignUp = () => {
         fullWidth
         variant="outlined"
         size="large"
-        onClick={googleSignInAction}
-        disabled={isLoading}
+        onClick={() => googleAuth.mutate()}
+        disabled={isLoading || isSuccess}
         className={s.googleButton}
         startIcon={<GoogleIcon />}
       >

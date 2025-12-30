@@ -13,7 +13,7 @@ function ProfileInfo({
     <Grid container spacing={3}>
       <Grid size={{ md: 6, xs: 12 }}>
         <TextField
-          label="Имя"
+          label="Name"
           defaultValue={user.name}
           fullWidth
           disabled={!isEditing}

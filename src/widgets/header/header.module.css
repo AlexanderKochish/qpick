@@ -261,26 +261,6 @@
   border-radius: 0;
 }
 
-.drawer {
-  padding: 0;
-  min-height: 40px;
-  width: 70dvw;
-}
-
-.drawerHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.drawerTitle {
-  font-weight: 700 !important;
-  color: white !important;
-}
-
 @media (max-width: 1200px) {
   .toolbar {
     grid-template-columns: auto 1fr auto;

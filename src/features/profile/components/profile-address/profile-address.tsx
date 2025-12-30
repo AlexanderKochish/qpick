@@ -7,7 +7,7 @@ function AddressSection({ addresses }: { addresses: Address[] }) {
   return (
     <Box>
       <Typography variant="h6" gutterBottom>
-        Мои адреса
+        My addresses
       </Typography>
       {addresses.map((address) => (
         <Card key={address.id} className={s.addressCard}>
@@ -15,10 +15,10 @@ function AddressSection({ addresses }: { addresses: Address[] }) {
             <Box className={s.addressHeader}>
               <LocationCity color="primary" />
               <Typography variant="subtitle1" className={s.addressTitle}>
-                Основной адрес
+                Main address
               </Typography>
               {address && (
-                <Chip label="По умолчанию" color="primary" size="small" />
+                <Chip label="By default" color="primary" size="small" />
               )}
             </Box>
             <Typography variant="body2" className={s.addressText}>
@@ -28,7 +28,7 @@ function AddressSection({ addresses }: { addresses: Address[] }) {
         </Card>
       ))}
       <Button variant="outlined" className={s.addButton}>
-        + Добавить новый адрес
+        + Add a new address
       </Button>
     </Box>
   )

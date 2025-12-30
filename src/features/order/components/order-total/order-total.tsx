@@ -1,14 +1,14 @@
-import { Cart } from '@/features/cart/types/types'
 import { LocalShipping } from '@mui/icons-material'
 import { Box, Divider, Grid, Paper, Typography } from '@mui/material'
 
 interface Props {
-  cart: Cart | undefined
+  cartCount: number
   total: number
   discount?: number
+  price: number
 }
 
-const OrderTotal = ({ cart, total, discount }: Props) => {
+const OrderTotal = ({ cartCount, total, discount, price }: Props) => {
   return (
     <Grid size={{ lg: 4, xs: 12 }}>
       <Paper sx={{ p: 3, borderRadius: 3, position: 'sticky', top: 20 }}>
@@ -19,10 +19,9 @@ const OrderTotal = ({ cart, total, discount }: Props) => {
         <Box sx={{ space: 2, mb: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Devices (
-              {cart?.items.reduce((acc, curr) => acc + curr.quantity, 0) ?? 0} )
+              Devices ({cartCount ?? 0} )
             </Typography>
-            <Typography variant="body2">{total} €</Typography>
+            <Typography variant="body2">{price} €</Typography>
           </Box>
 
           {discount ? (

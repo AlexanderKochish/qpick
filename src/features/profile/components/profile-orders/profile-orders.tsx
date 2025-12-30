@@ -7,13 +7,16 @@ function OrdersSection({ orders }: { orders: Order[] }) {
   return (
     <Box>
       <Typography variant="h6" gutterBottom>
-        История заказов
+        Order history
       </Typography>
+      {orders.length === 0 && (
+        <Typography variant="subtitle1">Order history is empty</Typography>
+      )}
       {orders.map((order) => (
         <Card key={order.id} className={s.orderCard}>
           <CardContent>
             <Box className={s.orderHeader}>
-              <Typography variant="subtitle1">Заказ #{order.id}</Typography>
+              <Typography variant="subtitle1">Order #{order.id}</Typography>
               <Chip
                 label={order.status}
                 color={
@@ -27,7 +30,7 @@ function OrdersSection({ orders }: { orders: Order[] }) {
               />
             </Box>
             <Typography variant="body2" color="text.secondary">
-              Дата: {order.createdAt.toLocaleDateString()}
+              Date: {order.createdAt.toLocaleDateString()}
             </Typography>
             <Typography variant="h6" className={s.orderTotal}>
               {order.totalPrice} $

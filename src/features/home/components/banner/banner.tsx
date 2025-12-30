@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from '@mui/icons-material'
 import { useState, useEffect, useCallback } from 'react'
 import s from './banner.module.css'
 import { useRouter } from 'next/navigation'
-import path from 'path'
+import banner from '../../../../../public/header.avif'
 
 const slides = [
   {
@@ -12,7 +12,7 @@ const slides = [
     title: 'The latest gadgets',
     subtitle: 'Discover the world of technology with the best devices',
     buttonText: 'View all products',
-    image: '/header.avif',
+    image: banner,
     filter: 'brightness(100%) contrast(100%) saturate(200%) hue-rotate(308deg)',
     overlay: 'rgba(120, 119, 198, 0.3)',
   },
@@ -21,7 +21,7 @@ const slides = [
     title: 'Discounts up to 50%',
     subtitle: 'This week only, special offers on equipment',
     buttonText: 'View promotions',
-    image: '/header.avif',
+    image: banner,
     filter: 'brightness(100%) contrast(110%) saturate(180%) hue-rotate(180deg)',
     overlay: 'rgba(59, 130, 246, 0.3)',
   },
@@ -30,7 +30,7 @@ const slides = [
     title: 'Free shipping',
     subtitle: 'Free delivery throughout the city for orders over 5,000€',
     buttonText: 'Find out the terms and conditions',
-    image: '/header.avif',
+    image: banner,
     filter: 'brightness(100%) contrast(120%) saturate(160%) hue-rotate(90deg)',
     overlay: 'rgba(34, 197, 94, 0.3)',
   },
@@ -83,7 +83,7 @@ const Banner = () => {
             key={slide.id}
             className={`${s.slide} ${index === currentSlide ? s.active : ''}`}
             style={{
-              backgroundImage: `url(${path.resolve(__dirname, 'public', slide.image)})`,
+              backgroundImage: `url(${slide.image.src})`,
               filter: slide.filter,
               opacity: index === currentSlide ? 1 : 0,
               transform: `translateX(${100 * (index - currentSlide)}%)`,

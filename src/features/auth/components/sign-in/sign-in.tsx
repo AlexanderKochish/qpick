@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import {
   Box,
   Typography,
@@ -13,7 +13,7 @@ import {
   CircularProgress,
 } from '@mui/material'
 import { Visibility, VisibilityOff, Email, Lock } from '@mui/icons-material'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import s from './sign-in.module.css'
 import AuthTitle from '@/features/auth/components/auth-title/auth-title'
@@ -24,18 +24,22 @@ import { useGoogleAuth } from '../../hooks/useGoogleAuth'
 
 export default function SignIn() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/'
   const [{ errors, success }, formAction, isPending] = useActionState(login, {
     errors: {},
     success: false,
   })
-  const { handleGoogleSignIn: googleSignInAction, isLoading: isGoogleLoading } =
-    useGoogleAuth()
+  const googleAuth = useGoogleAuth()
   const [showPassword, setShowPassword] = useState(false)
-  const isLoading = isPending || isGoogleLoading
-  if (success) {
-    router.push('/')
-    router.refresh()
-  }
+  const isLoading = isPending || googleAuth.isPending
+  const isSuccess = success || googleAuth.isSuccess
+  useEffect(() => {
+    if (success) {
+      router.push(callbackUrl)
+      router.refresh()
+    }
+  }, [success, router, callbackUrl])
 
   return (
     <AuthLayout>
@@ -110,18 +114,18 @@ export default function SignIn() {
           className={s.textField}
         />
 
-        <Box className={s.forgotPassword}>
+        {/* <Box className={s.forgotPassword}>
           <Link href="/auth/forgot-password" className={s.forgotLink}>
             Forgot your password?
           </Link>
-        </Box>
+        </Box> */}
 
         <Button
           type="submit"
           fullWidth
           variant="contained"
           size="large"
-          disabled={isLoading}
+          disabled={isLoading || isSuccess}
           className={s.submitButton}
         >
           {isLoading ? (
@@ -145,8 +149,8 @@ export default function SignIn() {
         fullWidth
         variant="outlined"
         size="large"
-        onClick={googleSignInAction}
-        disabled={isLoading}
+        onClick={() => googleAuth.mutate()}
+        disabled={isLoading || isSuccess}
         className={s.googleButton}
         startIcon={<GoogleIcon />}
       >

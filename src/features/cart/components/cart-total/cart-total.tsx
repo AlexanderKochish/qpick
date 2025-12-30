@@ -12,6 +12,7 @@ import { ShoppingCartCheckout } from '@mui/icons-material'
 import Link from 'next/link'
 
 interface Props {
+  totalPrice: number
   appliedPromo: string
   promoCode: string
   setPromoCode: (value: string) => void
@@ -19,7 +20,6 @@ interface Props {
   applyPromoCode: () => void
   removePromoCode: () => void
   promoDiscount: number
-  subtotal: number
   totalDiscount: number
   cartItemsCount: number | undefined
 }
@@ -31,8 +31,8 @@ const CartTotal = ({
   applyPromoCode,
   removePromoCode,
   total,
+  totalPrice,
   promoDiscount,
-  subtotal,
   totalDiscount,
   cartItemsCount,
 }: Props) => {
@@ -86,10 +86,10 @@ const CartTotal = ({
         <Box sx={{ space: 2 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Intermediate total
+              Price
             </Typography>
             <Typography variant="body2">
-              {subtotal.toLocaleString()} €
+              {totalPrice.toLocaleString()} €
             </Typography>
           </Box>
 

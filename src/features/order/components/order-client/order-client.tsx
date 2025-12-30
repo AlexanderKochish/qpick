@@ -30,7 +30,7 @@ export default function OrderClient({ activeStep }: Props) {
     initialState
   )
 
-  const { data: cart, total, totalDiscount, totalPrice, isPending } = useCart()
+  const { total, totalPrice, isPending, cartCount, totalDiscount } = useCart()
 
   useEffect(() => {
     if (state?.redirectTo) {
@@ -61,7 +61,7 @@ export default function OrderClient({ activeStep }: Props) {
               <OrderPhone state={state} />
               <Divider sx={{ my: 3 }} />
               <OrderRadioGrop />
-              <input name="totalPrice" type="hidden" value={totalPrice} />
+              <input name="totalPrice" type="hidden" value={total} />
 
               <Button
                 type="submit"
@@ -84,8 +84,9 @@ export default function OrderClient({ activeStep }: Props) {
 
         <OrderTotal
           discount={Number(totalDiscount)}
-          cart={cart}
+          cartCount={Number(cartCount)}
           total={Number(total)}
+          price={Number(totalPrice)}
         />
       </div>
     </section>

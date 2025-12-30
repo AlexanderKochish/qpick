@@ -5,10 +5,13 @@ import bcrypt from 'bcryptjs'
 import { auth, signIn } from '../../../../auth'
 import { signInSchema, signUpSchema } from '../lib/zod/auth.schema'
 import { z } from 'zod'
+import { AuthError } from 'next-auth'
 
 type LoginFormState = {
   errors: {
     email?: { _errors: string[] }
+    password?: { _errors: string[] }
+    name?: { _errors: string[] }
     _errors?: string[]
   }
   success: boolean
@@ -28,16 +31,14 @@ export async function register(
     const treeified = z.treeifyError(validatedFields.error)
     const formatted = {
       email: { _errors: treeified.properties?.email?.errors ?? [] },
+      password: { _errors: treeified.properties?.password?.errors ?? [] },
+      name: { _errors: treeified.properties?.name?.errors ?? [] },
       _errors: treeified.errors ?? [],
     }
     return { errors: formatted, success: false }
   }
 
   const { email, password, name } = validatedFields.data
-
-  if (!email || !password) {
-    throw new Error('Email and password are required')
-  }
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -47,7 +48,7 @@ export async function register(
     if (existingUser) {
       return {
         errors: {
-          _errors: ['User already exists'],
+          _errors: ['User with this email already exists'],
         },
         success: false,
       }
@@ -64,34 +65,41 @@ export async function register(
       },
     })
 
-    await signIn('credentials', {
-      email: user.email,
-      password: user.password!,
-      redirect: false,
-    })
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        redirectTo: '/',
+      })
 
-    const session = await auth()
+      if (result?.error) {
+        return {
+          errors: { _errors: [result.error] },
+          success: false,
+        }
+      }
 
-    if (session?.user) {
       return {
-        errors: {
-          _errors: [],
-        },
+        errors: {},
         success: true,
       }
-    } else {
+    } catch (error) {
+      console.error('Sign in error after registration:', error)
+
       return {
-        success: false,
-        errors: { _errors: ['Failed to sign in after registration'] },
+        errors: {},
+        success: true,
       }
     }
   } catch (error) {
+    console.error('Registration error:', error)
     return {
       success: false,
       errors:
         error instanceof Error
           ? { _errors: [error.message] }
-          : { _errors: ['Something went wrong'] },
+          : { _errors: ['Something went wrong during registration'] },
     }
   }
 }
@@ -109,6 +117,7 @@ export async function login(
     const treeified = z.treeifyError(validatedFields.error)
     const formatted = {
       email: { _errors: treeified.properties?.email?.errors ?? [] },
+      password: { _errors: treeified.properties?.password?.errors ?? [] },
       _errors: treeified.errors ?? [],
     }
     return { errors: formatted, success: false }
@@ -117,32 +126,50 @@ export async function login(
   const { email, password } = validatedFields.data
 
   try {
-    await signIn('credentials', {
+    const result = await signIn('credentials', {
       email,
       password,
       redirect: false,
+      redirectTo: '/',
     })
-    const session = await auth()
-    if (!session?.user) {
+
+    if (result?.error) {
+      let errorMessage = 'Invalid email or password'
+      if (result.error === 'CredentialsSignin') {
+        errorMessage = 'Invalid email or password'
+      }
+
       return {
         success: false,
-        errors: { _errors: ['Failed to sign in'] },
-      }
-    } else {
-      return {
-        errors: {
-          _errors: [],
-        },
-        success: true,
+        errors: { _errors: [errorMessage] },
       }
     }
+
+    return {
+      errors: {},
+      success: true,
+    }
   } catch (error) {
+    console.error('Login error:', error)
+
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return {
+            success: false,
+            errors: { _errors: ['Invalid email or password'] },
+          }
+        default:
+          return {
+            success: false,
+            errors: { _errors: ['Something went wrong'] },
+          }
+      }
+    }
+
     return {
       success: false,
-      errors:
-        error instanceof Error
-          ? { _errors: [error.message] }
-          : { _errors: ['Something went wrong'] },
+      errors: { _errors: ['Something went wrong'] },
     }
   }
 }

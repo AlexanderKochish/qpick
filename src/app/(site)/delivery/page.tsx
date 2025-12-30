@@ -48,15 +48,15 @@ export default function DeliveryPage() {
       <Box textAlign="center" mb={6}>
         <Chip
           icon={<LocalShipping />}
-          label="Быстрая доставка"
+          label="Fast delivery"
           color="primary"
           sx={{ mb: 2, px: 2, py: 1, fontSize: '1rem' }}
         />
         <Typography variant="h2" component="h1" fontWeight={700} gutterBottom>
-          Доставка и самовывоз
+          Delivery and Pickup
         </Typography>
         <Typography variant="h5" color="text.secondary" component="p">
-          Быстрая и надежная доставка гаджетов по всей Украине
+          Fast and reliable gadget delivery throughout Ukraine
         </Typography>
       </Box>
 
@@ -69,14 +69,14 @@ export default function DeliveryPage() {
         }}
       >
         <Typography fontWeight={600} component="p">
-          🚚 Бесплатная доставка при заказе от 10 000 грн
-          <br />⚡ Экспресс-доставка в день заказа по Киеву и СПб
+          🚚 Free delivery for orders over 10,000 UAH
+          <br />⚡ Express delivery on the day of order in Kyiv and SPb
         </Typography>
       </Alert>
 
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600} mb={4}>
-          Способы доставки
+          Delivery Methods
         </Typography>
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, md: 4 }}>
@@ -84,13 +84,13 @@ export default function DeliveryPage() {
               <CardContent sx={{ textAlign: 'center', p: 3 }}>
                 <LocalShipping sx={{ fontSize: 60, color: '#1976d2', mb: 2 }} />
                 <Typography variant="h5" gutterBottom fontWeight={600}>
-                  Курьерская доставка
+                  Courier Delivery
                 </Typography>
                 <Typography color="text.secondary" component="p">
-                  Доставка до двери в удобное для вас время
+                  Door-to-door delivery at your convenient time
                 </Typography>
                 <Chip
-                  label="1-3 дня"
+                  label="1-3 days"
                   color="primary"
                   variant="outlined"
                   sx={{ mt: 1 }}
@@ -100,19 +100,19 @@ export default function DeliveryPage() {
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Бесплатно от 10 000 ₽" />
+                    <ListItemText primary="Free for orders over 10,000 ₴" />
                   </ListItem>
                   <ListItem sx={{ px: 0 }}>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Отслеживание заказа" />
+                    <ListItemText primary="Order tracking" />
                   </ListItem>
                   <ListItem sx={{ px: 0 }}>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Примерка и проверка" />
+                    <ListItemText primary="Fitting and inspection" />
                   </ListItem>
                 </List>
               </CardContent>
@@ -124,13 +124,13 @@ export default function DeliveryPage() {
               <CardContent sx={{ textAlign: 'center', p: 3 }}>
                 <FlashOn sx={{ fontSize: 60, color: '#ed6c02', mb: 2 }} />
                 <Typography variant="h5" gutterBottom fontWeight={600}>
-                  Экспресс доставка
+                  Express Delivery
                 </Typography>
                 <Typography color="text.secondary" component="p">
-                  Доставка в день заказа в пределах города
+                  Same-day delivery within the city
                 </Typography>
                 <Chip
-                  label="2-5 часов"
+                  label="2-5 hours"
                   color="warning"
                   variant="outlined"
                   sx={{ mt: 1 }}
@@ -140,19 +140,19 @@ export default function DeliveryPage() {
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="В день заказа" />
+                    <ListItemText primary="Same day delivery" />
                   </ListItem>
                   <ListItem sx={{ px: 0 }}>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Точное время прибытия" />
+                    <ListItemText primary="Exact arrival time" />
                   </ListItem>
                   <ListItem sx={{ px: 0 }}>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Доступно 24/7" />
+                    <ListItemText primary="Available 24/7" />
                   </ListItem>
                 </List>
               </CardContent>
@@ -164,13 +164,13 @@ export default function DeliveryPage() {
               <CardContent sx={{ textAlign: 'center', p: 3 }}>
                 <Store sx={{ fontSize: 60, color: '#2e7d32', mb: 2 }} />
                 <Typography variant="h5" gutterBottom fontWeight={600}>
-                  Самовывоз
+                  Store Pickup
                 </Typography>
                 <Typography color="text.secondary" component="p">
-                  Заберите заказ из нашего магазина
+                  Pick up your order from our store
                 </Typography>
                 <Chip
-                  label="1-2 часа"
+                  label="1-2 hours"
                   color="success"
                   variant="outlined"
                   sx={{ mt: 1 }}
@@ -180,19 +180,19 @@ export default function DeliveryPage() {
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Бесплатно" />
+                    <ListItemText primary="Free" />
                   </ListItem>
                   <ListItem sx={{ px: 0 }}>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Консультация специалиста" />
+                    <ListItemText primary="Consultation with a specialist" />
                   </ListItem>
                   <ListItem sx={{ px: 0 }}>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <CheckCircle color="success" fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Моментальная выдача" />
+                    <ListItemText primary="Instant pickup" />
                   </ListItem>
                 </List>
               </CardContent>
@@ -203,50 +203,50 @@ export default function DeliveryPage() {
 
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600} mb={3}>
-          Стоимость доставки
+          Delivery Costs
         </Typography>
         <TableContainer component={Paper} variant="outlined">
           <Table>
             <TableHead>
               <TableRow sx={{ bgcolor: 'action.hover' }}>
                 <TableCell>
-                  <Typography fontWeight={600}>Город</Typography>
+                  <Typography fontWeight={600}>City</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography fontWeight={600}>Стандартная</Typography>
+                  <Typography fontWeight={600}>Standard</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography fontWeight={600}>Экспресс</Typography>
+                  <Typography fontWeight={600}>Express</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography fontWeight={600}>Сроки</Typography>
+                  <Typography fontWeight={600}>Timeline</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Киев</TableCell>
-                <TableCell>Бесплатно*</TableCell>
-                <TableCell>300 грн</TableCell>
-                <TableCell>1-2 дня / 2-5 часов</TableCell>
+                <TableCell>Kyiv</TableCell>
+                <TableCell>Free*</TableCell>
+                <TableCell>300 UAH</TableCell>
+                <TableCell>1-2 days / 2-5 hours</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Киев</TableCell>
-                <TableCell>Бесплатно*</TableCell>
-                <TableCell>400 грн</TableCell>
-                <TableCell>1-3 дня / 3-6 часов</TableCell>
+                <TableCell>Kharkiv</TableCell>
+                <TableCell>Free*</TableCell>
+                <TableCell>400 UAH</TableCell>
+                <TableCell>1-3 days / 3-6 hours</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Города-миллионники</TableCell>
-                <TableCell>150 грн</TableCell>
-                <TableCell>200 грн</TableCell>
-                <TableCell>2-4 дня</TableCell>
+                <TableCell>Million-plus cities</TableCell>
+                <TableCell>150 UAH</TableCell>
+                <TableCell>200 UAH</TableCell>
+                <TableCell>2-4 days</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Другие города</TableCell>
-                <TableCell>100 грн</TableCell>
-                <TableCell>200 грн</TableCell>
-                <TableCell>3-7 дней</TableCell>
+                <TableCell>Other cities</TableCell>
+                <TableCell>100 UAH</TableCell>
+                <TableCell>200 UAH</TableCell>
+                <TableCell>3-7 days</TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -256,7 +256,7 @@ export default function DeliveryPage() {
           color="text.secondary"
           sx={{ mt: 1, display: 'block' }}
         >
-          * Бесплатная доставка при заказе от 10 000 грн
+          * Free delivery for orders over 10,000 UAH
         </Typography>
       </Box>
 
@@ -268,10 +268,10 @@ export default function DeliveryPage() {
             </Grid>
             <Grid>
               <Typography variant="h5" fontWeight={600}>
-                Пункты самовывоза
+                Pickup Points
               </Typography>
               <Typography color="text.secondary">
-                150+ пунктов выдачи по всей Украине
+                150+ pickup points across Ukraine
               </Typography>
             </Grid>
           </Grid>
@@ -279,7 +279,7 @@ export default function DeliveryPage() {
           <Grid container spacing={4}>
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography variant="h6" gutterBottom fontWeight={600}>
-                Киев
+                Kyiv
               </Typography>
               <List>
                 <ListItem>
@@ -287,8 +287,8 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary="ул. Шевченко, д. 10"
-                    secondary="Ежедневно 10:00-22:00"
+                    primary="Shevchenko St., 10"
+                    secondary="Daily 10:00-22:00"
                   />
                 </ListItem>
                 <ListItem>
@@ -296,8 +296,8 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary="Шевченко пр., д. 25"
-                    secondary="Ежедневно 9:00-21:00"
+                    primary="Shevchenko Ave., 25"
+                    secondary="Daily 9:00-21:00"
                   />
                 </ListItem>
                 <ListItem>
@@ -305,8 +305,8 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary='ТРЦ "Гулливер"'
-                    secondary="10:00-23:00, без выходных"
+                    primary='"Gulliver" Shopping Center'
+                    secondary="10:00-23:00, 7 days a week"
                   />
                 </ListItem>
               </List>
@@ -314,7 +314,7 @@ export default function DeliveryPage() {
 
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography variant="h6" gutterBottom fontWeight={600}>
-                Санкт-Петербург
+                Saint Petersburg
               </Typography>
               <List>
                 <ListItem>
@@ -322,8 +322,8 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary="Шевченко пр., д. 60"
-                    secondary="Ежедневно 10:00-22:00"
+                    primary="Shevchenko Ave., 60"
+                    secondary="Daily 10:00-22:00"
                   />
                 </ListItem>
                 <ListItem>
@@ -331,8 +331,8 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary='ТРК "Гулливер"'
-                    secondary="10:00-23:00, без выходных"
+                    primary='"Gulliver" Shopping Center'
+                    secondary="10:00-23:00, 7 days a week"
                   />
                 </ListItem>
                 <ListItem>
@@ -340,8 +340,8 @@ export default function DeliveryPage() {
                     <Place color="primary" />
                   </ListItemIcon>
                   <ListItemText
-                    primary="ул. Шевченко, д. 12"
-                    secondary="Пн-Пт 9:00-21:00, Сб-Вс 10:00-20:00"
+                    primary="Shevchenko St., 12"
+                    secondary="Mon-Fri 9:00-21:00, Sat-Sun 10:00-20:00"
                   />
                 </ListItem>
               </List>
@@ -355,25 +355,25 @@ export default function DeliveryPage() {
             component={Link}
             href="/pickup-points"
           >
-            Посмотреть все пункты на карте
+            View all points on map
           </Button>
         </CardContent>
       </Card>
 
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600} mb={3}>
-          Частые вопросы о доставке
+          Frequently Asked Questions about Delivery
         </Typography>
 
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography fontWeight={600}>Как отследить мой заказ?</Typography>
+            <Typography fontWeight={600}>How to track my order?</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              После отправки заказа вам на email и SMS придет трекинг-номер. Вы
-              можете отслеживать статус доставки в личном кабинете или на сайте
-              транспортной компании.
+              After shipping your order, a tracking number will be sent to your
+              email and SMS. You can track the delivery status in your personal
+              account or on the carrier&apos;s website.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -381,14 +381,14 @@ export default function DeliveryPage() {
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography fontWeight={600}>
-              Можно ли изменить адрес доставки после оформления заказа?
+              Can I change the delivery address after placing an order?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Да, вы можете изменить адрес доставки до момента отправки заказа
-              со склада. Для этого свяжитесь с нашим менеджером по телефону 8
-              (800) 555-35-35 или через онлайн-чат.
+              Yes, you can change the delivery address before the order is
+              shipped from the warehouse. To do this, contact our manager by
+              phone 8 (800) 555-35-35 or via online chat.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -396,14 +396,14 @@ export default function DeliveryPage() {
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography fontWeight={600}>
-              Что если меня не будет дома при доставке?
+              What if I&apos;m not at home during delivery?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Курьер свяжется с вами за 1-2 часа до прибытия. Если вас не будет,
-              доставка будет перенесена на удобное для вас время. Либо вы можете
-              забрать заказ в ближайшем пункте выдачи.
+              The courier will contact you 1-2 hours before arrival. If you are
+              not available, the delivery will be rescheduled to a convenient
+              time. Or you can pick up the order at the nearest pickup point.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -411,14 +411,14 @@ export default function DeliveryPage() {
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography fontWeight={600}>
-              Нужно ли оплачивать доставку при возврате?
+              Do I need to pay for delivery when returning?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              При возврате товара надлежащего качества доставку оплачивает
-              покупатель. При возврате по гарантии или браку - доставку
-              оплачивает магазин.
+              When returning a product of proper quality, delivery is paid by
+              the buyer. When returning under warranty or due to defects -
+              delivery is paid by the store.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -426,29 +426,29 @@ export default function DeliveryPage() {
 
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600} mb={4}>
-          Как сделать заказ
+          How to Place an Order
         </Typography>
         <Grid container spacing={3}>
           {[
             {
               icon: <Inventory color="primary" />,
-              title: 'Выберите товар',
-              description: 'Добавьте понравившиеся гаджеты в корзину',
+              title: 'Choose a product',
+              description: 'Add desired gadgets to your cart',
             },
             {
               icon: <Payment color="primary" />,
-              title: 'Оформите заказ',
-              description: 'Заполните данные и выберите способ доставки',
+              title: 'Place an order',
+              description: 'Fill in details and choose delivery method',
             },
             {
               icon: <DoneAll color="primary" />,
-              title: 'Подтверждение',
-              description: 'Наш менеджер свяжется для подтверждения',
+              title: 'Confirmation',
+              description: 'Our manager will contact you for confirmation',
             },
             {
               icon: <LocalShipping color="primary" />,
-              title: 'Получите заказ',
-              description: 'Доставка или самовывоз в удобное время',
+              title: 'Receive order',
+              description: 'Delivery or pickup at a convenient time',
             },
           ].map((item, index) => (
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
@@ -486,7 +486,7 @@ export default function DeliveryPage() {
       <Card sx={{ bgcolor: 'grey.50', mb: 6 }}>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h5" gutterBottom fontWeight={600}>
-            Нужна помощь с доставкой?
+            Need help with delivery?
           </Typography>
           <Grid container spacing={4} mt={2}>
             <Grid size={{ xs: 12, md: 4 }}>
@@ -494,7 +494,7 @@ export default function DeliveryPage() {
                 <Phone sx={{ mr: 2, color: 'primary.main' }} />
                 <div>
                   <Typography variant="body2" color="text.secondary">
-                    Горячая линия
+                    Hotline
                   </Typography>
                   <Typography variant="h6">8 (800) 555-35-35</Typography>
                 </div>
@@ -507,7 +507,7 @@ export default function DeliveryPage() {
                   <Typography variant="body2" color="text.secondary">
                     Email
                   </Typography>
-                  <Typography variant="h6">delivery@gadget-store.ru</Typography>
+                  <Typography variant="h6">delivery@techdevices.ua</Typography>
                 </div>
               </Box>
             </Grid>
@@ -516,9 +516,9 @@ export default function DeliveryPage() {
                 <AccessTime sx={{ mr: 2, color: 'primary.main' }} />
                 <div>
                   <Typography variant="body2" color="text.secondary">
-                    Режим работы
+                    Working hours
                   </Typography>
-                  <Typography variant="h6">Круглосуточно 24/7</Typography>
+                  <Typography variant="h6">24/7 around the clock</Typography>
                 </div>
               </Box>
             </Grid>
@@ -541,7 +541,7 @@ export default function DeliveryPage() {
           href="/cart"
           sx={{ px: 4, py: 1.5 }}
         >
-          Перейти к оформлению заказа
+          Proceed to checkout
         </Button>
         <Button
           variant="outlined"
@@ -551,21 +551,21 @@ export default function DeliveryPage() {
           href="/contact"
           sx={{ px: 4, py: 1.5 }}
         >
-          Задать вопрос о доставке
+          Ask a question about delivery
         </Button>
       </Box>
 
       <Box pt={4} borderTop={1} borderColor="divider">
         <Typography variant="body2" color="text.secondary" align="center">
-          * Сроки доставки указаны ориентировочно и могут меняться в зависимости
-          от загруженности транспортных компаний и погодных условий.
+          * Delivery times are approximate and may change depending on carrier
+          workload and weather conditions.
           <br />
-          ** При заказе на сумму менее 10 000 ₽ стоимость доставки
-          рассчитывается автоматически при оформлении заказа.
+          ** For orders under 10,000 ₴, delivery cost is calculated
+          automatically during checkout.
           <br />
-          *** Экспресс-доставка доступна не во всех регионах. Уточняйте
-          возможность при оформлении заказа.
-          <br />© {new Date().getFullYear()} GadgetStore. Все права защищены.
+          *** Express delivery is not available in all regions. Check
+          availability when placing an order.
+          <br />© {new Date().getFullYear()} TechDevices. All rights reserved.
         </Typography>
       </Box>
     </Container>

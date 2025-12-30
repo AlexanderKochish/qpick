@@ -14,9 +14,6 @@ import {
   Menu,
   MenuItem,
   Drawer,
-  List,
-  ListItem,
-  ListItemText,
   Divider,
   Chip,
   useTheme,
@@ -27,7 +24,6 @@ import {
   ShoppingCart,
   Person,
   CategoryOutlined,
-  Close,
   Phone,
   Menu as MenuIcon,
   Email,
@@ -36,25 +32,25 @@ import {
   Laptop,
 } from '@mui/icons-material'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import s from './header.module.css'
 import { useCategory } from '@/features/category/hooks/useCategory'
 import { useSearch } from '@/shared/hooks/use-search'
-import { logout } from '@/features/profile/actions/actions'
 import { useCart } from '@/features/cart/hooks/useCart'
+import ShopDrawer from '../drawer/drawer'
+import { useLogout } from '@/features/auth/hooks/useLogout'
 
 interface Props {
   isLogged: boolean
 }
 
 export default function Header({ isLogged }: Props) {
-  const { cartCount } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null)
   const [categoriesAnchor, setCategoriesAnchor] = useState<null | HTMLElement>(
     null
   )
-  const router = useRouter()
+  const { cartCount } = useCart()
+  const { mutate: logout } = useLogout()
   const theme = useTheme()
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const { search, setSearch } = useSearch()
@@ -79,57 +75,12 @@ export default function Header({ isLogged }: Props) {
 
   const handleCategoriesOpen = (event: React.MouseEvent<HTMLElement>) => {
     setCategoriesAnchor(event.currentTarget)
+    console.log(event.currentTarget)
   }
 
   const handleCategoriesClose = () => {
     setCategoriesAnchor(null)
   }
-
-  const handleRoute = (path: string) => {
-    router.push(path)
-    setMobileOpen(false)
-  }
-
-  const drawer = (
-    <Box className={s.drawer}>
-      <Box className={s.drawerHeader}>
-        <Typography variant="h6" className={s.drawerTitle}>
-          TechDevices
-        </Typography>
-        <IconButton onClick={handleDrawerToggle}>
-          <Close />
-        </IconButton>
-      </Box>
-      <Divider />
-      <List>
-        <ListItem onClick={() => handleRoute('/')}>
-          <ListItemText primary="Home" />
-        </ListItem>
-        <ListItem onClick={handleCategoriesOpen}>
-          <ListItemText primary="Categories" />
-        </ListItem>
-        <ListItem onClick={() => handleRoute('/products')}>
-          <ListItemText primary="All products" />
-        </ListItem>
-        <ListItem onClick={() => handleRoute('/about')}>
-          <ListItemText primary="About us" />
-        </ListItem>
-        <ListItem onClick={() => handleRoute('/contacts')}>
-          <ListItemText primary="Contacts" />
-        </ListItem>
-        <Divider sx={{ my: 3 }} />
-        {/* <ListItem onClick={() => router.push('/')}>
-          <ListItemText primary="Акции" />
-        </ListItem> */}
-        <ListItem onClick={() => handleRoute('/delivery')}>
-          <ListItemText primary="Delivery" />
-        </ListItem>
-        <ListItem onClick={() => handleRoute('/guarantee')}>
-          <ListItemText primary="Guarantee" />
-        </ListItem>
-      </List>
-    </Box>
-  )
 
   return (
     <>
@@ -158,11 +109,19 @@ export default function Header({ isLogged }: Props) {
             </Box>
             <Box className={s.topBarActions}>
               {/* <Button className={s.topBarButton}>Акции</Button> */}
-              <Button className={s.topBarButton}>
-                <Link href="/delivery">Delivery</Link>
+              <Button
+                component={Link}
+                href="/delivery"
+                className={s.topBarButton}
+              >
+                Delivery
               </Button>
-              <Button className={s.topBarButton}>
-                <Link href="/guarantee">Guarantee</Link>
+              <Button
+                component={Link}
+                href="/guarantee"
+                className={s.topBarButton}
+              >
+                Guarantee
               </Button>
             </Box>
           </Box>
@@ -209,7 +168,8 @@ export default function Header({ isLogged }: Props) {
             <Box className={s.actionsSection}>
               <IconButton
                 className={s.actionButton}
-                onClick={() => router.push('/cart')}
+                component={Link}
+                href="/cart"
               >
                 <Badge badgeContent={cartCount} color="error">
                   <ShoppingCart className={s.actionIcon} />
@@ -250,21 +210,22 @@ export default function Header({ isLogged }: Props) {
       >
         {categories?.map((category) => (
           <MenuItem
+            component={Link}
+            href={`/category/${category.name}/${category.id}`}
             key={category.name}
             onClick={handleCategoriesClose}
             className={s.categoryItem}
           >
             <Box className={s.categoryContent}>
-              <Link href={`/category/${category.name}/${category.id}`}>
-                <Box className={s.categoryInfo}>
-                  {category.name === 'smartphones' && <Smartphone />}
-                  {category.name === 'laptops' && <Laptop />}
-                  <Typography className={s.categoryName}>
-                    {category.name.charAt(0).toUpperCase() +
-                      category.name.slice(1)}
-                  </Typography>
-                </Box>
-              </Link>
+              <Box className={s.categoryInfo}>
+                {category.name === 'smartphones' && <Smartphone />}
+                {category.name === 'laptops' && <Laptop />}
+                <Typography className={s.categoryName}>
+                  {category.name.charAt(0).toUpperCase() +
+                    category.name.slice(1)}
+                </Typography>
+              </Box>
+
               <Chip
                 label={category._count.products}
                 size="small"
@@ -274,10 +235,13 @@ export default function Header({ isLogged }: Props) {
           </MenuItem>
         ))}
         <Divider />
-        <MenuItem onClick={handleCategoriesClose} className={s.allCategories}>
-          <Link href={'/'}>
-            <Typography>All categories</Typography>
-          </Link>
+        <MenuItem
+          component={Link}
+          href={'/'}
+          onClick={handleCategoriesClose}
+          className={s.allCategories}
+        >
+          <Typography>All categories</Typography>
         </MenuItem>
       </Menu>
 
@@ -290,14 +254,24 @@ export default function Header({ isLogged }: Props) {
       >
         {isLogged
           ? [
-              <MenuItem key="profile" onClick={handleUserMenuClose}>
-                <Link href={'/profile'}>My profile</Link>
+              <MenuItem
+                component={Link}
+                href={'/profile'}
+                key="profile"
+                onClick={handleUserMenuClose}
+              >
+                My profile
               </MenuItem>,
               // <MenuItem key="orders" onClick={handleUserMenuClose}>
               //   Мои заказы
               // </MenuItem>,
-              <MenuItem key="favorites" onClick={handleUserMenuClose}>
-                <Link href={'/favorites'}>Favorites</Link>
+              <MenuItem
+                component={Link}
+                href={'/favorites'}
+                key="favorites"
+                onClick={handleUserMenuClose}
+              >
+                Favorites
               </MenuItem>,
               <Divider key="divider" />,
               <MenuItem key="logout" onClick={handleLogout}>
@@ -305,16 +279,10 @@ export default function Header({ isLogged }: Props) {
               </MenuItem>,
             ]
           : [
-              <MenuItem
-                key="login"
-                onClick={() => router.push('/auth/sign-in')}
-              >
+              <MenuItem component={Link} href={'/auth/sign-in'} key="login">
                 Login
               </MenuItem>,
-              <MenuItem
-                key="register"
-                onClick={() => router.push('/auth/sign-up')}
-              >
+              <MenuItem component={Link} href={'/auth/sign-up'} key="register">
                 Register
               </MenuItem>,
             ]}
@@ -327,7 +295,11 @@ export default function Header({ isLogged }: Props) {
         onClose={handleDrawerToggle}
         className={s.mobileDrawer}
       >
-        {drawer}
+        <ShopDrawer
+          setMobileOpen={setMobileOpen}
+          onOpenCategory={handleCategoriesOpen}
+          onOpenDrawer={handleDrawerToggle}
+        />
       </Drawer>
     </>
   )

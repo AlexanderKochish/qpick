@@ -22,7 +22,6 @@ export const usePaymentIntent = ({
         const error = await res.json().catch(() => ({}))
         throw new Error(error.message || `HTTP error! status: ${res.status}`)
       }
-
       return await res.json()
     },
     enabled: !!orderId && enabled,

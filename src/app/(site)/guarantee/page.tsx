@@ -39,15 +39,15 @@ export default function GuaranteePage() {
       <Box textAlign="center" mb={6}>
         <Chip
           icon={<VerifiedUser />}
-          label="Официальная гарантия"
+          label="Official warranty"
           color="primary"
           sx={{ mb: 2, px: 2, py: 1, fontSize: '1rem' }}
         />
         <Typography variant="h2" component="h1" fontWeight={700} gutterBottom>
-          Гарантия и сервис
+          Warranty and Service
         </Typography>
         <Typography variant="h5" color="text.secondary" paragraph>
-          Мы гарантируем качество каждой покупки и обеспечиваем полную поддержку
+          We guarantee the quality of every purchase and provide full support
         </Typography>
       </Box>
 
@@ -57,11 +57,11 @@ export default function GuaranteePage() {
             <CardContent sx={{ textAlign: 'center', p: 3 }}>
               <Security sx={{ fontSize: 60, color: '#1976d2', mb: 2 }} />
               <Typography variant="h5" gutterBottom fontWeight={600}>
-                24 месяца гарантии
+                24 months warranty
               </Typography>
               <Typography color="text.secondary">
-                На все устройства предоставляется официальная гарантия
-                производителя сроком на 2 года
+                All devices come with an official manufacturer warranty for 2
+                years
               </Typography>
             </CardContent>
           </Card>
@@ -72,11 +72,10 @@ export default function GuaranteePage() {
             <CardContent sx={{ textAlign: 'center', p: 3 }}>
               <Build sx={{ fontSize: 60, color: '#2e7d32', mb: 2 }} />
               <Typography variant="h5" gutterBottom fontWeight={600}>
-                Авторизованный сервис
+                Authorized service
               </Typography>
               <Typography color="text.secondary">
-                Обслуживание осуществляется в официальных сервисных центрах
-                производителей
+                Service is provided at official manufacturer service centers
               </Typography>
             </CardContent>
           </Card>
@@ -87,11 +86,11 @@ export default function GuaranteePage() {
             <CardContent sx={{ textAlign: 'center', p: 3 }}>
               <LocalShipping sx={{ fontSize: 60, color: '#ed6c02', mb: 2 }} />
               <Typography variant="h5" gutterBottom fontWeight={600}>
-                Бесплатный ремонт
+                Free repair
               </Typography>
               <Typography color="text.secondary">
-                В случае гарантийного случая ремонт осуществляется бесплатно в
-                течение 14 дней
+                In case of a warranty claim, repair is performed free of charge
+                within 14 days
               </Typography>
             </CardContent>
           </Card>
@@ -100,14 +99,14 @@ export default function GuaranteePage() {
 
       <Alert severity="info" sx={{ mb: 4, borderRadius: 2 }}>
         <Typography fontWeight={600}>
-          Гарантия активируется автоматически при покупке товара. Сохраняйте чек
-          и гарантийный талон!
+          Warranty is activated automatically upon purchase. Keep your receipt
+          and warranty card!
         </Typography>
       </Alert>
 
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600}>
-          Что покрывает гарантия?
+          What does the warranty cover?
         </Typography>
         <Grid container spacing={3}>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -115,32 +114,32 @@ export default function GuaranteePage() {
               <CardContent>
                 <Typography variant="h6" gutterBottom color="success.main">
                   <CheckCircle sx={{ verticalAlign: 'middle', mr: 1 }} />
-                  Гарантийные случаи
+                  Warranty cases
                 </Typography>
                 <List>
                   <ListItem>
                     <ListItemIcon>
                       <CheckCircle color="success" />
                     </ListItemIcon>
-                    <ListItemText primary="Заводские дефекты" />
+                    <ListItemText primary="Manufacturing defects" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <CheckCircle color="success" />
                     </ListItemIcon>
-                    <ListItemText primary="Выход из строя компонентов" />
+                    <ListItemText primary="Component failure" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <CheckCircle color="success" />
                     </ListItemIcon>
-                    <ListItemText primary="Неисправности ПО" />
+                    <ListItemText primary="Software malfunctions" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <CheckCircle color="success" />
                     </ListItemIcon>
-                    <ListItemText primary="Проблемы с аккумулятором" />
+                    <ListItemText primary="Battery issues" />
                   </ListItem>
                 </List>
               </CardContent>
@@ -152,32 +151,32 @@ export default function GuaranteePage() {
               <CardContent>
                 <Typography variant="h6" gutterBottom color="error.main">
                   <Warning sx={{ verticalAlign: 'middle', mr: 1 }} />
-                  Не гарантийные случаи
+                  Non-warranty cases
                 </Typography>
                 <List>
                   <ListItem>
                     <ListItemIcon>
                       <Warning color="error" />
                     </ListItemIcon>
-                    <ListItemText primary="Механические повреждения" />
+                    <ListItemText primary="Mechanical damage" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Warning color="error" />
                     </ListItemIcon>
-                    <ListItemText primary="Попадание жидкости" />
+                    <ListItemText primary="Liquid damage" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Warning color="error" />
                     </ListItemIcon>
-                    <ListItemText primary="Неправильная эксплуатация" />
+                    <ListItemText primary="Improper use" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Warning color="error" />
                     </ListItemIcon>
-                    <ListItemText primary="Вмешательство в конструкцию" />
+                    <ListItemText primary="Unauthorized modifications" />
                   </ListItem>
                 </List>
               </CardContent>
@@ -188,18 +187,20 @@ export default function GuaranteePage() {
 
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600} mb={3}>
-          Часто задаваемые вопросы
+          Frequently Asked Questions
         </Typography>
 
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography fontWeight={600}>Как активируется гарантия?</Typography>
+            <Typography fontWeight={600}>
+              How is the warranty activated?
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Гарантия активируется автоматически при покупке товара. Для
-              подтверждения необходимо предоставить кассовый чек или гарантийный
-              талон. Дата начала гарантии - день покупки.
+              Warranty is activated automatically upon purchase. To confirm, you
+              need to provide a receipt or warranty card. The warranty start
+              date is the purchase date.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -207,19 +208,31 @@ export default function GuaranteePage() {
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography fontWeight={600}>
-              Что делать если устройство сломалось?
+              What to do if the device breaks down?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              1. Свяжитесь с нами по телефону или через онлайн-чат
+              1. Contact us by phone or via online chat
               <br />
-              2. Предоставьте данные о покупке и описание проблемы
+              2. Provide purchase details and problem description
               <br />
-              3. Отправьте устройство в сервисный центр (бесплатный выезд
-              курьера)
+              3. Send the device to the service center (free courier pickup)
               <br />
-              4. Получите отремонтированное устройство в течение 14 дней
+              4. Receive the repaired device within 14 days
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Typography fontWeight={600}>Can I extend the warranty?</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              Yes, you can extend the warranty for an additional year. The
+              extension cost is 10% of the product price. Contact our service
+              center to arrange extended warranty.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -227,29 +240,14 @@ export default function GuaranteePage() {
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography fontWeight={600}>
-              Можно ли продлить гарантию?
+              Does the warranty cover accessories?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Да, вы можете продлить гарантию на дополнительный год. Стоимость
-              продления составляет 10% от стоимости товара. Обратитесь в наш
-              сервисный центр для оформления расширенной гарантии.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography fontWeight={600}>
-              Распространяется ли гарантия на аксессуары?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              На оригинальные аксессуары (зарядные устройства, наушники, чехлы)
-              предоставляется гарантия 12 месяцев. На неоригинальные аксессуары
-              - 6 месяцев.
+              Original accessories (chargers, headphones, cases) come with a
+              12-month warranty. Non-original accessories have a 6-month
+              warranty.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -257,29 +255,29 @@ export default function GuaranteePage() {
 
       <Box mb={6}>
         <Typography variant="h4" gutterBottom fontWeight={600}>
-          Процесс гарантийного ремонта
+          Warranty Repair Process
         </Typography>
         <Grid container spacing={3} mt={2}>
           {[
             {
               step: 1,
-              title: 'Заявка',
-              description: 'Оставьте заявку онлайн или по телефону',
+              title: 'Application',
+              description: 'Submit an application online or by phone',
             },
             {
               step: 2,
-              title: 'Диагностика',
-              description: 'Бесплатная диагностика в течение 1-2 дней',
+              title: 'Diagnostics',
+              description: 'Free diagnostics within 1-2 days',
             },
             {
               step: 3,
-              title: 'Ремонт',
-              description: 'Бесплатный ремонт в течение 14 дней',
+              title: 'Repair',
+              description: 'Free repair within 14 days',
             },
             {
               step: 4,
-              title: 'Возврат',
-              description: 'Доставка отремонтированного устройства',
+              title: 'Return',
+              description: 'Delivery of the repaired device',
             },
           ].map((item) => (
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={item.step}>
@@ -328,14 +326,14 @@ export default function GuaranteePage() {
       >
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h5" gutterBottom fontWeight={600}>
-            Контакты сервисного центра
+            Service Center Contacts
           </Typography>
           <Grid container spacing={4}>
             <Grid size={{ xs: 12, md: 4 }}>
               <Box display="flex" alignItems="center" mb={2}>
                 <Phone sx={{ mr: 2 }} />
                 <div>
-                  <Typography variant="body2">Телефон</Typography>
+                  <Typography variant="body2">Phone</Typography>
                   <Typography variant="h6">8 (800) 555-35-35</Typography>
                 </div>
               </Box>
@@ -345,7 +343,7 @@ export default function GuaranteePage() {
                 <Email sx={{ mr: 2 }} />
                 <div>
                   <Typography variant="body2">Email</Typography>
-                  <Typography variant="h6">service@gadget-store.ua</Typography>
+                  <Typography variant="h6">service@techdevices.ua</Typography>
                 </div>
               </Box>
             </Grid>
@@ -353,8 +351,8 @@ export default function GuaranteePage() {
               <Box display="flex" alignItems="center" mb={2}>
                 <AccessTime sx={{ mr: 2 }} />
                 <div>
-                  <Typography variant="body2">Режим работы</Typography>
-                  <Typography variant="h6">Пн-Пт: 9:00-20:00</Typography>
+                  <Typography variant="body2">Working hours</Typography>
+                  <Typography variant="h6">Mon-Fri: 9:00-20:00</Typography>
                 </div>
               </Box>
             </Grid>
@@ -376,7 +374,7 @@ export default function GuaranteePage() {
           href="/documents/warranty-terms.pdf"
           sx={{ px: 4, py: 1.5 }}
         >
-          Скачать условия гарантии (PDF)
+          Download warranty terms (PDF)
         </Button>
         <Button
           variant="outlined"
@@ -386,18 +384,18 @@ export default function GuaranteePage() {
           href="/contact"
           sx={{ px: 4, py: 1.5 }}
         >
-          Связаться с поддержкой
+          Contact support
         </Button>
       </Box>
 
       <Box mt={6} pt={4} borderTop={1} borderColor="divider">
         <Typography variant="body2" color="text.secondary" align="center">
-          * Гарантийные условия могут отличаться для разных производителей.
-          Подробности уточняйте при покупке.
+          * Warranty terms may differ for different manufacturers. Check details
+          when purchasing.
           <br />
-          ** Сроки ремонта указаны ориентировочно и могут меняться в зависимости
-          от сложности случая и наличия запчастей.
-          <br />© {new Date().getFullYear()} TechDevices. Все права защищены.
+          ** Repair times are approximate and may vary depending on case
+          complexity and spare parts availability.
+          <br />© {new Date().getFullYear()} TechDevices. All rights reserved.
         </Typography>
       </Box>
     </Container>

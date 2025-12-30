@@ -28,6 +28,7 @@ export default function CartPage({ initialData }: Props) {
     promoDiscount,
     totalDiscount,
     cartCount,
+    totalPrice,
   } = useCart({ initialData })
   const [promoCode, setPromoCode] = useState('')
 
@@ -74,12 +75,12 @@ export default function CartPage({ initialData }: Props) {
           ))}
         </Grid>
         <CartTotal
+          totalPrice={totalPrice!}
           appliedPromo={appliedPromo}
           cartItemsCount={cart?.items.length}
           promoCode={promoCode}
           applyPromoCode={applyPromoCode}
           promoDiscount={promoDiscount}
-          subtotal={total}
           total={total}
           setPromoCode={setPromoCode}
           removePromoCode={removePromoCode}

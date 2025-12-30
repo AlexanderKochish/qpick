@@ -13,13 +13,16 @@ function ReviewsSection({
   return (
     <Box>
       <Typography variant="h6" gutterBottom>
-        Мои отзывы и оценки
+        My reviews and ratings
       </Typography>
 
       <Typography variant="subtitle1" gutterBottom className={s.sectionTitle}>
-        Оценки товаров
+        Ratings
       </Typography>
 
+      <Typography variant="subtitle1">
+        {ratings.length === 0 && 'There are no ratings yet.'}
+      </Typography>
       {ratings.map((rating) => (
         <Card key={rating.id} className={s.card}>
           <CardContent>
@@ -37,7 +40,10 @@ function ReviewsSection({
       ))}
 
       <Typography variant="subtitle1" gutterBottom className={s.sectionTitle}>
-        Отзывы
+        Reviews
+      </Typography>
+      <Typography variant="subtitle1">
+        {reviews.length === 0 && 'There are no reviews yet'}
       </Typography>
 
       {reviews.map((review) => (
@@ -46,7 +52,7 @@ function ReviewsSection({
             <Typography variant="subtitle2" gutterBottom>
               {review.product.name}
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1" component={'p'}>
               {review.review}
             </Typography>
             <Typography variant="body2" color="text.secondary">

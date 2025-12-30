@@ -13,11 +13,11 @@ const Favorites = async () => {
       <section className={s.favorites}>
         <BreadcrumbNav
           items={[
-            { label: 'Главная', href: '/' },
-            { label: 'Избранное', href: '/favorites' },
+            { label: 'Home', href: '/' },
+            { label: 'Favorites', href: '/favorites' },
           ]}
         />
-        <p>У вас нет избранных товаров.</p>
+        <p>You have no favorite products.</p>
       </section>
     )
   }
@@ -26,8 +26,8 @@ const Favorites = async () => {
     <section className={s.favorites}>
       <BreadcrumbNav
         items={[
-          { label: 'Главная', href: '/' },
-          { label: 'Избранное', href: '/favorites' },
+          { label: 'Home', href: '/' },
+          { label: 'Favorites', href: '/favorites' },
         ]}
       />
       <FavoritesClient

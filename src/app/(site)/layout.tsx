@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import QueryProviders from '@/providers/query-provider'
 import {
@@ -12,15 +11,12 @@ import Footer from '@/widgets/footer/footer'
 import { getCurrentSession } from '@/features/auth/actions/actions'
 import NextTopLoader from 'nextjs-toploader'
 import { ToastProvider } from '@/providers/toast-provider'
+import { Inter } from 'next/font/google'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-inter',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -41,7 +37,7 @@ export default async function RootLayout({
     <QueryProviders>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <html lang="en">
-          <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <body className={`${inter.className} ${inter.variable}`}>
             <ToastProvider position="top-right" maxToasts={3}>
               <NextTopLoader />
               <div className="container">

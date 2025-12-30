@@ -2,10 +2,9 @@
 
 import { Box, Button, Container, Grid, Typography } from '@mui/material'
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { MouseEventHandler, useState } from 'react'
+import { useState } from 'react'
 import s from './checkout-form.module.css'
 import OrderTotal from '@/features/order/components/order-total/order-total'
-import { useOrder } from '@/features/order/hooks/useOrder'
 import { useCart } from '@/features/cart/hooks/useCart'
 import { useRouter } from 'next/navigation'
 import CheckoutStepper from '@/shared/components/checkout-stepper/checkout-stepper'
@@ -21,8 +20,7 @@ export function CheckoutForm({
   const elements = useElements()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const { data: totalPrice } = useOrder(orderId)
-  const { data: cart, total } = useCart()
+  const { total, cartCount } = useCart()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -109,7 +107,11 @@ export function CheckoutForm({
             </div>
           </form>
         </Grid>
-        <OrderTotal cart={cart} total={Number(totalPrice)} />
+        <OrderTotal
+          cartCount={cartCount}
+          total={Number(total)}
+          price={Number(total)}
+        />
       </Grid>
     </Container>
   )

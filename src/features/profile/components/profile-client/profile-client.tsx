@@ -49,7 +49,7 @@ export default function ProfileClient({ profileData }: Props) {
   return (
     <Box className={s.profileContainer}>
       <Typography variant="h4" gutterBottom className={s.title}>
-        Мой профиль
+        My Profile
       </Typography>
 
       <Grid
@@ -82,19 +82,19 @@ export default function ProfileClient({ profileData }: Props) {
               <Box className={s.statItem}>
                 <OrderIcon color="primary" />
                 <Typography variant="body2">
-                  Заказы: {profileData.orders.length}
+                  Orders: {profileData.orders.length}
                 </Typography>
               </Box>
               <Box className={s.statItem}>
                 <StarIcon color="warning" />
                 <Typography variant="body2">
-                  Оценки: {profileData.ratings.length}
+                  Ratings: {profileData.ratings.length}
                 </Typography>
               </Box>
               <Box className={s.statItem}>
                 <FavoriteIcon color="error" />
                 <Typography variant="body2">
-                  Отзывы: {profileData.reviews.length}
+                  Reviews: {profileData.reviews.length}
                 </Typography>
               </Box>
             </Box>
@@ -104,10 +104,11 @@ export default function ProfileClient({ profileData }: Props) {
                 Email: {profileData.email}
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                Дата регистрации: {profileData.createdAt.toLocaleDateString()}
+                Date of registration:{' '}
+                {profileData.createdAt.toLocaleDateString()}
               </Typography>
               <Chip
-                label={profileData.isActive ? 'Активен' : 'Неактивен'}
+                label={profileData.isActive ? 'Active' : 'Inactive'}
                 color={profileData.isActive ? 'success' : 'default'}
                 size="small"
               />
@@ -125,19 +126,19 @@ export default function ProfileClient({ profileData }: Props) {
               >
                 <Tab
                   icon={<InfoOutlined />}
-                  label={isSmall ? null : 'Основная информация'}
+                  label={isSmall ? null : 'Basic information'}
                 />
                 <Tab
                   icon={<LocationOnOutlined />}
-                  label={isSmall ? null : 'Адреса'}
+                  label={isSmall ? null : 'Addresses'}
                 />
                 <Tab
                   icon={<ShoppingBagOutlined />}
-                  label={isSmall ? null : 'Заказы'}
+                  label={isSmall ? null : 'Orders'}
                 />
                 <Tab
                   icon={<RateReviewOutlined />}
-                  label={isSmall ? null : 'Отзывы и оценки'}
+                  label={isSmall ? null : 'Reviews and Ratings'}
                 />
               </Tabs>
             </Box>
