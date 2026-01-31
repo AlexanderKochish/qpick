@@ -1,6 +1,8 @@
 'use server'
 
+import { Product } from '@prisma/client'
 import { ProductRepository } from '../repository/product.repository'
+import { ProductWithRelations } from '../types/types'
 
 const repo = new ProductRepository()
 
@@ -37,7 +39,10 @@ export const handleUpload = async (url: string, productId: string) => {
   await repo.addImage(productId, url)
 }
 
-export async function getAllProducts(sortBy?: string, search?: string) {
+export async function getAllProducts(
+  sortBy?: string,
+  search?: string
+): Promise<ProductWithRelations[]> {
   return await repo.getAll(sortBy, search)
 }
 
