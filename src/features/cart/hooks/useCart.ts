@@ -32,17 +32,41 @@ export const useCart = (props?: Props) => {
     initialData: props?.initialData?.cartTotalPrice,
   })
 
-  const { mutate: updateQuantity, isPending: isPendingUpdateQuantity } =
-    useMutation({
-      mutationKey: ['update-cart-item'],
-      mutationFn: (data: { itemId: string; quantity: number }) =>
-        updateCartItemQuantity(data.itemId, data.quantity),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['cart'] })
-        queryClient.invalidateQueries({ queryKey: ['total-price'] })
-        queryClient.invalidateQueries({ queryKey: ['counters'] })
-      },
-    })
+  const { mutate: updateQuantity } = useMutation({
+    mutationKey: ['update-cart-item'],
+    mutationFn: (variables: { itemId: string; quantity: number }) =>
+      updateCartItemQuantity(variables.itemId, variables.quantity),
+
+    onMutate: async ({ itemId, quantity }) => {
+      await queryClient.cancelQueries({ queryKey: ['cart'] })
+      await queryClient.cancelQueries({ queryKey: ['total-price'] })
+
+      const previousCart = queryClient.getQueryData<Cart>(['cart'])
+
+      queryClient.setQueryData<Cart>(['cart'], (old) => {
+        if (!old) return old
+        return {
+          ...old,
+          items: old.items.map((item) =>
+            item.productId === itemId ? { ...item, quantity } : item
+          ),
+        }
+      })
+
+      return { previousCart }
+    },
+
+    onError: (err, variables, context) => {
+      if (context?.previousCart) {
+        queryClient.setQueryData(['cart'], context.previousCart)
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+      queryClient.invalidateQueries({ queryKey: ['total-price'] })
+    },
+  })
 
   const { mutate: addProductToCart, isPending: isPendingAddProduct } =
     useMutation({
@@ -126,7 +150,6 @@ export const useCart = (props?: Props) => {
     data,
     discount,
     updateQuantity,
-    isPendingUpdateQuantity,
     total,
     promoDiscount,
     totalPrice,

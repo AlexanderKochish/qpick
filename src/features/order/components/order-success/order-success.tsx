@@ -5,6 +5,7 @@ import BaseCard from '@/shared/components/base-card/base-card'
 import React, { useEffect } from 'react'
 import s from './order-success.module.css'
 import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface Props {
   id: string
@@ -12,6 +13,7 @@ interface Props {
 
 const OrderSuccess = ({ id }: Props) => {
   const router = useRouter()
+  const queryClient = useQueryClient()
   useEffect(() => {
     window.history.pushState(null, '', window.location.href)
 
@@ -37,6 +39,15 @@ const OrderSuccess = ({ id }: Props) => {
       window.removeEventListener('popstate', handleBackButton)
     }
   }, [id, router])
+
+  useEffect(() => {
+    queryClient.setQueryData(['cart'], null)
+    queryClient.setQueryData(['total-price'], 0)
+    queryClient.setQueryData(['counters'], 0)
+
+    queryClient.invalidateQueries({ queryKey: ['cart'] })
+    queryClient.invalidateQueries({ queryKey: ['total-price'] })
+  }, [queryClient])
 
   return (
     <div className={s.successSection}>

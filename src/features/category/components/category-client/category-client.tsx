@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = 'force-dynamic'
 import ProductsList from '@/features/products/components/products-list/products-list'
 import { useProductsByCategory } from '@/features/products/hooks/use-products-by-category'
 import { ProductCard } from '@/features/products/types/types'

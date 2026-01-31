@@ -3,6 +3,10 @@
 import { OrderRepository } from '@/features/order/repository/order.repository'
 import { CartRepository } from '../repository/cart.repository'
 import { Cart } from '../types/types'
+import { cartRedis } from '@/shared/lib/cart-redis'
+import redis from '@/shared/lib/redis'
+import { getCurrentSession } from '@/features/auth/actions/actions'
+import { getOrCreateVisitorId } from '@/shared/utils/fingerprint-server'
 
 const repo = new CartRepository()
 
@@ -13,22 +17,75 @@ export async function getOrCreateCart(): Promise<Cart> {
 }
 
 export async function getCartAmount() {
-  return await repo.getCartAmount()
+  const cart = await repo.getOrCreateCart()
+  const userId = cart.userId || cart.visitorId
+  const cacheKey = `cart_amount:${userId}`
+
+  const cachedAmount = await redis.get(cacheKey)
+  if (cachedAmount) return parseInt(cachedAmount)
+
+  const amount = await repo.getCartAmount()
+  await redis.set(cacheKey, amount.toString(), 'EX', 3600)
+
+  return amount
 }
 
 export async function getCartTotalPrice() {
   return await repo.getCartTotalPrice()
 }
 export async function addToCart(productId: string, quantity = 1) {
+  const session = await getCurrentSession()
+  const userId = session?.user.id || (await getOrCreateVisitorId())
+
+  if (userId) {
+    await redis.del(`cart_cache:${userId}`)
+  }
+
   await repo.addToCart(productId, quantity)
-}
-export async function updateCartItemQuantity(itemId: string, quantity: number) {
-  await repo.updateCartItemQuantity(itemId, quantity)
-}
-export async function removeCartItem(itemId: string) {
-  await repo.removeCartItem(itemId)
+
+  if (userId) {
+    await Promise.all([
+      redis.del(`cart_amount:${userId}`),
+      redis.del(`cart_total:${userId}`),
+
+      cartRedis.addItem(userId, productId, quantity),
+    ])
+  }
 }
 
+export async function updateCartItemQuantity(
+  productId: string,
+  quantity: number
+) {
+  const session = await getCurrentSession()
+  const userId = session?.user.id || (await getOrCreateVisitorId())
+
+  if (userId) await redis.del(`cart_cache:${userId}`)
+
+  await repo.updateCartItemQuantity(productId, quantity)
+
+  if (userId) {
+    await Promise.all([
+      redis.del(`cart_cache:${userId}`),
+      redis.del(`cart_amount:${userId}`),
+      redis.del(`cart_total:${userId}`),
+    ])
+  }
+}
+
+export async function removeCartItem(itemId: string) {
+  await repo.removeCartItem(itemId)
+  const cart = await repo.getOrCreateCart()
+
+  const session = await getCurrentSession()
+  const userId = session?.user.id || cart.visitorId
+
+  await Promise.all([
+    redis.del(`cart_cache:${userId}`),
+    redis.del(`cart_amount:${userId}`),
+    redis.del(`cart_total:${userId}`),
+  ])
+}
 export async function getCurrentCheckoutStep() {
   const cart = await repo.getOrCreateCart()
 

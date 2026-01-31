@@ -12,7 +12,7 @@ interface Props {
 export function useQuantity({ initialQuantity, productId }: Props) {
   const queryClient = useQueryClient()
   const [quantity, setQuantity] = useState(initialQuantity)
-  const debouncedQty = useDebounce(quantity, 400)
+  const debouncedQty = useDebounce(quantity, 500)
 
   const mutation = useMutation({
     mutationFn: ({ quantity }: { quantity: number }) =>

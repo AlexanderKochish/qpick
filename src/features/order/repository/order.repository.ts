@@ -2,18 +2,21 @@ import { orderSchemaType } from '../lib/zod/order.schema'
 import { PrismaClient } from '@prisma/client'
 import { getCurrentSession } from '@/features/auth/actions/actions'
 import prisma from '@/shared/lib/prisma'
+import redis from '@/shared/lib/redis'
+import { getOrCreateVisitorId } from '@/shared/utils/fingerprint-server'
 
 export class OrderRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
 
   async create(data: orderSchemaType) {
     const session = await getCurrentSession()
-    if (!session?.user.id) {
+    const userId = session?.user.id || (await getOrCreateVisitorId())
+    if (!userId || !session) {
       throw new Error('User not authenticated')
     }
 
     const cart = await this.db.cart.findFirst({
-      where: { userId: session.user.id },
+      where: { userId: userId },
       include: {
         items: {
           include: {
@@ -31,7 +34,7 @@ export class OrderRepository {
       const address = await tx.address.upsert({
         where: {
           userId_city_street_building_apartment_postalCode: {
-            userId: session.user.id,
+            userId: userId,
             city: data.city,
             street: data.street,
             building: data.building,
@@ -41,7 +44,7 @@ export class OrderRepository {
         },
         update: {},
         create: {
-          userId: session.user.id,
+          userId: userId,
           city: data.city,
           street: data.street,
           building: data.building,
@@ -52,10 +55,10 @@ export class OrderRepository {
 
       const order = await tx.order.create({
         data: {
-          userId: session.user.id,
+          userId: userId,
           totalPrice: Number(data.totalPrice),
           status: 'PENDING',
-          customerEmail: session.user.email!,
+          customerEmail: session?.user.email,
           customerPhone: data.phone,
           shippingAddressId: address.id,
           items: {
@@ -82,6 +85,10 @@ export class OrderRepository {
         data: { paymentId: payment.id },
       })
 
+      await tx.cartItem.deleteMany({
+        where: { cartId: cart.id },
+      })
+
       return {
         order: updatedOrder,
         payment,
@@ -89,6 +96,14 @@ export class OrderRepository {
         cartId: cart.id,
       }
     })
+    if (result) {
+      await Promise.all([
+        redis.del(`cart_cache:${userId}`),
+        redis.del(`cart_amount:${userId}`),
+        redis.del(`cart_total:${userId}`),
+        redis.del(`latest_order:${userId}`),
+      ])
+    }
 
     return result
   }
@@ -111,13 +126,23 @@ export class OrderRepository {
 
   async getLatestOrder() {
     const session = await getCurrentSession()
-    return await this.db.order.findFirst({
-      where: {
-        userId: session?.user.id,
-      },
-      select: {
-        id: true,
-      },
+    if (!session?.user.id) return null
+
+    const cacheKey = `latest_order:${session.user.id}`
+
+    const cachedOrderId = await redis.get(cacheKey)
+    if (cachedOrderId) return { id: cachedOrderId }
+
+    const order = await this.db.order.findFirst({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: 'desc' },
+      select: { id: true },
     })
+
+    if (order) {
+      await redis.set(cacheKey, order.id, 'EX', 3600)
+    }
+
+    return order
   }
 }

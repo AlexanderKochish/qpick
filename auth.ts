@@ -2,6 +2,8 @@ import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 import Credentials from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
+import { getOrCreateVisitorId } from '@/shared/utils/fingerprint-server'
+import { CartRepository } from '@/features/cart/repository/cart.repository'
 
 const getPrismaAdapter = async () => {
   if (typeof window === 'undefined') {
@@ -66,6 +68,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  events: {
+    async signIn({ user }) {
+      if (!user.id) return
+
+      try {
+        const visitorId = await getOrCreateVisitorId()
+
+        if (visitorId) {
+          const cartRepo = new CartRepository()
+          await cartRepo.mergeCart(user.id, visitorId)
+        }
+      } catch (error) {
+        console.error('Failed to merge carts on signIn:', error)
+      }
+    },
+  },
   session: {
     strategy: 'jwt',
   },

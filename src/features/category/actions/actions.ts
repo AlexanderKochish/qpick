@@ -1,6 +1,8 @@
 'use server'
 
+import { getCachedData } from '@/shared/lib/cache'
 import { CategoryRepository } from '../repository/category.repository'
+import { Category } from '../types/types'
 
 const repo = new CategoryRepository()
 
@@ -22,6 +24,6 @@ export async function createBrand(formData: FormData) {
   await repo.createBrand(data)
 }
 
-export async function getAllCategories() {
-  return await repo.getAllCategories()
+export async function getAllCategories(): Promise<Category[]> {
+  return await getCachedData('categories', () => repo.getAllCategories())
 }

@@ -43,7 +43,7 @@ const CartTotal = ({
           Order results
         </Typography>
 
-        <Box sx={{ mb: 3 }}>
+        {/* <Box sx={{ mb: 3 }}>
           {!appliedPromo ? (
             <Box sx={{ display: 'flex', gap: 1 }}>
               <TextField
@@ -81,7 +81,7 @@ const CartTotal = ({
           )}
         </Box>
 
-        <Divider sx={{ my: 2 }} />
+        <Divider sx={{ my: 2 }} /> */}
 
         <Box sx={{ space: 2 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>

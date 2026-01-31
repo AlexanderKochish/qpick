@@ -1,10 +1,21 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 import prisma from '@/shared/lib/prisma'
+import redis from '@/shared/lib/redis'
 
 export class ProductRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
 
   async getAll(sortBy?: string, search?: string) {
+    const cacheKey = `products_cache:${sortBy || 'default'}:${search?.toLowerCase().trim() || 'none'}`
+
+    try {
+      const cached = await redis.get(cacheKey)
+      if (cached) {
+        return JSON.parse(cached)
+      }
+    } catch (err) {
+      console.error('Redis error:', err)
+    }
     let orderBy: Prisma.ProductOrderByWithRelationInput = {}
 
     switch (sortBy) {
@@ -36,7 +47,7 @@ export class ProductRepository {
       }
     }
 
-    return await this.db.product.findMany({
+    const products = await this.db.product.findMany({
       where,
       orderBy,
       include: {
@@ -48,14 +59,22 @@ export class ProductRepository {
         _count: {
           select: {
             ratings: true,
-            reviews: {
-              where: { status: 'APPROVED' },
-            },
+            reviews: { where: { status: 'APPROVED' } },
             orderItems: true,
           },
         },
       },
     })
+
+    if (products) {
+      try {
+        await redis.set(cacheKey, JSON.stringify(products), 'EX', 600)
+      } catch (err) {
+        console.error('Redis set error:', err)
+      }
+    }
+
+    return products
   }
 
   async getProductsByCategory(categoryId: string) {
