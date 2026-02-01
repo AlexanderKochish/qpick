@@ -9,7 +9,7 @@
     "postinstall": "prisma generate",
     "migrate": "dotenv -e .env -- prisma migrate dev",
     "studio": "dotenv -e .env -- prisma studio",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "vercel-build": "prisma generate && next build",
     "prisma:validate": "dotenv -e .env -- prisma validate",
     "prisma:migrate": "dotenv -e .env -- prisma migrate dev --name init",
     "prisma:generate": "dotenv -e .env -- prisma generate",
