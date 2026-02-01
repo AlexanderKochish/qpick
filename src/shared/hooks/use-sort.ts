@@ -1,9 +1,10 @@
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useTransition } from 'react'
 import { SortBy } from '../types/types'
 
 export const useSort = () => {
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
 
@@ -11,19 +12,19 @@ export const useSort = () => {
 
   const handleSortChange = useCallback(
     (value: SortBy) => {
-      const currentParams = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(searchParams.toString())
 
       if (value === 'newest') {
-        currentParams.delete('sort')
+        params.delete('sort')
       } else {
-        currentParams.set('sort', value)
+        params.set('sort', value)
       }
 
       startTransition(() => {
-        router.push(`/?${currentParams.toString()}`, { scroll: false })
+        router.push(`${pathname}?${params.toString()}`, { scroll: false })
       })
     },
-    [router, searchParams]
+    [router, searchParams, pathname]
   )
 
   return { sortBy, setSortBy: handleSortChange, isPending }

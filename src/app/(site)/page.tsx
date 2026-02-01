@@ -5,15 +5,14 @@ import { SortBy } from '@/shared/types/types'
 
 interface Props {
   searchParams: Promise<{
-    search?: string
     sort?: SortBy
   }>
 }
 
 export default async function HomePage({ searchParams }: Props) {
-  const { search, sort } = await searchParams
+  const { sort } = await searchParams
 
-  const products = await getAllProducts(sort, search)
+  const products = await getAllProducts(sort)
 
-  return <HomeClient search={search} initialData={products} sort={sort} />
+  return <HomeClient initialData={products} sort={sort} />
 }
